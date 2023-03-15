@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { Api } from '../../utils/api';
 import BurgerConstructorBlock from '../burger-constructor-block/burger-constructor-block';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import IngredientDetails from '../ingredient-details/ingredient-details';
+
 import { Modal } from '../modal/modal';
 
 function App() {
@@ -57,39 +56,7 @@ function App() {
     image: "https://code.s3.yandex.net/react/code/sp_1.png"
   }]);
 
-  /*
-  function updateBun(ingredient) {
-    setCurrentBun({
-      thumbnail: ingredient.image,
-      price: ingredient.price,
-      text: ingredient.name
-    })
-  }
 
-  function addFilling(filling) {
-    console.log(`addFilling ${filling.name}`);
-
-    setFillings((prevState) => {
-      console.log(`Prev State fil: ${prevState}`)
-      prevState.push(filling)
-
-      const nextState = prevState.slice(0)
-      console.log(`Next State fil: ${prevState}`)
-      return nextState
-    })
-
-  }
-
-  function removeFilling(index) {
-    if (index) {
-      setFillings((prevState) => {
-        prevState.splice(index, 1)
-
-        return prevState.slice(0)
-      })
-    }
-  }
-  */
   const handleOpenModal = (content) => {
     const modal = <Modal onClose={handleCloseModal} >
       {content}
@@ -109,8 +76,12 @@ function App() {
       .then((responseJson) => {
         setIngredientData(responseJson.data)
       })
+      .catch((error) => {
+        console.log("There is a mistake")
+      })
+
       .finally(() => {
-        console.log(JSON.stringify(ingredientData))
+        //console.log(JSON.stringify(ingredientData))
       })
 
   }, [null])

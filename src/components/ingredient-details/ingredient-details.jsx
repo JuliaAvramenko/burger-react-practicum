@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
 import "./ingredient-details.css"
+import PropTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-type.js";
 
 export const IngredientDetails = (props) => {
     return (
@@ -30,5 +31,9 @@ export const IngredientDetails = (props) => {
         </div>
 
     )
+}
+
+IngredientDetails.propTypes = {
+    props: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
 }
 export default IngredientDetails;

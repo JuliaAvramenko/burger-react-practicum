@@ -1,4 +1,4 @@
-.image {
+.card__image {
     width: 240px;
     height: 120px;
     display: flex;
@@ -6,6 +6,8 @@
 }
 
 .card {
+    padding: 0;
+    margin: 0;
     width: 272px;
     height: 208px;
     display: flex;
@@ -15,7 +17,7 @@
     position: relative;
 }
 
-.price__container {
+.card__price-container {
     height: 24px;
     display: flex;
     align-items: center;

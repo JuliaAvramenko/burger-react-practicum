@@ -7,14 +7,14 @@
 
 }
 
-.nav {
+.header__nav {
     max-width: 1280px;
     margin: 0 auto;
     display: flex;
     align-items: center;
 }
 
-.container {
+.header__column {
     display: flex;
     align-items: center;
 
@@ -27,21 +27,9 @@
     margin-left: 112px;
 }
 
-.title {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-}
-
-.info-container {
-    display: flex;
-    flex: start;
-}
 
 
-
-.link {
+.header__link {
     color: #F2F2F3;
     text-decoration: none;
     display: flex;

@@ -1,12 +1,10 @@
-import { useState } from "react";
-import { Counter, CurrencyIcon, Tab, ConstructorElement, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import './burger-constructor-block.css';
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import OrderTotal from "../order-total/order-total";
+import PropTypes from "prop-types";
 
 function BurgerConstructorBlock({ bun, fillings, openModal }) {
 
-    console.log(`State fil: ${fillings}`)
     return (
         <div className="constructor-table pt-25 pl-4">
             <div className="big-table mb-10">
@@ -34,11 +32,15 @@ function BurgerConstructorBlock({ bun, fillings, openModal }) {
                     {...bun}
                 />
             </div>
-            <OrderTotal onClick={openModal}/>
+            <OrderTotal onClick={openModal} />
 
 
         </div>
     )
 
+}
+BurgerConstructorBlock.propTypes = {
+
+    openModal: PropTypes.func
 }
 export default BurgerConstructorBlock;

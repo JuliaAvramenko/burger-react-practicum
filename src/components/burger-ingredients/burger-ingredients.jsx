@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Counter, CurrencyIcon, Tab, ConstructorElement, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import './burger-ingredients.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerConstructorBlock from "../burger-constructor-block/burger-constructor-block";
+
+import PropTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-type.js";
 
 function BurgerIngredients({ ingredients, openModal }) {
     const [current, setCurrent] = useState('buns');
@@ -67,5 +68,10 @@ function BurgerIngredients({ ingredients, openModal }) {
 
 
     )
+}
+
+BurgerIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+    openModal: PropTypes.func
 }
 export default BurgerIngredients;

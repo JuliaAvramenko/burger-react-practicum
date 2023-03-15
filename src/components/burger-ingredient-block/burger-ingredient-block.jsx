@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Counter, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+
 import './burger-ingredient-block.css';
 import IngredientCard from "../ingredient-card/ingredient-card";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
+
+import PropTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-type.js"
+
 
 
 function BurgerIngredientBlock({ title, id, ingredients, onClick }) {
@@ -19,5 +20,11 @@ function BurgerIngredientBlock({ title, id, ingredients, onClick }) {
             </div>
         </>
     )
+}
+
+BurgerIngredientBlock.propTypes = {
+    title: PropTypes.string.isRequired,
+    ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+    onClick: PropTypes.func
 }
 export default BurgerIngredientBlock;
