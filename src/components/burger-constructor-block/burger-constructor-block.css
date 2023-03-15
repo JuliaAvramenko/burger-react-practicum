@@ -1,0 +1,6 @@
+.small-table {
+    max-height: 464px;
+
+    overflow-y: scroll;
+
+}

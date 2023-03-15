@@ -1,0 +1,16 @@
+.modal-order__wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 640px;
+}
+
+.modal-order__main-wrapper {
+    width: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}

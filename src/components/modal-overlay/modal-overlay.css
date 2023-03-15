@@ -1,0 +1,20 @@
+.modal__overlay {
+    position: fixed;
+
+    /* растягиваем на весь экран */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+
+    /* вытаскиваем поверх обычных элементов */
+    z-index: 2;
+
+    /* визуальная часть */
+    background-color: rgba(0, 0, 0, 0.6);
+
+
+
+
+}
