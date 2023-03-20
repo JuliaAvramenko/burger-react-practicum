@@ -1,6 +1,6 @@
 import "./ingredient-details.css"
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-type.js";
+
 
 export const IngredientDetails = (props) => {
     return (

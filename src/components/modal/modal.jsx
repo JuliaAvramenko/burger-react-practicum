@@ -12,15 +12,11 @@ export const Modal = ({ children, onClose, onKeyDown }) => {
 
     useEffect(() => {
         document.addEventListener("keydown", onKeyDown);
+
         return () => {
-            document.removeEventListener("keydown", onKeyDown)
-
+            document.removeEventListener("keydown", onKeyDown);
         }
-
-
-    }, []
-
-    )
+    }, [onKeyDown])
 
     return createPortal(
         <>

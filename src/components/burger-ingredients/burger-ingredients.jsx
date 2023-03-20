@@ -1,12 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import './burger-ingredients.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
+import { useSelector } from 'react-redux';
 
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-type.js";
 
-function BurgerIngredients({ ingredients, openModal }) {
+function BurgerIngredients({ openModal }) {
+    const { ingredients } = useSelector(store => {
+        return {
+            ingredients: store.ingredients
+        }
+
+    })
+
     const [current, setCurrent] = useState('buns');
 
     const buns = ingredients.filter(item => item.type === "bun");

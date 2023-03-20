@@ -1,5 +1,5 @@
 
-import { Logo, BurgerIcon, ProfileIcon, ListIcon, Box } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Logo, BurgerIcon, ProfileIcon, ListIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import './app-header.css';
 
 

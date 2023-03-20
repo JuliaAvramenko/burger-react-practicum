@@ -4,11 +4,12 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { Api } from '../../utils/api';
 import BurgerConstructorBlock from '../burger-constructor-block/burger-constructor-block';
+import { useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/actions/ingredients';
 
 import { Modal } from '../modal/modal';
 
 function App() {
-  const [ingredientData, setIngredientData] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
   const [currentBun, setCurrentBun] = useState({
@@ -77,12 +78,12 @@ function App() {
     setCurrentModal(null)
 
   }
-
+  const dispatch = useDispatch()
 
   useEffect(() => {
     Api.getIngredients()
       .then((responseJson) => {
-        setIngredientData(responseJson.data)
+        dispatch(getIngredients(responseJson.data))
       })
       .catch((error) => {
         console.log("There is a mistake")
@@ -96,7 +97,7 @@ function App() {
     <div className="App">
       <AppHeader></AppHeader>
       <section className="tables">
-        <BurgerIngredients ingredients={ingredientData} openModal={handleOpenModal}></BurgerIngredients>
+        <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
         <BurgerConstructorBlock bun={currentBun} fillings={fillings} openModal={handleOpenModal} />
 
 
