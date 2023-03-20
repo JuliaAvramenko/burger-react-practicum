@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './app.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { Api } from '../../utils/api';
@@ -56,18 +56,26 @@ function App() {
     image: "https://code.s3.yandex.net/react/code/sp_1.png"
   }]);
 
+  const handleEscModalClose = (e) => {
+    if (e.key === "Escape") {
+      handleCloseModal()
+    }
+  }
 
   const handleOpenModal = (content) => {
-    const modal = <Modal onClose={handleCloseModal} >
+    const modal = <Modal onClose={handleCloseModal} onKeyDown={handleEscModalClose} >
       {content}
     </Modal>
-
     setCurrentModal(modal)
     setVisibleModal(true)
+
   }
+
   const handleCloseModal = () => {
+
     setVisibleModal(false)
     setCurrentModal(null)
+
   }
 
 
@@ -80,11 +88,8 @@ function App() {
         console.log("There is a mistake")
       })
 
-      .finally(() => {
-        //console.log(JSON.stringify(ingredientData))
-      })
 
-  }, [null])
+  }, [])
 
 
   return (
@@ -105,3 +110,5 @@ function App() {
 }
 
 export default App;
+
+

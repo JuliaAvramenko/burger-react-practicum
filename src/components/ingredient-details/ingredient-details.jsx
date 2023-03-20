@@ -34,6 +34,6 @@ export const IngredientDetails = (props) => {
 }
 
 IngredientDetails.propTypes = {
-    props: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
+    props: PropTypes.object
 }
 export default IngredientDetails;

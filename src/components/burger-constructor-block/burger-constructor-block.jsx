@@ -13,15 +13,16 @@ function BurgerConstructorBlock({ bun, fillings, openModal }) {
                     isLocked={true}
                     {...bun}
                 />
-                <div className="small-table custom-scroll mt-4 mb-4" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div className="small-table custom-scroll mt-4 mb-4">
                     {
                         fillings.map((item, index) => {
-                            return <BurgerConstructor
+                            return (<BurgerConstructor
                                 key={index}
                                 text={item.name}
                                 price={item.price}
                                 thumbnail={item.image}
                             />
+                            )
                         })
                     }
                 </div>

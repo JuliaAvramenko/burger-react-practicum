@@ -1,10 +1,10 @@
 import './modal-overlay.css';
 import PropTypes from "prop-types";
 
-export const ModalOverlay = ({ onClick }) => {
+export const ModalOverlay = ({ onClick, onKeyDown }) => {
 
     return (
-        <div onClick={onClick} className="modal__overlay"></div>
+        <div onClick={onClick} onKeyDown={onKeyDown} className="modal__overlay"></div>
 
     )
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/app/App';
+import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import { Modal } from './components/modal/modal';
 import IngredientDetails from './components/ingredient-details/ingredient-details';
