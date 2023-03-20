@@ -1,0 +1,43 @@
+.header {
+
+    width: 1980px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #1C1C21;
+
+}
+
+.header__nav {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.header__column {
+    display: flex;
+    align-items: center;
+
+    height: 24px;
+    flex: 1
+}
+
+.logo {
+    margin-right: 288.85px;
+    margin-left: 112px;
+}
+
+
+
+.header__link {
+    color: #F2F2F3;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+}
+
+.header__column_right {
+    display: flex;
+    justify-content: flex-end;
+}

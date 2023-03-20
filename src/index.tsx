@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
+import { Modal } from './components/modal/modal';
+import IngredientDetails from './components/ingredient-details/ingredient-details';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,6 +12,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App />
+    {/** 
+    <Modal onClick={() => { console.log("I modal click") }} onClose={() => { console.log("I modal close") }}>
+      <div style={{ width: "400px", height: "400px" }}>It s children</div>
+    </Modal>
+    */}
+
   </React.StrictMode>
 );
 

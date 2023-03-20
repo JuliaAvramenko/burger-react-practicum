@@ -1,0 +1,13 @@
+.App {
+  width: 1980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tables {
+  max-width: 1240px;
+  display: flex;
+  column-gap: 40px;
+}

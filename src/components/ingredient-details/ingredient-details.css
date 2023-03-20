@@ -1,0 +1,84 @@
+.modal__container {
+    width: 720px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modal__wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 640px;
+    align-items: center;
+}
+
+.modal__main-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 520px;
+
+}
+
+.modal__title {
+    display: flex;
+    align-items: center;
+    width: 620px;
+    height: 64px;
+}
+
+.modal__image {
+    width: 480px;
+
+
+}
+
+.modal__nutrition-values {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    row-gap: 8px;
+    text-align: center;
+
+
+}
+
+.modal__item-value_big {
+    width: 120px;
+
+}
+
+.modal__item-value_small {
+    width: 112px;
+}
+
+.modal__item-value {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.modal__item-title {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+.modal__item-value {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+.modal__ingredient-title {
+    text-align: center;
+}
