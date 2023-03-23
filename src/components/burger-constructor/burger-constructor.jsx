@@ -1,41 +1,60 @@
-
-import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import './burger-constructor.css';
+import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
+import OrderTotal from "../order-total/order-total";
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
 
-function BurgerConstructor(props) {
 
-    const { type, text, ...otherProps } = props;
-    let icon;
-    let tailtext = "";
+function BurgerConstructor({ openModal }) {
+    const { bun, fillings } = useSelector(store => {
 
-    if (props.type) {
-        icon = null
-
-        if (type === "top") {
-            tailtext = "(верх)"
-        }
-        else {
-            tailtext = "(низ)"
+        return {
+            bun: store.constructorBlock.bun,
+            fillings: store.constructorBlock.fillings
         }
 
-    }
-    else {
-        icon = <DragIcon type="primary" className="drag-icon" />;;
-    }
+    })
+
 
     return (
-        <div className="constructor-container">
-            {icon}
-            <ConstructorElement type={type} text={`${text} ${tailtext}`} {...otherProps} />
-        </div>
+        <div className="constructor-table pt-25 pl-4">
+            <div className="big-table mb-10">
+                <BurgerConstructorElement
+                    type="top"
+                    isLocked={true}
+                    {...bun}
+                />
+                <div className="small-table custom-scroll mt-4 mb-4">
+                    {
 
+                        fillings.map((item, index) => {
+                            return (<BurgerConstructorElement
+                                key={index}
+                                text={item.name}
+                                price={item.price}
+                                thumbnail={item.image}
+                            />
+                            )
+                        })
+
+                    }
+                </div>
+
+                <BurgerConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    {...bun}
+                />
+            </div>
+            <OrderTotal onClick={openModal} />
+
+
+        </div>
     )
+
 }
 BurgerConstructor.propTypes = {
 
-    props: PropTypes.object
-
+    openModal: PropTypes.func
 }
 export default BurgerConstructor;
-

@@ -10,7 +10,7 @@ import { ingredientPropType } from "../../utils/prop-type.js";
 function BurgerIngredients({ openModal }) {
     const { ingredients } = useSelector(store => {
         return {
-            ingredients: store.ingredients
+            ingredients: store.ingredients.ingredients
         }
 
     })
@@ -79,7 +79,7 @@ function BurgerIngredients({ openModal }) {
 }
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+    //ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
     openModal: PropTypes.func
 }
 export default BurgerIngredients;

@@ -1,0 +1,9 @@
+.constructor-container {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+
+    justify-content: flex-end;
+    width: 568px;
+
+}

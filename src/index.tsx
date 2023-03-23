@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { rootReducer } from './services/reducers/root-reducer';
 import { Provider } from 'react-redux';
-
-
-
+import { actionLoggerMiddleWare } from './services/middlewares';
+import thunk from 'redux-thunk';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-const store = createStore(rootReducer);
+const enhancer = applyMiddleware(thunk, actionLoggerMiddleWare)
+const store = createStore(rootReducer, enhancer);
 root.render(
   <React.StrictMode>
     <Provider store={store}>

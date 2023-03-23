@@ -3,59 +3,15 @@ import './app.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { Api } from '../../utils/api';
-import BurgerConstructorBlock from '../burger-constructor-block/burger-constructor-block';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients';
+import { getIngredients, getIngredientsThunk } from '../../services/actions/ingredients';
 
 import { Modal } from '../modal/modal';
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
-  const [currentBun, setCurrentBun] = useState({
-    text: 'Краторная булка N-200i',
-    thumbnail: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-    price: 1255
-  });
-  const [fillings, setFillings] = useState([{
-    name: "Соус традиционный галактический",
-    image: "https://code.s3.yandex.net/react/code/sauce-03.png",
-    price: 15
-
-  }, {
-    name: "Мясо бессмертных моллюсков Protostomia",
-    price: 1337,
-    image: "https://code.s3.yandex.net/react/code/meat-02.png",
-
-  }, {
-    name: "Плоды Фалленианского дерева",
-    price: 874,
-    image: "https://code.s3.yandex.net/react/code/sp_1.png"
-  }, {
-    name: "Хрустящие минеральные кольца",
-    price: 300,
-    image: "https://code.s3.yandex.net/react/code/mineral_rings.png"
-  }, {
-    name: "Хрустящие минеральные кольца",
-    price: 300,
-    image: "https://code.s3.yandex.net/react/code/mineral_rings.png"
-  }, {
-    name: "Плоды Фалленианского дерева",
-    price: 874,
-    image: "https://code.s3.yandex.net/react/code/sp_1.png"
-  }, {
-    name: "Плоды Фалленианского дерева",
-    price: 874,
-    image: "https://code.s3.yandex.net/react/code/sp_1.png"
-  }, {
-    name: "Плоды Фалленианского дерева",
-    price: 874,
-    image: "https://code.s3.yandex.net/react/code/sp_1.png"
-  }, {
-    name: "Плоды Фалленианского дерева",
-    price: 874,
-    image: "https://code.s3.yandex.net/react/code/sp_1.png"
-  }]);
 
   const handleEscModalClose = (e) => {
     if (e.key === "Escape") {
@@ -80,7 +36,10 @@ function App() {
   }
   const dispatch = useDispatch()
 
+
+
   useEffect(() => {
+    /*
     Api.getIngredients()
       .then((responseJson) => {
         dispatch(getIngredients(responseJson.data))
@@ -88,9 +47,10 @@ function App() {
       .catch((error) => {
         console.log("There is a mistake")
       })
-
-
+*/
+    dispatch(getIngredientsThunk())
   }, [])
+
 
 
   return (
@@ -98,9 +58,7 @@ function App() {
       <AppHeader></AppHeader>
       <section className="tables">
         <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
-        <BurgerConstructorBlock bun={currentBun} fillings={fillings} openModal={handleOpenModal} />
-
-
+        <BurgerConstructor openModal={handleOpenModal} />
       </section>
       {visibleModal && currentModal}
 

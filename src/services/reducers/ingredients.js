@@ -1,13 +1,27 @@
-import { GET_INGREDIENTS } from "../constants"
+import { GET_INGREDIENTS, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from "../constants"
 
-const initialState = []
+const initialState = {
+    loadStarted: false,
+    loadFailed: false,
+    ingredients: []
+}
 
 
 
 export const ingredients = (state = initialState, action) => {
     switch (action.type) {
         case GET_INGREDIENTS:
-            return action.data;
+            return {
+                ...state, loadStarted: true
+            }
+        case GET_INGREDIENTS_SUCCESS:
+            return {
+                ...state, loadFailed: false, ingredients: action.ingredients, loadStarted: false
+            }
+        case GET_INGREDIENTS_FAILED:
+            return {
+                ...state, loadFailed: true, loadStarted: false
+            }
 
         default:
             return state
