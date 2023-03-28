@@ -4,14 +4,41 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { Api } from '../../utils/api';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients, getIngredientsThunk } from '../../services/actions/ingredients';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { Modal } from '../modal/modal';
+import { changeBun, addIngredient } from '../../services/actions/constructor';
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
+
+  const { allIngredients } = useSelector(store => {
+    return {
+      allIngredients: store.ingredients.ingredients
+    }
+
+  })
+
+  const dispatch = useDispatch();
+
+  const handleDrop = (item) => {
+
+    const droppedItem = allIngredients.filter((element) => element._id === item.id)[0]
+
+    if (droppedItem.type === "bun") {
+
+      dispatch(changeBun(droppedItem))
+
+    } else {
+      dispatch(addIngredient(droppedItem))
+    }
+
+  };
+
 
   const handleEscModalClose = (e) => {
     if (e.key === "Escape") {
@@ -34,20 +61,11 @@ function App() {
     setCurrentModal(null)
 
   }
-  const dispatch = useDispatch()
+
 
 
 
   useEffect(() => {
-    /*
-    Api.getIngredients()
-      .then((responseJson) => {
-        dispatch(getIngredients(responseJson.data))
-      })
-      .catch((error) => {
-        console.log("There is a mistake")
-      })
-*/
     dispatch(getIngredientsThunk())
   }, [])
 
@@ -56,10 +74,12 @@ function App() {
   return (
     <div className="App">
       <AppHeader></AppHeader>
-      <section className="tables">
-        <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
-        <BurgerConstructor openModal={handleOpenModal} />
-      </section>
+      <DndProvider backend={HTML5Backend}>
+        <section className="tables">
+          <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
+          <BurgerConstructor onDropHandler={handleDrop} openModal={handleOpenModal} />
+        </section>
+      </DndProvider>
       {visibleModal && currentModal}
 
     </div>

@@ -1,5 +1,6 @@
 import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from "../constants";
 import { Api } from "../../utils/api";
+import { changeBun } from "./constructor";
 
 
 export const getIngredients = (data) => {
@@ -23,6 +24,10 @@ export const getIngredientsThunk = () => {
                     type: GET_INGREDIENTS_SUCCESS,
                     ingredients: responseJson.data
                 })
+                const allBuns = responseJson.data.filter((ingredient) => ingredient.type === "bun")
+                const defaultBun = allBuns.length > 0 && allBuns[0]
+
+                dispatch(changeBun(defaultBun))
             } else {
                 dispatch({
                     type: GET_INGREDIENTS_FAILED,
@@ -36,3 +41,4 @@ export const getIngredientsThunk = () => {
         })
     }
 }
+

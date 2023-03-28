@@ -1,4 +1,5 @@
-import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN } from "../constants";
+import { Api } from "../../utils/api";
+import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS } from "../constants";
 
 export const addIngredient = (ingredient) => {
     return {
@@ -7,17 +8,18 @@ export const addIngredient = (ingredient) => {
     }
 }
 
-export const removeIngredient = (ingredient) => {
+export const removeIngredient = (index) => {
     return {
         type: REMOVE_INGREDIENT,
-        ingredient: ingredient
+        index
     }
 }
 
-export const shiftIngredient = (ingredient) => {
+export const shiftIngredient = (indexFrom, indexTo) => {
     return {
-        type: SHIFT_BUN,
-        ingredient: ingredient
+        type: SHIFT_INGREDIENT,
+        indexFrom,
+        indexTo,
     }
 }
 
@@ -27,3 +29,12 @@ export const changeBun = (ingredient) => {
         ingredient: ingredient
     }
 }
+
+export const createOrder = (data) => {
+    return {
+        type: CREATE_ORDER,
+        data: data
+
+    }
+}
+

@@ -33,5 +33,6 @@ export const Modal = ({ children, onClose, onKeyDown }) => {
 
 Modal.propTypes = {
     children: PropTypes.node.isRequired,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    onKeyDown: PropTypes.func,
 }

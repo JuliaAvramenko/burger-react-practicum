@@ -2,37 +2,71 @@ import './burger-constructor.css';
 import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
 import OrderTotal from "../order-total/order-total";
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrag, useDrop } from "react-dnd";
+import { shiftIngredient } from '../../services/actions/constructor';
 
 
-function BurgerConstructor({ openModal }) {
+function BurgerConstructor({ openModal, onDropHandler }) {
+
+
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(item) {
+            onDropHandler(item)
+        }
+
+    })
+
     const { bun, fillings } = useSelector(store => {
 
         return {
             bun: store.constructorBlock.bun,
             fillings: store.constructorBlock.fillings
         }
+    })
 
+    const { allItems } = useSelector(store => {
+        return {
+            allItems: store.constructorBlock
+        }
     })
 
 
+    const countTotalValue = () => {
+        const array = [...allItems.fillings, allItems.bun]
+        //console.log(`I am array ${JSON.stringify(array)}`)
+        let totalValue = 0;
+        array.forEach((item) => totalValue = totalValue + item.price)
+        // console.log(`I am total value ${totalValue}`)
+
+
+        return totalValue
+    }
+
+
     return (
-        <div className="constructor-table pt-25 pl-4">
+        <div ref={dropTarget} className="constructor-table pt-25 pl-4">
             <div className="big-table mb-10">
-                <BurgerConstructorElement
-                    type="top"
-                    isLocked={true}
-                    {...bun}
-                />
+                {
+                    <BurgerConstructorElement
+                        {...bun}
+                        type="top"
+                        isLocked={true}
+                    />
+                }
+
                 <div className="small-table custom-scroll mt-4 mb-4">
                     {
 
                         fillings.map((item, index) => {
+                            //console.log(`Item fillings: ${JSON.stringify(item)}`)
                             return (<BurgerConstructorElement
+                                {...item}
+                                type={undefined}
                                 key={index}
-                                text={item.name}
-                                price={item.price}
-                                thumbnail={item.image}
+                                index={index}
                             />
                             )
                         })
@@ -41,12 +75,12 @@ function BurgerConstructor({ openModal }) {
                 </div>
 
                 <BurgerConstructorElement
+                    {...bun}
                     type="bottom"
                     isLocked={true}
-                    {...bun}
                 />
             </div>
-            <OrderTotal onClick={openModal} />
+            <OrderTotal onClick={openModal} sum={countTotalValue()} />
 
 
         </div>
@@ -55,6 +89,7 @@ function BurgerConstructor({ openModal }) {
 }
 BurgerConstructor.propTypes = {
 
-    openModal: PropTypes.func
+    openModal: PropTypes.func,
+    onDropHandler: PropTypes.func
 }
 export default BurgerConstructor;
