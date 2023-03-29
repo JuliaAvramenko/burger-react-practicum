@@ -1,10 +1,10 @@
-import { Api } from "../../utils/api";
 import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS } from "../constants";
 
 export const addIngredient = (ingredient) => {
     return {
         type: ADD_INGREDIENT,
-        ingredient: ingredient
+        ingredient: ingredient,
+
     }
 }
 

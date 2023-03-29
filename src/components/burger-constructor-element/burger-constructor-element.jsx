@@ -41,7 +41,6 @@ function BurgerConstructorElement(props) {
 
 
             if (props.index !== item.index) {
-                console.log(`I want to do smth with this item ${JSON.stringify(item)}`)
 
                 const hoverBoundingRect = refFillings.current?.getBoundingClientRect()
                 // Get vertical middle

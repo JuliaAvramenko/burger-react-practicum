@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import './burger-ingredients.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
 import { useDispatch, useSelector } from 'react-redux';
 
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-type.js";
 import { createSwitchTab } from "../../services/actions/tab";
 
 function BurgerIngredients({ openModal }) {
@@ -75,7 +74,7 @@ function BurgerIngredients({ openModal }) {
 
         <div className="ingredients-table">
             <h1 className="main-title text text_type_main-large mt-10 mb-5">Соберите бургер </h1>
-            <div className="tab-container mb-10" style={{ display: 'flex' }}>
+            <div className="tab-container mb-10">
                 {
                     sections.map((section) => {
                         return <Tab value={section.type} active={currentTab === section.type} key={section.type} onClick={handleClickTab}>

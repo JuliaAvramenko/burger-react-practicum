@@ -16,3 +16,7 @@
     overflow-y: scroll;
     height: 716px;
 }
+
+.tab-container {
+    display: flex;
+}

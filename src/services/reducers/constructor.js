@@ -21,11 +21,10 @@ export const constructor = (state = initialState, action) => {
         case ADD_INGREDIENT:
             return {
                 ...state,
-                fillings: [...state.fillings, action.ingredient]
+                fillings: [...state.fillings, { ...action.ingredient, uuid: crypto.randomUUID() }]
             }
 
         case REMOVE_INGREDIENT:
-            // TODO: remove right ingredient 
             return {
                 ...state,
                 fillings: state.fillings.filter((item, index) => index !== action.index)
@@ -35,8 +34,6 @@ export const constructor = (state = initialState, action) => {
                 ...state,
                 fillings: array_move(state.fillings, action.indexFrom, action.indexTo)
             }
-            // TODO: react DND 
-            return state;
         case CHANGE_BUN:
             return {
                 ...state, bun: action.ingredient

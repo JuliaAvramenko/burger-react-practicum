@@ -2,9 +2,8 @@ import './burger-constructor.css';
 import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
 import OrderTotal from "../order-total/order-total";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from 'react-redux';
-import { useDrag, useDrop } from "react-dnd";
-import { shiftIngredient } from '../../services/actions/constructor';
+import { useSelector } from 'react-redux';
+import { useDrop } from "react-dnd";
 
 
 function BurgerConstructor({ openModal, onDropHandler }) {
@@ -35,11 +34,9 @@ function BurgerConstructor({ openModal, onDropHandler }) {
 
 
     const countTotalValue = () => {
-        const array = [...allItems.fillings, allItems.bun]
-        //console.log(`I am array ${JSON.stringify(array)}`)
+        const array = [...allItems.fillings, allItems.bun];
         let totalValue = 0;
-        array.forEach((item) => totalValue = totalValue + item.price)
-        // console.log(`I am total value ${totalValue}`)
+        array.forEach((item) => totalValue = totalValue + item.price);
 
 
         return totalValue
@@ -65,7 +62,7 @@ function BurgerConstructor({ openModal, onDropHandler }) {
                             return (<BurgerConstructorElement
                                 {...item}
                                 type={undefined}
-                                key={index}
+                                key={item.uuid}
                                 index={index}
                             />
                             )

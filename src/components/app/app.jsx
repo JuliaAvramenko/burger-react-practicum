@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import './app.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import { Api } from '../../utils/api';
+
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients, getIngredientsThunk } from '../../services/actions/ingredients';
+import { getIngredientsThunk } from '../../services/actions/ingredients';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 

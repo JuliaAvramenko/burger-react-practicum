@@ -19,11 +19,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
-      {/** 
-    <Modal onClick={() => { console.log("I modal click") }} onClose={() => { console.log("I modal close") }}>
-      <div style={{ width: "400px", height: "400px" }}>It s children</div>
-    </Modal>
-    */}
     </Provider>
   </React.StrictMode>
 );
