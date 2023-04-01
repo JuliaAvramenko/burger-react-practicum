@@ -43,40 +43,49 @@ function BurgerConstructor({ openModal, onDropHandler }) {
     }
 
 
-    return (
-        <div ref={dropTarget} className="constructor-table pt-25 pl-4">
-            <div className="big-table mb-10">
-                {
-                    <BurgerConstructorElement
-                        {...bun}
-                        type="top"
-                        isLocked={true}
-                    />
-                }
-
-                <div className="small-table custom-scroll mt-4 mb-4">
-                    {
-
-                        fillings.map((item, index) => {
-                            //console.log(`Item fillings: ${JSON.stringify(item)}`)
-                            return (<BurgerConstructorElement
-                                {...item}
-                                type={undefined}
-                                key={item.uuid}
-                                index={index}
-                            />
-                            )
-                        })
-
-                    }
-                </div>
-
+    const constructorBlock = (
+        <div className="big-table mb-10">
+            {
                 <BurgerConstructorElement
                     {...bun}
-                    type="bottom"
+                    type="top"
                     isLocked={true}
                 />
+            }
+
+            <div className="small-table custom-scroll mt-4 mb-4">
+                {
+
+                    fillings.map((item, index) => {
+                        //console.log(`Item fillings: ${JSON.stringify(item)}`)
+                        return (<BurgerConstructorElement
+                            {...item}
+                            type={undefined}
+                            key={item.uuid}
+                            index={index}
+                        />
+                        )
+                    })
+
+                }
             </div>
+
+            <BurgerConstructorElement
+                {...bun}
+                type="bottom"
+                isLocked={true}
+            />
+        </div>
+    )
+
+    const giveMeMoreBuns = (
+        <div className="big-table_extra text text_type_main-large pt-10 pb-10 mt-15 mb-4">Пожалуйста, перенесите сюда сначала булку, а потом начинки и соусы</div>
+    )
+
+
+    return (
+        <div ref={dropTarget} className="constructor-table pt-25 pl-4">
+            {bun._id && constructorBlock || giveMeMoreBuns}
             <OrderTotal onClick={openModal} sum={countTotalValue()} />
 
 

@@ -3,7 +3,7 @@ import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE
 export const addIngredient = (ingredient) => {
     return {
         type: ADD_INGREDIENT,
-        ingredient: ingredient,
+        ingredient: { ...ingredient, uuid: crypto.randomUUID() },
 
     }
 }

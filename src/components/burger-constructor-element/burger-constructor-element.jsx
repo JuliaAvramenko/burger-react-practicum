@@ -1,4 +1,3 @@
-
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import './burger-constructor-element.css';
 import PropTypes from "prop-types";
@@ -7,11 +6,11 @@ import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd';
 import { removeIngredient, shiftIngredient } from '../../services/actions/constructor';
 
-function BurgerConstructorElement(props) {
+function BurgerConstructorElement({ index, _id, type, name, image_mobile, isLocked, price }) {
     const dispatch = useDispatch()
 
     const removeConstructorElement = () => {
-        dispatch(removeIngredient(props.index))
+        dispatch(removeIngredient(index))
     }
 
     let refFillings = useRef(null)
@@ -20,8 +19,8 @@ function BurgerConstructorElement(props) {
         type: "fillings",
         item: () => {
             return {
-                id: props._id,
-                index: props.index
+                id: _id,
+                index: index
 
             }
         },
@@ -40,7 +39,7 @@ function BurgerConstructorElement(props) {
 
 
 
-            if (props.index !== item.index) {
+            if (index !== item.index) {
 
                 const hoverBoundingRect = refFillings.current?.getBoundingClientRect()
                 // Get vertical middle
@@ -54,16 +53,16 @@ function BurgerConstructorElement(props) {
                 // When dragging downwards, only move when the cursor is below 50%
                 // When dragging upwards, only move when the cursor is above 50%
                 // Dragging downwards
-                if (item.index < props.index && hoverClientY < hoverMiddleY) {
+                if (item.index < index && hoverClientY < hoverMiddleY) {
                     return
                 }
-                if (item.index > props.index && hoverClientY > hoverMiddleY) {
+                if (item.index > index && hoverClientY > hoverMiddleY) {
                     return
                 }
 
-                dispatch(shiftIngredient(item.index, props.index))
+                dispatch(shiftIngredient(item.index, index))
 
-                item.index = props.index
+                item.index = index
             }
 
         }
@@ -77,14 +76,14 @@ function BurgerConstructorElement(props) {
     let icon;
     let tailtext = "";
 
-    if (props.type) {
+    if (type) {
         icon = null
         refFillings = undefined
 
-        if (props.type === "top") {
+        if (type === "top") {
             tailtext = "(верх)"
         }
-        if (props.type === "bottom") {
+        if (type === "bottom") {
             tailtext = "(низ)"
         }
 
@@ -98,11 +97,11 @@ function BurgerConstructorElement(props) {
         <div ref={refFillings} className="constructor-container">
             {icon}
             <ConstructorElement
-                type={props.type}
-                text={`${props.name} ${tailtext}`}
-                thumbnail={props.image_mobile}
-                isLocked={props.isLocked}
-                price={props.price}
+                type={type}
+                text={`${name} ${tailtext}`}
+                thumbnail={image_mobile}
+                isLocked={isLocked}
+                price={price}
                 handleClose={removeConstructorElement}
                 extraClass={undefined} //{isDragging && "opacity_modificator"}
 
@@ -113,7 +112,14 @@ function BurgerConstructorElement(props) {
 }
 BurgerConstructorElement.propTypes = {
 
-    props: PropTypes.object
+    index: PropTypes.number,
+    _id: PropTypes.string,
+    type: PropTypes.string,
+    name: PropTypes.string,
+    image_mobile: PropTypes.string,
+    isLocked: PropTypes.bool,
+    price: PropTypes.number,
+
 
 }
 export default BurgerConstructorElement;

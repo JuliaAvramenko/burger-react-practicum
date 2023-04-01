@@ -5,23 +5,14 @@ const initialState = {
     fillings: []
 }
 
-function array_move(arr, old_index, new_index) {
-    if (new_index >= arr.length) {
-        var k = new_index - arr.length + 1;
-        while (k--) {
-            arr.push(undefined);
-        }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr; // for testing
-};
+
 
 export const constructor = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT:
             return {
                 ...state,
-                fillings: [...state.fillings, { ...action.ingredient, uuid: crypto.randomUUID() }]
+                fillings: [...state.fillings, action.ingredient]
             }
 
         case REMOVE_INGREDIENT:
@@ -30,9 +21,19 @@ export const constructor = (state = initialState, action) => {
                 fillings: state.fillings.filter((item, index) => index !== action.index)
             }
         case SHIFT_INGREDIENT:
+            function arrayMove(arr, oldIndex, newIndex) {
+                if (newIndex >= arr.length) {
+                    let k = newIndex - arr.length + 1;
+                    while (k--) {
+                        arr.push(undefined);
+                    }
+                }
+                arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+                return arr; // for testing
+            }
             return {
                 ...state,
-                fillings: array_move(state.fillings, action.indexFrom, action.indexTo)
+                fillings: arrayMove(state.fillings, action.indexFrom, action.indexTo)
             }
         case CHANGE_BUN:
             return {

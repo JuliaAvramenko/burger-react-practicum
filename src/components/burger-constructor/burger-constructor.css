@@ -6,3 +6,8 @@
     gap: 16px;
 
 }
+
+.big-table_extra {
+    text-align: center;
+    border: 10px solid rgb(128, 0, 124);
+}

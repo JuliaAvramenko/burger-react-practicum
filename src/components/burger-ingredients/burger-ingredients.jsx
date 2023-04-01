@@ -65,7 +65,7 @@ function BurgerIngredients({ openModal }) {
         dispatch(createSwitchTab(type));
 
         const currentSection = sections.filter((section) => { return section.type === type })[0]
-        currentSection.ref.current?.scrollIntoView(true, { behavior: "smooth" })
+        currentSection.ref.current?.scrollIntoView({ behavior: "smooth" })
 
     }
 
@@ -77,9 +77,16 @@ function BurgerIngredients({ openModal }) {
             <div className="tab-container mb-10">
                 {
                     sections.map((section) => {
-                        return <Tab value={section.type} active={currentTab === section.type} key={section.type} onClick={handleClickTab}>
-                            {section.name}
-                        </Tab>
+                        return (
+                            <Tab
+                                value={section.type}
+                                active={currentTab === section.type}
+                                key={section.type}
+                                onClick={handleClickTab}
+                            >
+                                {section.name}
+                            </Tab>
+                        )
                     })
                 }
             </div>
@@ -92,14 +99,15 @@ function BurgerIngredients({ openModal }) {
             }}>
                 {
                     sections.map((section) => {
-                        return <BurgerIngredientBlock
-                            ref={section.ref}
-                            title={section.name}
-                            key={section.type}
-                            ingredients={ingredients.filter(item => item.type === section.type)}
-                            onClick={openModal}
-
-                        />
+                        return (
+                            <BurgerIngredientBlock
+                                ref={section.ref}
+                                title={section.name}
+                                key={section.type}
+                                ingredients={ingredients.filter(item => item.type === section.type)}
+                                onClick={openModal}
+                            />
+                        )
                     })
                 }
             </div>

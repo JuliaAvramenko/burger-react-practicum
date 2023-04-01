@@ -27,7 +27,7 @@ export const getIngredientsThunk = () => {
                 const allBuns = responseJson.data.filter((ingredient) => ingredient.type === "bun")
                 const defaultBun = allBuns.length > 0 && allBuns[0]
 
-                dispatch(changeBun(defaultBun))
+                // dispatch(changeBun(defaultBun))  // убрала добавление булочки по умолчанию 
             } else {
                 dispatch({
                     type: GET_INGREDIENTS_FAILED,

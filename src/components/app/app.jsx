@@ -75,10 +75,10 @@ function App() {
     <div className="App">
       <AppHeader></AppHeader>
       <DndProvider backend={HTML5Backend}>
-        <section className="tables">
+        <main className="tables">
           <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
           <BurgerConstructor onDropHandler={handleDrop} openModal={handleOpenModal} />
-        </section>
+        </main>
       </DndProvider>
       {visibleModal && currentModal}
 
