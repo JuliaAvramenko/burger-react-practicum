@@ -1,4 +1,4 @@
-import './burger-constructor.css';
+import styles from './burger-constructor.module.css';
 import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
 import OrderTotal from "../order-total/order-total";
 import PropTypes from "prop-types";
@@ -7,6 +7,7 @@ import { useDrop } from "react-dnd";
 
 
 function BurgerConstructor({ openModal, onDropHandler }) {
+    console.log(JSON.stringify(styles))
 
 
 
@@ -53,7 +54,7 @@ function BurgerConstructor({ openModal, onDropHandler }) {
                 />
             }
 
-            <div className="small-table custom-scroll mt-4 mb-4">
+            <div className={`${styles['small-table']} custom-scroll mt-4 mb-4`}>
                 {
 
                     fillings.map((item, index) => {
@@ -75,11 +76,11 @@ function BurgerConstructor({ openModal, onDropHandler }) {
                 type="bottom"
                 isLocked={true}
             />
-        </div>
+        </div >
     )
 
     const giveMeMoreBuns = (
-        <div className="big-table_extra text text_type_main-large pt-10 pb-10 mt-15 mb-4">Пожалуйста, перенесите сюда сначала булку, а потом начинки и соусы</div>
+        <div className={`${styles['big-table_extra']} text text_type_main-large pt-10 pb-10 mt-15 mb-4`}>Пожалуйста, перенесите сюда сначала булку, а потом начинки и соусы</div>
     )
 
 

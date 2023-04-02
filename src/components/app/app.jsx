@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './app.css';
+import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
@@ -72,10 +72,10 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className={styles.App}>
       <AppHeader></AppHeader>
       <DndProvider backend={HTML5Backend}>
-        <main className="tables">
+        <main className={styles.tables}>
           <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
           <BurgerConstructor onDropHandler={handleDrop} openModal={handleOpenModal} />
         </main>

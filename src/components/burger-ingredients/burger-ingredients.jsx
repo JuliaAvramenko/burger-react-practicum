@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import './burger-ingredients.css';
+import styles from './burger-ingredients.module.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -74,7 +74,7 @@ function BurgerIngredients({ openModal }) {
 
         <div className="ingredients-table">
             <h1 className="main-title text text_type_main-large mt-10 mb-5">Соберите бургер </h1>
-            <div className="tab-container mb-10">
+            <div className={`${styles["tab-container"]} mb-10`}>
                 {
                     sections.map((section) => {
                         return (
@@ -90,13 +90,14 @@ function BurgerIngredients({ openModal }) {
                     })
                 }
             </div>
-            <div ref={refIngredientsTable} className="wrapper custom-scroll" onScroll={() => {
-                const closest = getClosestElem();
-                if (currentTab != closest.type) {
-                    dispatch(createSwitchTab(closest.type))
-                }
+            <div ref={refIngredientsTable} className={`${styles.wrapper} custom-scroll`}
+                onScroll={() => {
+                    const closest = getClosestElem();
+                    if (currentTab != closest.type) {
+                        dispatch(createSwitchTab(closest.type))
+                    }
 
-            }}>
+                }}>
                 {
                     sections.map((section) => {
                         return (
@@ -111,7 +112,7 @@ function BurgerIngredients({ openModal }) {
                     })
                 }
             </div>
-        </div>
+        </div >
 
 
 

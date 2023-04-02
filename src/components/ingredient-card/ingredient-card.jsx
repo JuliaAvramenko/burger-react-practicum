@@ -1,5 +1,5 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import './ingredient-card.css';
+import styles from './ingredient-card.module.css';
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
@@ -31,16 +31,16 @@ function IngredientCard({ ingredient, onClick }) {
     }
 
     return (
-        <article ref={dragRef} className="card">
+        <article ref={dragRef} className={styles.card}>
             <Counter count={getCountIngredients()} size="default" extraClass="" />
-            <img src={ingredient.image} alt={ingredient.name} className="card__image" onClick={() => onClick(contentModal)} />
-            <div className="card__price-container mt-1 mb-1">
+            <img src={ingredient.image} alt={ingredient.name} className={styles.card__image} onClick={() => onClick(contentModal)} />
+            <div className={`${styles['card__price-container']} mt-1 mb-1`}>
                 <p className="card__price  text text_type_digits-default mr-2">{ingredient.price}</p>
                 <CurrencyIcon type="primary" />
             </div>
-            <p className="card__title text text_type_main-default">{ingredient.name}</p>
+            <p className={`${styles.card__title} text text_type_main-default`}>{ingredient.name}</p>
 
-        </article>
+        </article >
 
     )
 

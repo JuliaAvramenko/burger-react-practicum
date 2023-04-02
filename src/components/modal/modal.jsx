@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import './modal.css';
+import styles from './modal.module.css';
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -26,8 +26,8 @@ export const Modal = ({ children, onClose }) => {
 
     return createPortal(
         <>
-            <div className="modal">
-                <div className="modal__close-button"><CloseIcon onClick={onClose} /></div>
+            <div className={styles.modal}>
+                <div className={styles["modal__close-button"]}><CloseIcon onClick={onClose} /></div>
                 {children}
             </div>
             <ModalOverlay onClick={onClose} />
@@ -40,5 +40,5 @@ export const Modal = ({ children, onClose }) => {
 Modal.propTypes = {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func,
-    onKeyDown: PropTypes.func,
+
 }

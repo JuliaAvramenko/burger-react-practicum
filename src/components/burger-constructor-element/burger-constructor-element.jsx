@@ -1,5 +1,5 @@
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
-import './burger-constructor-element.css';
+import styles from './burger-constructor-element.module.css';
 import PropTypes from "prop-types";
 import { useDispatch } from 'react-redux';
 import { useRef } from 'react'
@@ -94,7 +94,7 @@ function BurgerConstructorElement({ index, _id, type, name, image_mobile, isLock
     }
 
     return (
-        <div ref={refFillings} className="constructor-container">
+        <div ref={refFillings} className={styles["constructor-container"]}>
             {icon}
             <ConstructorElement
                 type={type}
