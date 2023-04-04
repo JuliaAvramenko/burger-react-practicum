@@ -4,7 +4,6 @@ export const config = {
     headers: {
         'Content-Type': 'application/json',
     },
-
 }
 
 
@@ -23,9 +22,21 @@ export const Api = (function (config) {
         return checkResponse(response);
     }
 
+    async function createOrder(ids) {
+        const response = await fetch(`${config.baseUrl}/orders`, {
+            method: "POST",
+            headers: config.headers,
+            body: JSON.stringify({
+                ingredients: [...ids]
+            })
+        });
+
+        return checkResponse(response);
+    }
 
     return {
         getIngredients: getIngredients,
+        createOrder: createOrder,
 
     }
 

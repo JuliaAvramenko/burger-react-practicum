@@ -3,7 +3,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    justify-content: flex-end;
+
+    width: 640px;
 }
+
 
 .modal-order__image {
     width: 120px;
@@ -12,13 +17,6 @@
     align-items: center;
     justify-content: center;
 
-}
-
-.modal-order__wrapper {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 640px;
 }
 
 .modal-order__main-wrapper {

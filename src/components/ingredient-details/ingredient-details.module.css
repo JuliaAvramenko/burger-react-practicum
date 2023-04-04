@@ -32,8 +32,6 @@
 
 .modal__image {
     width: 480px;
-
-
 }
 
 .modal__nutrition-values {
@@ -68,12 +66,6 @@
 }
 
 .modal__item-title {
-    padding: 0;
-    margin: 0;
-    text-decoration: none;
-}
-
-.modal__item-value {
     padding: 0;
     margin: 0;
     text-decoration: none;

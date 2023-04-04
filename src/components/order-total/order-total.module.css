@@ -1,18 +1,9 @@
 .order-container {
     display: flex;
     justify-content: flex-end;
-
 }
 
 .order__wrapper {
     display: flex;
     align-items: center;
-
-}
-
-
-
-.wrapper {
-    overflow-y: scroll;
-    height: 716px;
 }
