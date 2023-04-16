@@ -7,9 +7,6 @@ import { useDrop } from "react-dnd";
 
 
 function BurgerConstructor({ openModal, onDropHandler }) {
-    console.log(JSON.stringify(styles))
-
-
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",

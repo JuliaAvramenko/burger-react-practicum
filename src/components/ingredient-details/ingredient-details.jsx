@@ -1,11 +1,16 @@
+
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 
 
+
 export const IngredientDetails = ({ image_large, name, calories, proteins, fat, carbohydrates }) => {
+
+
+
     return (
         <div className={`${styles.modal__container} pt-10 pb-15`}>
-            <h2 className={`${styles.modal__title} text text_type_main-large`}>Детали ингридиента</h2>
+            <h2 className={`${styles.modal__title} text text_type_main-large`}>Детали ингредиента</h2>
             <div className={styles["modal__main - wrapper"]}>
                 <img src={image_large} alt={name} className={styles.modal__image} />
                 <h2 className={`${styles["modal__ingredient-title"]} text text_type_main-medium mt-4 mb-8`}>{name}</h2>

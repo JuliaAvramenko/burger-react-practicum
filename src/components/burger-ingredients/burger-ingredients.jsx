@@ -52,7 +52,6 @@ function BurgerIngredients({ openModal }) {
         })
 
         return closest
-        console.log(`I am a rectangle ${JSON.stringify(closest)}`);
         // Get vertical middle
 
 

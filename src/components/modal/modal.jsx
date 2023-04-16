@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 
 
+
 const modalRoot = document.querySelector("#modals");
 
 export const Modal = ({ children, onClose }) => {
@@ -29,7 +30,7 @@ export const Modal = ({ children, onClose }) => {
             <div className={styles.modal}>
                 <div className={styles["modal__close-button"]}><CloseIcon onClick={onClose} /></div>
                 {children}
-            </div>
+            </div >
             <ModalOverlay onClick={onClose} />
         </>,
         modalRoot

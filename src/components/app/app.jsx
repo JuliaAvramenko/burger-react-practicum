@@ -1,43 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIngredientsThunk } from '../../services/actions/ingredients';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDispatch } from 'react-redux';
 
 import { Modal } from '../modal/modal';
-import { changeBun, addIngredient } from '../../services/actions/constructor';
+
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { ForgotPasswordPage, HomePage, IngredientsPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage } from '../../pages';
+import ProtectedRoute from '../protected-route/protected-route';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import { TestPage } from '../../pages/test-page';
+
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
 
-  const { allIngredients } = useSelector(store => {
-    return {
-      allIngredients: store.ingredients.ingredients
-    }
+  //const location = useLocation();
+  //const background = location.state?.background;
 
-  })
+
 
   const dispatch = useDispatch();
 
-  const handleDrop = (item) => {
 
-    const droppedItem = allIngredients.filter((element) => element._id === item.id)[0]
-
-    if (droppedItem.type === "bun") {
-
-      dispatch(changeBun(droppedItem))
-
-    } else {
-      dispatch(addIngredient(droppedItem))
-    }
-
-  };
 
 
   const handleEscModalClose = (e) => {
@@ -56,30 +43,47 @@ function App() {
   }
 
   const handleCloseModal = () => {
+    // DH
+    // console.log(JSON.stringify(window.history.state.prevState))
+    window.history.replaceState({}, '', window.history.state.prevState);
 
     setVisibleModal(false)
     setCurrentModal(null)
 
   }
 
-
-
-
-  useEffect(() => {
-    dispatch(getIngredientsThunk())
-  }, [])
-
-
-
   return (
     <div className={styles.App}>
-      <AppHeader></AppHeader>
-      <DndProvider backend={HTML5Backend}>
+
+      <BrowserRouter>
+        <AppHeader></AppHeader>
+        <Routes >
+          <Route path="/" element={<HomePage openModal={handleOpenModal} />} />
+          <Route path="/ingredients/:idIngredient" element={<IngredientsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/profile" element={<ProtectedRoute> <ProfilePage /></ProtectedRoute>} />
+          <Route path="/profile/:section" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/test" element={<TestPage />} />
+          <Route path="/test/:section" element={<TestPage />} />
+        </Routes>
+        {
+          false && <Routes>
+            <Route path="/ingredients/:id" element={<Modal>
+              <IngredientDetails></IngredientDetails>
+            </Modal>}>
+            </Route>
+          </Routes>
+        }
+      </BrowserRouter>
+      {/*<DndProvider backend={HTML5Backend}>
         <main className={styles.tables}>
           <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
           <BurgerConstructor onDropHandler={handleDrop} openModal={handleOpenModal} />
         </main>
-      </DndProvider>
+  </DndProvider>*/}
       {visibleModal && currentModal}
 
     </div>

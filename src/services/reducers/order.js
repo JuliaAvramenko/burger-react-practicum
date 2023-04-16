@@ -16,7 +16,6 @@ export const order = (state = initialState, action) => {
                 ...state, loadStarted: true
             }
         case CREATE_ORDER_SUCCESS:
-            console.log(`action ${JSON.stringify(action)}`)
             return {
                 ...state,
                 loadFailed: false,

@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    width: 1280px;
+    margin-top: 120px;
+
+
+}
+
+.wrapper {
+    width: 320px;
+}
+
+.wrapper__item {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+}
+
+.profile__button {
+    color: white;
+}
