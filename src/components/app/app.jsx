@@ -21,20 +21,8 @@ function App() {
   //const background = location.state?.background;
 
 
-
-  const dispatch = useDispatch();
-
-
-
-
-  const handleEscModalClose = (e) => {
-    if (e.key === "Escape") {
-      handleCloseModal()
-    }
-  }
-
   const handleOpenModal = (content) => {
-    const modal = <Modal onClose={handleCloseModal} onKeyDown={handleEscModalClose} >
+    const modal = <Modal onClose={handleCloseModal} >
       {content}
     </Modal>
     setCurrentModal(modal)
