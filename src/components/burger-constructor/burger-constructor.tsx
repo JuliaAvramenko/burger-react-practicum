@@ -2,10 +2,11 @@ import styles from './burger-constructor.module.css';
 import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
 import OrderTotal from "../order-total/order-total";
 
-import { useSelector } from 'react-redux';
+
 import { useDrop } from "react-dnd";
 import { TDropItem, TOnClick, TRootStore } from '../../utils/types';
 import { FC } from 'react';
+import { useSelector } from '../../utils/hooks';
 
 
 type TBurgerConstructor = {

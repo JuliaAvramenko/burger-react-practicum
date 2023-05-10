@@ -1,8 +1,21 @@
 import { LOGIN_FAILED, LOGIN_SUCCESS } from "../constants";
-import { Api } from "../../utils/api";
+import { Api, TLogIn } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../..";
 
-export const logInThunk = (email: string, password: string): any => {
-    return function (dispatch: any) {
+
+export type TLogInSuccessAction = {
+    readonly type: typeof LOGIN_SUCCESS
+    readonly userDetails: TLogIn
+}
+
+export type TLogInFailedAction = {
+    readonly type: typeof LOGIN_FAILED
+    readonly error: string
+}
+
+
+export const logInThunk: AppThunk = (email: string, password: string) => {
+    return function (dispatch: AppDispatch) {
         Api.logIn(email, password).then(responseJson => {
 
             if (responseJson && responseJson.success) {
@@ -17,7 +30,7 @@ export const logInThunk = (email: string, password: string): any => {
             } else {
                 dispatch({
                     type: LOGIN_FAILED,
-                    error: responseJson.message
+                    error: responseJson.message!
                 })
             }
         }).catch(error => {

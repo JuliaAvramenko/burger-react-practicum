@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react'
 
 import { DndProvider } from "react-dnd";
@@ -18,6 +18,8 @@ import { addIngredient, changeBun } from '../services/actions/constructor';
 
 import { TDropItem, TOnClick, TRootStore } from '../utils/types';
 import { FC } from 'react';
+import { AppDispatch, AppThunk } from '..';
+import { useSelector } from '../utils/hooks';
 
 
 type THomePage = {
@@ -29,7 +31,7 @@ export const HomePage: FC<THomePage> = ({ openModal }) => {
 
 
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
 
 
 

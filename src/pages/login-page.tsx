@@ -2,17 +2,19 @@ import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logInThunk } from "../services/actions/login";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { setCookie } from "../utils/cookies";
 import { TRootStore } from "../utils/types";
+import { AppDispatch, AppThunk } from "..";
+import { useSelector } from "../utils/hooks";
 
 export function LoginPage() {
 
     const [passwordInput, setPasswordInput] = useState<string>('')
     const [emailInput, setEmailInput] = useState<string>('')
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -32,17 +34,13 @@ export function LoginPage() {
     }
 
     useEffect(() => {
-
-        console.log("I am Login Page")
-    }, [])
-    useEffect(() => {
         if (session && session.accessToken && session.refreshToken) {
-            setCookie('accessToken', session.accessToken);
-            setCookie('refreshToken', session.refreshToken);
-            console.log("navigate")
-            navigate(location.state?.from || '/', { state: { from: location } })
+            //setCookie('accessToken', session.accessToken);
+            //setCookie('refreshToken', session.refreshToken);
+            navigate(location.state?.from || '/', { state: { from: location.pathname } })
+            //console.log(` i am location from ${location.state?.from}`)
         } else {
-            console.log("your login or password is incorrect")
+            //console.log("your login or password is incorrect")
         }
     }, [session])
 

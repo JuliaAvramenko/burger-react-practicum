@@ -1,8 +1,19 @@
 import { GET_USER_DATA_FAILED, GET_USER_DATA_SUCCESS } from "../constants";
-import { Api } from "../../utils/api";
+import { Api, TGetUserData } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../..";
 
-export const getUserDataThunk = (): any => {
-    return function (dispatch: any) {
+export type TGetUserDataSuccessAction = {
+    readonly type: typeof GET_USER_DATA_SUCCESS
+    readonly userDetails: TGetUserData
+}
+
+export type TGetUserDataFailedAction = {
+    readonly type: typeof GET_USER_DATA_FAILED
+    readonly error: string
+}
+
+export const getUserDataThunk: AppThunk = (): any => {
+    return function (dispatch: AppDispatch) {
         Api.getUserData().then(responseJson => {
 
             if (responseJson && responseJson.success) {
@@ -17,7 +28,7 @@ export const getUserDataThunk = (): any => {
             } else {
                 dispatch({
                     type: GET_USER_DATA_FAILED,
-                    error: responseJson.message
+                    error: responseJson.message!
                 })
             }
         }).catch(error => {

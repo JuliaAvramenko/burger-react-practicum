@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { TOrderStore } from "../../utils/types";
+import { TOrderStore, TBurgerActions } from "../../utils/types";
 import { CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS } from "../constants";
 
 
@@ -12,7 +12,7 @@ const initialState: TOrderStore = {
 
 
 
-export const order = (state: TOrderStore = initialState, action: AnyAction) => {
+export const order = (state: TOrderStore = initialState, action: TBurgerActions) => {
     switch (action.type) {
         case CREATE_ORDER:
             return {

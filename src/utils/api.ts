@@ -23,21 +23,24 @@ type TGetIngredientsResponse = {
     success: TStatusResponse
     data: TIngredient[]
 }
-type TForgotPasswordResponse = TStatusResponse & TMessageErrorResponse
-type TCreateOrderResponse = {
+export type TForgotPasswordResponse = TStatusResponse & TMessageErrorResponse
+export type TCreateOrderResponse = {
     success: TStatusResponse
     name: string
     order: {
         number: number
     }
 }
-type TResetPasswordResponse = TStatusResponse & TMessageErrorResponse
-type TCreateUserResponse = TStatusResponse & TUserInfoResponse & TMessageErrorResponse
-type TLogIn = TUserInfoResponse & TStatusResponse & TMessageErrorResponse
-type TRefreshToken = TSession & TStatusResponse & TMessageErrorResponse
-type TLogOut = TStatusResponse & TMessageErrorResponse & TMessageErrorResponse
-type TGetUserData = TStatusResponse & TUser & TMessageErrorResponse
-type TChangeUserData = TStatusResponse & TUser & TMessageErrorResponse
+export type TUserResponse = {
+    user: TUser
+}
+export type TResetPasswordResponse = TStatusResponse & TMessageErrorResponse
+export type TCreateUserResponse = TStatusResponse & TUserInfoResponse & TMessageErrorResponse
+export type TLogIn = TUserInfoResponse & TStatusResponse & TMessageErrorResponse
+export type TRefreshToken = TSession & TStatusResponse & TMessageErrorResponse
+export type TLogOut = TStatusResponse & TMessageErrorResponse & TMessageErrorResponse
+export type TGetUserData = TStatusResponse & TUserResponse & TMessageErrorResponse
+export type TChangeUserData = TStatusResponse & TUserResponse & TMessageErrorResponse
 
 export const Api = (function (config: any) {
 
@@ -61,7 +64,10 @@ export const Api = (function (config: any) {
     async function createOrder(ids: string[]): Promise<TCreateOrderResponse> {
         const response = await fetch(`${config.baseUrl}/orders`, {
             method: "POST",
-            headers: config.headers,
+            headers: {
+                ...config.headers,
+                Authorization: getCookie('accessToken')
+            },
             body: JSON.stringify({
                 ingredients: [...ids]
             })

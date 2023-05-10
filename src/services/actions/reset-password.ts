@@ -1,14 +1,29 @@
 import { RESET_PASSWORD_FAILED, RESET_PASSWORD_SUCCESS, RESET_STATUS } from "../constants";
-import { Api } from "../../utils/api";
+import { Api, TResetPasswordResponse } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../..";
 
-export const resetStatusField = () => {
+export type TResetStatusFieldAction = {
+    readonly type: typeof RESET_STATUS
+}
+
+export const resetStatusField = (): TResetStatusFieldAction => {
     return {
         type: RESET_STATUS
     }
 }
 
-export const resetPasswordThunk = (password: string, token: string): any => {
-    return function (dispatch: any) {
+export type TResetPasswordSuccessAction = {
+    readonly type: typeof RESET_PASSWORD_SUCCESS
+    readonly resetPasswordDetails: TResetPasswordResponse
+}
+
+export type TResetPasswordFailedAction = {
+    readonly type: typeof RESET_PASSWORD_FAILED
+    readonly error: string
+}
+
+export const resetPasswordThunk: AppThunk = (password: string, token: string) => {
+    return function (dispatch: AppDispatch) {
         Api.resetPassword(password, token).then(responseJson => {
             if (responseJson && responseJson.success) {
                 // В случае успешного получения данных вызываем экшен
@@ -22,7 +37,7 @@ export const resetPasswordThunk = (password: string, token: string): any => {
             } else {
                 dispatch({
                     type: RESET_PASSWORD_FAILED,
-                    error: responseJson.message
+                    error: responseJson.message!
                 })
             }
         }).catch(error => {

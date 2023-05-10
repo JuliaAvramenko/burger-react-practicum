@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getIngredientsThunk } from '../../services/actions/ingredients';
+import { AppDispatch, AppThunk } from '../..';
 
 
 
@@ -13,7 +14,7 @@ function AppHeader() {
     const [isConstructorActive, setConstructorActive] = useState<boolean>(false);
     const [isOrderListActive, setOrderListActive] = useState<boolean>(false);
     const [isProfileActive, setProfileActive] = useState<boolean>(false);
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch | AppThunk = useDispatch();
 
     useEffect(() => {
         if (pathname === "/") {
@@ -22,7 +23,7 @@ function AppHeader() {
             setProfileActive(false);
 
         }
-        if (pathname === "/profile/orders") {
+        if (pathname === "/feed") {
             setConstructorActive(false);
             setOrderListActive(true);
             setProfileActive(false);
@@ -56,7 +57,7 @@ function AppHeader() {
 
                     <div className="header__wrapper ">
 
-                        <Link to="/profile/orders" className={styles.header__link}>
+                        <Link to="/feed" className={styles.header__link}>
                             <ListIcon type={`${isOrderListActive && "primary" || "secondary"}`} />
                             <span className={`${isOrderListActive || "text_color_inactive"} text text_type_main-default ml-2`}>Список заказов</span>
                         </Link>

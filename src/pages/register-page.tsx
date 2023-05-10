@@ -1,10 +1,12 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createUserThunk } from "../services/actions/register";
 import { useEffect, useState } from "react";
 import { TRootStore } from "../utils/types";
+import { AppDispatch, AppThunk } from "..";
+import { useSelector } from "../utils/hooks";
 
 
 export function RegisterPage() {
@@ -30,7 +32,7 @@ export function RegisterPage() {
         }
     })
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
 
@@ -46,7 +48,7 @@ export function RegisterPage() {
         if (validate()) {
             dispatch(createUserThunk(e.target.email.value, e.target.password.value, e.target.name.value));
 
-            navigate("/login", { state: { from: location } })
+            navigate("/login", { state: { from: location.pathname } })
         } else {
 
         }
@@ -54,16 +56,12 @@ export function RegisterPage() {
         e.preventDefault();
     }
 
-    useEffect(() => {
-
-        console.log("I am Register Page")
-    }, [])
 
     useEffect(() => {
 
         if (session && session.accessToken && session.refreshToken) {
 
-            navigate(location.state?.from || '/', { state: { from: location } })
+            navigate(location.state?.from || '/', { state: { from: location.pathname } })
         }
     }, [session])
 

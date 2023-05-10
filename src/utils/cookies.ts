@@ -17,7 +17,6 @@ export function setCookie(name: string, value: string, props?: any) {
         if (propValue !== true) {
             updatedCookie += '=' + propValue;
         }
-        console.log(updatedCookie)
     }
     document.cookie = updatedCookie;
 }

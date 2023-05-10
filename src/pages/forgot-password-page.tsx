@@ -2,15 +2,17 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { InputHTMLAttributes, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { forgotPasswordThunk, resetStatusField } from "../services/actions/forgot-password";
-import { TRootStore } from "../utils/types";
+import { TBurgerActions, TRootStore } from "../utils/types";
+import { AppDispatch, AppThunk } from "..";
+import { useSelector } from "../utils/hooks";
 
 export function ForgotPasswordPage() {
 
 
     const [emailInput, setEmailInput] = useState<string>('')
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -30,19 +32,18 @@ export function ForgotPasswordPage() {
 
     useEffect(() => {
         if (resetStatus === true) {
-            navigate("/reset-password", { state: { from: location } })
+            navigate("/reset-password", { state: { from: location.pathname } })
         }
 
     }, [resetStatus])
 
     useEffect(() => {
-        console.log("I am Forgot Password Page");
         dispatch(resetStatusField())
     }, [])
 
     useEffect(() => {
         if (session) {
-            navigate(location.state?.from || '/', { state: { from: location } })
+            navigate(location.state?.from || '/', { state: { from: location.pathname } })
         }
 
     }, [])

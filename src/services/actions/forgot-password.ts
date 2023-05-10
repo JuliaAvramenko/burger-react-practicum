@@ -1,14 +1,30 @@
 import { FORGOT_PASSWORD_FAILED, FORGOT_PASSWORD_SUCCESS, RESET_STATUS } from "../constants";
-import { Api } from "../../utils/api";
+import { Api, TForgotPasswordResponse } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../..";
 
-export const resetStatusField = () => {
+export type TResetStatusFieldAction = {
+    readonly type: typeof RESET_STATUS
+
+}
+export const resetStatusField = (): TResetStatusFieldAction => {
     return {
         type: RESET_STATUS
     }
 }
 
-export const forgotPasswordThunk = (email: string): any => {
-    return function (dispatch: any) {
+export type TForgotPasswordSuccessAction = {
+    readonly type: typeof FORGOT_PASSWORD_SUCCESS
+    readonly passwordResetStatus: TForgotPasswordResponse
+}
+
+export type TForgotPasswordFailedAction = {
+    readonly type: typeof FORGOT_PASSWORD_FAILED
+    readonly error: string
+}
+
+
+export const forgotPasswordThunk: AppThunk = (email: string) => {
+    return function (dispatch: AppDispatch) {
         Api.forgotPassword(email).then(responseJson => {
             if (responseJson && responseJson.success) {
                 // В случае успешного получения данных вызываем экшен
@@ -22,7 +38,7 @@ export const forgotPasswordThunk = (email: string): any => {
             } else {
                 dispatch({
                     type: FORGOT_PASSWORD_FAILED,
-                    error: responseJson.message
+                    error: responseJson.message!
                 })
             }
         }).catch(error => {

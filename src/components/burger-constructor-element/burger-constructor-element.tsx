@@ -7,6 +7,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { removeIngredient, shiftIngredient } from '../../services/actions/constructor';
 import { FC } from 'react';
 import { TDropItem, TIngredient } from '../../utils/types';
+import { AppDispatch, AppThunk } from '../..';
 
 type TBurgerConstructorElement = {
     index?: number
@@ -19,14 +20,14 @@ type TBurgerConstructorElement = {
 
 
 export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElement> = ({ index, _id, type, type_filling, name, image_mobile, isLocked, price }) => {
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch | AppThunk = useDispatch();
 
     const removeConstructorElement = () => {
         dispatch(removeIngredient(index!))
     }
 
     let refFillings: any = useRef<HTMLDivElement>(null)
-    console.log(`we re reffillings ${refFillings}`)
+    //console.log(`we re reffillings ${refFillings}`)
 
     const [{ isDragging }, dragFillingsRef] = useDrag({
         type: "fillings",
@@ -45,8 +46,8 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
     const [, dropFillingsRef] = useDrop({
         accept: "fillings",
         hover(item: TDropItem, monitor: any) {
-            console.log(`we re item ${JSON.stringify(item)}`)
-            console.log(`we re monitor ${JSON.stringify(monitor)}`)
+            //console.log(`we re item ${JSON.stringify(item)}`)
+            //console.log(`we re monitor ${JSON.stringify(monitor)}`)
 
             if (!refFillings.current) {
                 return
@@ -57,7 +58,7 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
             if (index !== item.index) {
 
                 const hoverBoundingRect = (refFillings.current as any).getBoundingClientRect()
-                console.log(`we re reffillingscurrent ${JSON.stringify(refFillings.current)}`)
+                //console.log(`we re reffillingscurrent ${JSON.stringify(refFillings.current)}`)
                 // Get vertical middle
                 const hoverMiddleY =
                     (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2

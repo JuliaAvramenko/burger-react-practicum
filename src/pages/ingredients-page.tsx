@@ -1,8 +1,9 @@
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 import { useEffect, useState } from "react";
 import { TIngredient, TRootStore } from "../utils/types";
+import { useSelector } from "../utils/hooks";
 
 
 export function IngredientsPage() {
@@ -15,8 +16,11 @@ export function IngredientsPage() {
         }
     })
 
+
+
     // effects
     const { idIngredient } = useParams();
+    const params = useParams()
 
     useEffect(() => {
 

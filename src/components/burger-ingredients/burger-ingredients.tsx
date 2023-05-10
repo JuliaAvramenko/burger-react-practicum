@@ -2,12 +2,14 @@ import { ReactNode, useRef } from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 import { createSwitchTab } from "../../services/actions/tab";
 import { TOnClick, TRootStore } from "../../utils/types";
 import { FC } from 'react';
+import { AppDispatch, AppThunk } from "../..";
+import { useSelector } from "../../utils/hooks";
 
 type TBurgerIngredients = {
     openModal: TOnClick
@@ -23,7 +25,7 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
 
 
     const refIngredientsTable: any = useRef<HTMLDivElement>();
-    console.log(`I am refIngredientsTable ${typeof refIngredientsTable}`)
+    //console.log(`I am refIngredientsTable ${typeof refIngredientsTable}`)
 
 
     const sections = [
@@ -36,10 +38,10 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
 
 
         const hoverBoundingRect: any = (refIngredientsTable.current as any).getBoundingClientRect()
-        console.log(`I am hoverBoundingRect ${hoverBoundingRect}`)
+        //console.log(`I am hoverBoundingRect ${hoverBoundingRect}`)
         const topSections = sections.map((section) => {
             const topSection: number = (section.ref.current as any).getBoundingClientRect().top
-            console.log(`I am topSection ${topSection}`)
+            //console.log(`I am topSection ${topSection}`)
             let distance = hoverBoundingRect.top - topSection
             if (distance < 0) {
                 distance = distance * -1
@@ -69,7 +71,7 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
 
 
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
     function handleClickTab(type: any) {
         dispatch(createSwitchTab(type));
 

@@ -1,8 +1,21 @@
 import { LOGOUT_FAILED, LOGOUT_SUCCESS } from "../constants";
 import { Api } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../..";
 
-export const logOutThunk = (): any => {
-    return function (dispatch: any) {
+
+export type TLogOutSuccessAction = {
+    readonly type: typeof LOGOUT_SUCCESS
+
+}
+
+export type TLogOutFailedAction = {
+    readonly type: typeof LOGOUT_FAILED
+    readonly error: string
+}
+
+
+export const logOutThunk: AppThunk = () => {
+    return function (dispatch: AppDispatch) {
         Api.logOut().then(responseJson => {
 
             if (responseJson && responseJson.success) {
@@ -17,7 +30,7 @@ export const logOutThunk = (): any => {
             } else {
                 dispatch({
                     type: LOGOUT_FAILED,
-                    error: responseJson.message
+                    error: responseJson.message!
                 })
             }
         }).catch(error => {

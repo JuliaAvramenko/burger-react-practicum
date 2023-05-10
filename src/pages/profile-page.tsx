@@ -1,15 +1,22 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-page.module.css"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logOutThunk } from "../services/actions/logout";
 import { useEffect, useState } from "react";
 import { getUserDataThunk } from "../services/actions/get-user-data";
 import { changeUserDataThunk } from "../services/actions/change-user-data";
-import { TRootStore } from "../utils/types";
+import { TOnClick, TRootStore } from "../utils/types";
+import { AppDispatch, AppThunk } from "..";
+import { useSelector } from "../utils/hooks";
+import { ProfileOrdersPage } from "./profile-orders-page";
 
+type ProfilePage = {
 
-export function ProfilePage() {
+    openModal: TOnClick
+}
+
+export const ProfilePage: React.FC<ProfilePage> = ({ openModal }) => {
 
 
     let { section } = useParams()
@@ -22,23 +29,24 @@ export function ProfilePage() {
         }
     })
 
+    //console.log(`I am user ${JSON.stringify(user)}`)
+
     const [nameState, setNameState] = useState<string>(user.name)
     const [emailState, setEmailState] = useState<string>(user.email)
     const [passwordState, setPasswordState] = useState<string>("")
 
     // Handlers
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
 
-    console.log(location.state?.from || '/')
 
     const toOrders = () => {
-        navigate("/profile/orders", { state: { from: location } })
+        navigate("/profile/orders", { state: { from: location.pathname } })
 
     }
     const toProfile = () => {
-        navigate("/profile", { state: { from: location } })
+        navigate("/profile", { state: { from: location.pathname } })
     }
 
     const logOut = () => {
@@ -55,7 +63,7 @@ export function ProfilePage() {
                 e.target.password.value
             )
         )
-        console.log(e);
+        //console.log(e);
 
         e.preventDefault()
 
@@ -64,15 +72,13 @@ export function ProfilePage() {
     // Use effects
     useEffect(() => {
         dispatch(getUserDataThunk());
+        //console.log("I ask for data")
     }, []);
-
-    useEffect(() => {
-        console.log("I am Profile Page")
-    }, [])
 
     useEffect(() => {
         setNameState(user.name)
         setEmailState(user.email)
+        //console.log(`I change local user state${JSON.stringify(user)}`)
     }, [user])
 
     const cancelChangeData = () => {
@@ -152,7 +158,7 @@ export function ProfilePage() {
                     В этом разделе вы можете изменить свои персональные данные
                 </p>
             </div>
-            {section === "orders" && <>Future Orders</>}
+            {section === "orders" && <ProfileOrdersPage openModal={openModal} />}
             {section === "profile" && profileUpdateForm}
 
         </div>

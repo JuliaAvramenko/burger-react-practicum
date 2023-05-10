@@ -2,9 +2,10 @@ import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-co
 import styles from './order-total.module.css';
 import OrderDetails from "../order-details/order-details";
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { TRootStore } from '../../utils/types';
+import { useSelector } from '../../utils/hooks';
 
 
 type TOrderTotal = {
@@ -32,7 +33,7 @@ const OrderTotal: FC<TOrderTotal> = ({ onClick, sum }) => {
                 <div className="order__price  text text_type_digits-medium mr-2">{sum || 0}</div>
                 <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large" onClick={() => { if (session) { onClick(contentModal) } else { navigate("/login", { state: { from: location } }) } }}>
+            <Button htmlType="button" type="primary" size="large" onClick={() => { if (session) { onClick(contentModal) } else { navigate("/login", { state: { from: location.pathname } }) } }}>
                 Оформить заказ
             </Button>
 

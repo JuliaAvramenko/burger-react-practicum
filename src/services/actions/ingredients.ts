@@ -1,19 +1,28 @@
 import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from "../constants";
 import { Api } from "../../utils/api";
 import { changeBun } from "./constructor";
-import { TIngredient } from "../../utils/types";
+import { TGetIngredientsResponse, TIngredient } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../..";
 
-
-export const getIngredients = (data: any) => {
-    return {
-        type: GET_INGREDIENTS,
-        data: data
-
-    }
+export type TGetIngredients = {
+    readonly type: typeof GET_INGREDIENTS
 }
 
-export const getIngredientsThunk = (): any => {
-    return function (dispatch: any) {
+
+
+
+export type TGetIngredientsDataSuccessAction = {
+    readonly type: typeof GET_INGREDIENTS_SUCCESS
+    readonly ingredients: TIngredient[]
+}
+
+export type TGetIngredientsDataFailedAction = {
+    readonly type: typeof GET_INGREDIENTS_FAILED
+
+}
+
+export const getIngredientsThunk: AppThunk = () => {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: GET_INGREDIENTS
         })

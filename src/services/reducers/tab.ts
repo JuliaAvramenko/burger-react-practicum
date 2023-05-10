@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { TTabSwitchStore } from "../../utils/types";
+import { TTabSwitchStore, TBurgerActions } from "../../utils/types";
 import { TAB_SWITCH } from "../constants";
 
 
@@ -8,7 +8,7 @@ const initialState: TTabSwitchStore = {
 
 }
 
-export const tabSwitch = (state: TTabSwitchStore = initialState, action: AnyAction) => {
+export const tabSwitch = (state: TTabSwitchStore = initialState, action: TBurgerActions) => {
     switch (action.type) {
         case TAB_SWITCH:
             return {

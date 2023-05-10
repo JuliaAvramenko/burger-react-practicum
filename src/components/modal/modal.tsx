@@ -10,7 +10,7 @@ import { FC } from 'react';
 
 
 const modalRoot = document.querySelector<Element>("#modals");
-console.log(`modal Root ${modalRoot}`)
+//console.log(`modal Root ${modalRoot}`)
 
 type TModal = {
     readonly children: ReactNode
@@ -23,7 +23,7 @@ export const Modal: FC<TModal> = ({ children, onClose }) => {
         "isTrusted": boolean
     }
     const onKeyDown: EventListener = (evt: any) => {
-        console.log(`onKeydown ${JSON.stringify(evt)}`)
+        //console.log(`onKeydown ${JSON.stringify(evt)}`)
         if (evt.key === "Escape") {
             onClose()
         }

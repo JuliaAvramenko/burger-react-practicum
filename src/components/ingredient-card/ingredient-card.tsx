@@ -2,10 +2,11 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import styles from './ingredient-card.module.css';
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDrag } from "react-dnd";
-import { useSelector } from 'react-redux';
+
 import { useLocation } from 'react-router-dom';
 import { TIngredient, TOnClick, TRootStore } from '../../utils/types';
 import { FC } from 'react';
+import { useSelector } from '../../utils/hooks';
 
 type TIngredientCard = {
     ingredient: TIngredient

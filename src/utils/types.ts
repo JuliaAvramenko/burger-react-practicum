@@ -1,5 +1,19 @@
 import { type } from "os"
 import { AnyAction } from "redux"
+import { TAddIngredient, TChangeBun, TCreateOrder, TRemoveIngredient, TShiftIngredient } from "../services/actions/constructor"
+import { TGetIngredients, TGetIngredientsDataFailedAction, TGetIngredientsDataSuccessAction } from "../services/actions/ingredients"
+import { TCreateSwitchTab } from "../services/actions/tab"
+import { TForgotPasswordFailedAction, TForgotPasswordSuccessAction, TResetStatusFieldAction } from "../services/actions/forgot-password"
+import { TChangeUserDataFailedAction, TChangeUserDataSuccessAction } from "../services/actions/change-user-data"
+import { TGetUserDataFailedAction, TGetUserDataSuccessAction } from "../services/actions/get-user-data"
+import { TLogInFailedAction, TLogInSuccessAction } from "../services/actions/login"
+import { TLogOutFailedAction, TLogOutSuccessAction } from "../services/actions/logout"
+import { TCreateOrderAction, TCreateOrderFailedAction, TCreateOrderSuccessAction } from "../services/actions/order"
+import { TRefreshTokenFailedAction, TRefreshTokenSuccessAction } from "../services/actions/refresh-token"
+import { TCreateUserFailedAction, TCreateUserSuccessAction } from "../services/actions/register"
+import { TResetPasswordFailedAction, TResetPasswordSuccessAction } from "../services/actions/reset-password"
+import { TWsCloseSocketAction, TWsConnectionClosedAction, TWsConnectionErrorAction, TWsConnectionStartAction, TWsConnectionSuccessAction, TWsGetMessageAction, TWsSendMessageAction } from "../services/middlewares"
+import { TWSState } from "../services/reducers/ws-socket"
 
 export type TOnClick = (event?: any) => void
 
@@ -49,7 +63,7 @@ export type TAuthStore = {
     passwordResetSuccess: boolean
     forgotPasswordSuccess: boolean
     logout: boolean
-
+    logInFailed: boolean
 }
 export type TConstructorStore = {
     bun: TIngredient
@@ -72,10 +86,56 @@ export type TRootStore = {
     order: TOrderStore
     tabSwitch: TTabSwitchStore
     auth: TAuthStore
-
-
-
+    wsReducer: TWSState
 }
+
+export type TBurgerActions =
+    | TAddIngredient
+    | TRemoveIngredient
+    | TShiftIngredient
+    | TChangeBun
+    | TCreateOrder
+    | TGetIngredients
+    | TCreateSwitchTab
+    | TForgotPasswordSuccessAction
+    | TForgotPasswordFailedAction
+    | TResetStatusFieldAction
+    | TChangeUserDataSuccessAction
+    | TChangeUserDataFailedAction
+    | TGetUserDataSuccessAction
+    | TGetUserDataFailedAction
+    | TGetIngredientsDataSuccessAction
+    | TGetIngredientsDataFailedAction
+    | TLogInSuccessAction
+    | TLogInFailedAction
+    | TLogOutSuccessAction
+    | TLogOutFailedAction
+    | TCreateOrderSuccessAction
+    | TCreateOrderFailedAction
+    | TCreateOrderAction
+    | TRefreshTokenSuccessAction
+    | TRefreshTokenFailedAction
+    | TCreateUserSuccessAction
+    | TCreateUserFailedAction
+    | TResetPasswordSuccessAction
+    | TResetPasswordFailedAction
+    | TResetStatusFieldAction
+    | TWsConnectionSuccessAction
+    | TWsConnectionErrorAction
+    | TWsGetMessageAction
+    | TWsConnectionClosedAction
+    | TWsConnectionStartAction
+    | TWsCloseSocketAction
+    | TWsSendMessageAction
+
+
+
+
+
+
+
+
+
 
 
 // actions

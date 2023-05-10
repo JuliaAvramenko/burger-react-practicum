@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { TAuthStore } from "../../utils/types";
+import { TAuthStore, TBurgerActions } from "../../utils/types";
 import {
     CREATE_USER_FAILED, CREATE_USER_SUCCESS,
     GET_USER_DATA_FAILED,
@@ -9,27 +9,11 @@ import {
 } from "../constants";
 import { LOGIN_FAILED, LOGIN_SUCCESS } from "../constants";
 import { FORGOT_PASSWORD_FAILED, FORGOT_PASSWORD_SUCCESS } from "../constants";
+import { EmptyStore } from "./root-reducer";
+import { setCookie } from "../../utils/cookies";
 
 
-
-const initialState: TAuthStore = {
-    user: {
-        email: "",
-        name: ""
-    },
-    session: {
-        accessToken: "",
-        refreshToken: "",
-    },
-    authFailed: false,
-    error: "",
-    passwordResetSuccess: false,
-    forgotPasswordSuccess: false,
-    logout: false,
-
-}
-
-export const auth = (state: TAuthStore = initialState, action: AnyAction) => {
+export const auth = (state: TAuthStore = EmptyStore.auth, action: TBurgerActions) => {
     switch (action.type) {
         case CREATE_USER_SUCCESS:
             return {
@@ -49,8 +33,14 @@ export const auth = (state: TAuthStore = initialState, action: AnyAction) => {
         case CREATE_USER_FAILED:
             return {
                 ...state,
-                user: {},
-                session: {},
+                user: {
+                    email: "",
+                    name: ""
+                },
+                session: {
+                    accessToken: "",
+                    refreshToken: ""
+                },
                 authFailed: true,
                 passwordResetSuccess: false,
                 forgotPasswordSuccess: false,
@@ -75,8 +65,14 @@ export const auth = (state: TAuthStore = initialState, action: AnyAction) => {
         case LOGIN_FAILED:
             return {
                 ...state,
-                user: {},
-                session: {},
+                user: {
+                    email: "",
+                    name: ""
+                },
+                session: {
+                    accessToken: "",
+                    refreshToken: ""
+                },
                 logInFailed: true,
                 passwordResetSuccess: false,
                 forgotPasswordSuccess: false,
@@ -121,7 +117,10 @@ export const auth = (state: TAuthStore = initialState, action: AnyAction) => {
         case LOGOUT_SUCCESS:
             return {
                 ...state,
-                session: null,
+                session: {
+                    accessToken: "",
+                    refreshToken: ""
+                },
                 logout: true,
                 passwordResetSuccess: false,
                 forgotPasswordSuccess: false,
@@ -129,28 +128,37 @@ export const auth = (state: TAuthStore = initialState, action: AnyAction) => {
         case LOGOUT_FAILED:
             return {
                 ...state,
-                session: null,
+                session: {
+                    accessToken: "",
+                    refreshToken: ""
+                },
                 logout: false,
                 passwordResetSuccess: false,
                 forgotPasswordSuccess: false,
             }
 
         case GET_USER_DATA_SUCCESS:
+            //console.log(JSON.stringify(action))
             return {
                 ...state,
                 user: {
-                    ...action.userDetails.user
+                    email: action.userDetails.user.email,
+                    name: action.userDetails.user.name
                 },
             }
         case GET_USER_DATA_FAILED:
+            //console.log(JSON.stringify(action))
             return {
                 ...state,
-                user: {},
+                user: {
+                    email: "",
+                    name: ""
+                },
             }
 
 
         case CHANGE_USER_DATA_SUCCESS:
-            console.log(`I am user details ${action.userDetails}`);
+            //console.log(`I am user details ${action.userDetails}`);
 
             return {
                 ...state,
@@ -162,10 +170,14 @@ export const auth = (state: TAuthStore = initialState, action: AnyAction) => {
         case CHANGE_USER_DATA_FAILED:
             return {
                 ...state,
-                user: {},
+                user: {
+                    email: "",
+                    name: ""
+                },
             }
 
         case REFRESH_TOKEN_SUCCESS:
+
             return {
                 ...state,
                 session: {

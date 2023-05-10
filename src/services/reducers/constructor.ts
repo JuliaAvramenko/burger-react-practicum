@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { TConstructorStore } from "../../utils/types";
+import { TConstructorStore, TBurgerActions } from "../../utils/types";
 import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE_ORDER } from "../constants";
 
 
@@ -11,7 +11,7 @@ const initialState: TConstructorStore = {
 
 
 
-export const constructor = (state: TConstructorStore = initialState, action: AnyAction) => {
+export const constructor = (state: TConstructorStore = initialState, action: TBurgerActions) => {
     switch (action.type) {
         case ADD_INGREDIENT:
             return {

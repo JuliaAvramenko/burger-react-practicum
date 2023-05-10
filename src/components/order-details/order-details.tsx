@@ -1,12 +1,14 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-details.module.css";
 import { createOrderThunk } from "../../services/actions/order";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { TRootStore } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../..";
+import { useSelector } from "../../utils/hooks";
 
 function OrderDetails() {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch | AppThunk = useDispatch();
 
     const { allItems, orderDetails } = useSelector((store: TRootStore) => {
         return {

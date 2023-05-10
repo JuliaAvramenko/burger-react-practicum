@@ -1,5 +1,5 @@
 import { AnyAction } from "redux"
-import { TIngredient, TIngredientsStore } from "../../utils/types"
+import { TIngredient, TIngredientsStore, TBurgerActions } from "../../utils/types"
 import { GET_INGREDIENTS, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from "../constants"
 
 
@@ -12,7 +12,7 @@ const initialState = {
 
 
 
-export const ingredients = (state: TIngredientsStore = initialState, action: AnyAction) => {
+export const ingredients = (state: TIngredientsStore = initialState, action: TBurgerActions) => {
     switch (action.type) {
         case GET_INGREDIENTS:
             return {
