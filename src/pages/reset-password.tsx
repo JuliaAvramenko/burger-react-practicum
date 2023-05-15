@@ -2,18 +2,18 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import "./pages.css"
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+
 import { resetStatusField } from "../services/actions/forgot-password";
 import { resetPasswordThunk } from "../services/actions/reset-password";
 import { TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/hooks";
 
 export function ResetPasswordPage() {
     const [passwordInput, setPasswordInput] = useState<string>('')
     const [codeInput, setCodeInput] = useState<string>('')
 
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     const location = useLocation()
 

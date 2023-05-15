@@ -49,12 +49,12 @@ export type TWsSendMessageAction = {
 
 export type TWsCloseSocketAction = {
     readonly type: typeof WS_CLOSE_SOCKET
-    readonly payload: any
+    //  readonly payload: any
 
 }
 
 export const socketMiddleware = (wsUrl: string, auth: boolean = false): Middleware => {
-    return ((store: MiddlewareAPI<AppDispatch, TRootStore>) => {
+    return ((store) => {
         let socket: WebSocket | null = null;
 
         return next => (action: TBurgerActions) => {
@@ -91,7 +91,7 @@ export const socketMiddleware = (wsUrl: string, auth: boolean = false): Middlewa
                         //console.log(JSON.stringify(data))
                         if (message === "Invalid or missing token") {
                             socket?.close()
-                            dispatch(wsConnectionStartAction())
+                            //TODO Update socket dispatch(wsConnectionStartAction())
                             //dispatch(refreshTokenThunk())
                             //socket = new WebSocket(`${wsUrl}?token=${}`)
                         }

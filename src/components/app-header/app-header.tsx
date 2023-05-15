@@ -3,9 +3,9 @@ import { Logo, BurgerIcon, ProfileIcon, ListIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+
 import { getIngredientsThunk } from '../../services/actions/ingredients';
-import { AppDispatch, AppThunk } from '../..';
+import { useDispatch } from '../../utils/hooks';
 
 
 
@@ -14,7 +14,7 @@ function AppHeader() {
     const [isConstructorActive, setConstructorActive] = useState<boolean>(false);
     const [isOrderListActive, setOrderListActive] = useState<boolean>(false);
     const [isProfileActive, setProfileActive] = useState<boolean>(false);
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (pathname === "/") {

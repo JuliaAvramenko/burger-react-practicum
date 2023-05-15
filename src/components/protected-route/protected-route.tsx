@@ -1,6 +1,6 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, ReactNode } from 'react';
-import { useDispatch } from "react-redux";
+
 import jwt_decode from "jwt-decode"
 
 import { refreshTokenThunk } from "../../services/actions/refresh-token";
@@ -8,7 +8,7 @@ import { refreshTokenThunk } from "../../services/actions/refresh-token";
 import { FC } from 'react';
 import { TRootStore } from "../../utils/types";
 import { AppDispatch, AppThunk } from "../..";
-import { useSelector } from "../../utils/hooks";
+import { useDispatch, useSelector } from "../../utils/hooks";
 
 type TProtectedRoute = {
     children?: React.ReactNode
@@ -16,7 +16,7 @@ type TProtectedRoute = {
 
 const ProtectedRoute: FC<TProtectedRoute> = ({ children }) => {
     const navigate = useNavigate()
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const location = useLocation()
     const { session } = useSelector((store: TRootStore) => {
         return {

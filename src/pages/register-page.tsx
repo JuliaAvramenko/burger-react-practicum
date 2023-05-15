@@ -1,12 +1,12 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 import { createUserThunk } from "../services/actions/register";
 import { useEffect, useState } from "react";
 import { TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/hooks";
 
 
 export function RegisterPage() {
@@ -32,7 +32,7 @@ export function RegisterPage() {
         }
     })
 
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
 

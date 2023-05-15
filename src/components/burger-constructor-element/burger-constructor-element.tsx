@@ -1,13 +1,13 @@
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor-element.module.css';
 
-import { useDispatch } from 'react-redux';
+
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd';
 import { removeIngredient, shiftIngredient } from '../../services/actions/constructor';
 import { FC } from 'react';
 import { TDropItem, TIngredient } from '../../utils/types';
-import { AppDispatch, AppThunk } from '../..';
+import { useDispatch } from '../../utils/hooks';
 
 type TBurgerConstructorElement = {
     index?: number
@@ -20,7 +20,7 @@ type TBurgerConstructorElement = {
 
 
 export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElement> = ({ index, _id, type, type_filling, name, image_mobile, isLocked, price }) => {
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
 
     const removeConstructorElement = () => {
         dispatch(removeIngredient(index!))

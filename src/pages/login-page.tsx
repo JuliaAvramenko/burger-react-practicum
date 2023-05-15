@@ -2,19 +2,19 @@ import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logInThunk } from "../services/actions/login";
-import { useDispatch } from "react-redux";
+
 import { useEffect, useState } from "react";
 import { setCookie } from "../utils/cookies";
 import { TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/hooks";
 
 export function LoginPage() {
 
     const [passwordInput, setPasswordInput] = useState<string>('')
     const [emailInput, setEmailInput] = useState<string>('')
 
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     const location = useLocation()
 

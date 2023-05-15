@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux"
+
 import styles from "./pictures-feed.module.css"
 import { TRootStore } from "../.."
 import { TOrder } from "../../services/reducers/ws-socket"
+import { useSelector } from "../../utils/hooks"
 
 type TFeedCard = {
     order: TOrder
@@ -15,8 +16,9 @@ export const PicturesFeed: React.FC<TFeedCard> = ({ order }) => {
         }
     })
     const LAST_ELEM_INDEX = 6
-    const orderIngredients = order.ingredients.slice(0, LAST_ELEM_INDEX)
-    const countNoViewed = order.ingredients.length - orderIngredients.length + 1
+    const orderIngredientsFiltered = order.ingredients.filter((item) => item !== null)  // Because there are null items
+    const orderIngredients = orderIngredientsFiltered.slice(0, LAST_ELEM_INDEX)
+    const countNoViewed = orderIngredientsFiltered.length - orderIngredients.length + 1
 
 
     return (
@@ -32,7 +34,7 @@ export const PicturesFeed: React.FC<TFeedCard> = ({ order }) => {
                     let right = 20 * index;
                     let customStyle: any = { zIndex: zIndex, right: right, position: "relative" }
                     let shadowStyle: any = undefined
-                    if (index === LAST_ELEM_INDEX - 1 && orderIngredients.length <= order.ingredients.length) {
+                    if (index === LAST_ELEM_INDEX - 1 && orderIngredients.length <= orderIngredientsFiltered.length) {
                         shadowStyle = styles.overlay;
                     }
                     return <div key={index} className={`${styles.photowrap} ${shadowStyle}`} style={customStyle} >

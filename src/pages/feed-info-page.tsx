@@ -4,33 +4,41 @@ import FeedInfo from '../components/feed-info/feed-info'
 import DateTime from '../components/date-time/date-time'
 import { useLocation, useParams } from 'react-router-dom'
 import { TRootStore } from '..'
-import { useSelector } from 'react-redux'
+
+import { wsConnectionStartAction } from '../services/actions/ws-connection-start'
+import { WS_CLOSE_SOCKET } from '../services/constants'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from '../utils/hooks'
 
 
 export function FeedInfoPage() {
-    const { orders, ingredients } = useSelector((store: TRootStore) => {
+    const { orders } = useSelector((store: TRootStore) => {
         return {
             orders: store.wsReducer.message["wss://norma.nomoreparties.space/orders/all"].orders,
-            ingredients: store.ingredients.ingredients
         }
     })
 
-    //console.log(orders)
-    const location = useLocation()
-    //console.log(`I am location ${location}`)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(wsConnectionStartAction())
+        return () => {
+            dispatch({ type: WS_CLOSE_SOCKET })
+        }
+    }, [])
+
+    //console.log(`FeedInfoPage: all orders ${orders}`)
 
     const { idFeed } = useParams()
     //console.log(`I am query_params ${JSON.stringify(idFeed)}`)
 
     const order = orders.filter((order) => idFeed === order._id)[0] || {}
-    //console.log(`I am order ${JSON.stringify(order)}`)
+    //console.log(`FeedInfoPage: I am order ${JSON.stringify(order)}`)
 
     //const orderIngredients = order.ingredients.map((id) => {
     //    const ingredient = ingredients.filter((ingredient) => id === ingredient._id)[0]
     //    return <FeedInfo ingredient={ingredient}
     //    ></FeedInfo>
     // })
-
 
 
 

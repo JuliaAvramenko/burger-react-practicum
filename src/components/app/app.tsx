@@ -2,8 +2,6 @@ import { useEffect, useState, FC } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 
-import { useDispatch, useSelector } from 'react-redux';
-
 import { Modal } from '../modal/modal';
 
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
@@ -15,8 +13,8 @@ import { FeedPage } from '../../pages/feed-page';
 import { FeedInfoPage } from '../../pages/feed-info-page';
 import { ProfileOrdersInfoPage } from '../../pages/profile-orders-info-page';
 import { ProfileOrdersPage } from '../../pages/profile-orders-page';
-import { AppDispatch, AppThunk, TRootStore } from '../..';
 import { wsConnectionStartAction } from '../../services/actions/ws-connection-start';
+import { useDispatch } from '../../utils/hooks';
 
 
 function App() {
@@ -47,11 +45,7 @@ function App() {
   }
 
 
-  const dispatch: AppDispatch | AppThunk = useDispatch();
 
-  useEffect(() => {
-    dispatch(wsConnectionStartAction())
-  }, [])
 
   return (
     <div className={styles.App}>

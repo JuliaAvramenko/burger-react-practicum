@@ -2,17 +2,19 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./feed-card.module.css"
 import PicturesFeed from "../pictures-feed/pictures-feed"
 import DateTime from "../date-time/date-time"
-import { TBurgerActions, TIngredient, TOnClick } from "../../utils/types"
-import { useSelector } from "react-redux"
+import { TIngredient, TOnClick } from "../../utils/types"
+
 import { TRootStore } from "../.."
 import { TOrder } from "../../services/reducers/ws-socket"
 import { useLocation, useParams } from "react-router-dom"
 import FeedInfo from "../feed-info/feed-info"
+import { useSelector } from "../../utils/hooks"
 
 
 type TFeedCard = {
     order: TOrder
     onClick: TOnClick
+    orderInfoPath?: string
     hide?: boolean
 
 }
@@ -25,7 +27,7 @@ function getIngredientPrice(ingredientId: string, ingredients: TIngredient[]): n
     return price;
 }
 
-const FeedCard: React.FC<TFeedCard> = ({ order, onClick, hide = false }) => {
+const FeedCard: React.FC<TFeedCard> = ({ order, onClick, orderInfoPath = "/feed", hide = false }) => {
 
     const { ingredients } = useSelector((store: TRootStore) => {
         return {
@@ -74,7 +76,7 @@ const FeedCard: React.FC<TFeedCard> = ({ order, onClick, hide = false }) => {
 
     return (
         <article className={`${styles.card} pt-6 pb-6 pr-4 pl-4`} onClick={() => {
-            window.history.replaceState({ prevState: pathname }, order.name!, `/feed/${order._id}`);
+            window.history.replaceState({ prevState: pathname }, order.name!, `${orderInfoPath}/${order._id}`);
 
             onClick(contentModal)
         }}>

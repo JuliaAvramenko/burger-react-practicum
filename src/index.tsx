@@ -61,7 +61,7 @@ export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, TRootStore, TBurgerActions>
 >;
 //export type AppDispatch = typeof store.dispatch;
-export type AppDispatch = Dispatch<TBurgerActions>
+export type AppDispatch = Dispatch<TBurgerActions> | AppThunk
 
 root.render(
   //<React.StrictMode>

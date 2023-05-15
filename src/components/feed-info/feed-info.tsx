@@ -3,9 +3,10 @@ import styles from "./feed-info.module.css"
 import { TOrder } from "../../services/reducers/ws-socket"
 import { FC } from "react"
 import { TIngredient } from "../../utils/types"
-import { useSelector } from "react-redux"
+
 import { TRootStore } from "../.."
 import DateTime from "../date-time/date-time"
+import { useSelector } from "../../utils/hooks"
 
 type TFeedInfo = {
     order: TOrder
@@ -26,13 +27,15 @@ const FeedInfo: FC<TFeedInfo> = ({ order }) => {
         }
     })
     let accumulator: { [key: string]: number } = {}
+    //console.log(`I am order ${JSON.stringify(order)}`)
     order.ingredients.reduce((previousValue: string, currentValue: string) => {
-        if (!accumulator[currentValue]) {
-            accumulator[currentValue] = 0
+        if (currentValue) {
+            if (!accumulator[currentValue]) {
+                accumulator[currentValue] = 0
+            }
+
+            accumulator[currentValue] += 1
         }
-
-        accumulator[currentValue] += 1
-
         return currentValue
     })
 
@@ -44,8 +47,12 @@ const FeedInfo: FC<TFeedInfo> = ({ order }) => {
 
         }
     })
-    //console.log(`I am counter ${JSON.stringify(groupedIngredients)}`)
-
+    /*
+        console.log(`FeedInfo: I am order ${JSON.stringify(order)}`)
+        console.log(`FeedInfo: I am ingredients ${JSON.stringify(ingredients)}`)
+        console.log(`FeedInfo: I am accumulator ${JSON.stringify(accumulator)}`)
+        console.log(`FeedInfo: I am groupedIngredients ${JSON.stringify(groupedIngredients)}`)
+    */
 
     let sum = 0
     order.ingredients.forEach((ingredientId) => {

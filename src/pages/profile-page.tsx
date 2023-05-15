@@ -1,14 +1,14 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-page.module.css"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 import { logOutThunk } from "../services/actions/logout";
 import { useEffect, useState } from "react";
 import { getUserDataThunk } from "../services/actions/get-user-data";
 import { changeUserDataThunk } from "../services/actions/change-user-data";
 import { TOnClick, TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/hooks";
 import { ProfileOrdersPage } from "./profile-orders-page";
 
 type ProfilePage = {
@@ -36,7 +36,7 @@ export const ProfilePage: React.FC<ProfilePage> = ({ openModal }) => {
     const [passwordState, setPasswordState] = useState<string>("")
 
     // Handlers
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
 

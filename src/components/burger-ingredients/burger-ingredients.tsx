@@ -2,14 +2,13 @@ import { ReactNode, useRef } from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
-import { useDispatch } from 'react-redux';
+
 
 
 import { createSwitchTab } from "../../services/actions/tab";
 import { TOnClick, TRootStore } from "../../utils/types";
 import { FC } from 'react';
-import { AppDispatch, AppThunk } from "../..";
-import { useSelector } from "../../utils/hooks";
+import { useDispatch, useSelector } from "../../utils/hooks";
 
 type TBurgerIngredients = {
     openModal: TOnClick
@@ -71,7 +70,7 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
 
 
 
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     function handleClickTab(type: any) {
         dispatch(createSwitchTab(type));
 

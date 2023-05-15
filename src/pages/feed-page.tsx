@@ -1,7 +1,6 @@
 
 import styles from './feed-page.module.css';
 import FeedCard from "../components/feed-card/feed-card";
-import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, AppThunk, TRootStore } from '..';
 import { useEffect, useState } from 'react';
 import { createDeflate } from 'zlib';
@@ -9,6 +8,9 @@ import { TOrder } from '../services/reducers/ws-socket';
 import { useLocation, useParams } from 'react-router-dom';
 import { ingredients } from '../services/reducers/ingredients';
 import { TIngredient, TOnClick } from '../utils/types';
+import { useDispatch, useSelector } from '../utils/hooks';
+import { wsConnectionStartAction } from '../services/actions/ws-connection-start';
+import { WS_CLOSE_SOCKET } from '../services/constants';
 
 type TFeedPage = {
     openModal: TOnClick
@@ -22,7 +24,15 @@ export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
             allOrders: store.wsReducer.message["wss://norma.nomoreparties.space/orders/all"].orders
         }
     })
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(wsConnectionStartAction())
+        return () => {
+            dispatch({ type: WS_CLOSE_SOCKET })
+        }
+    }, [])
 
     useEffect(() => {
         //console.log(message)
@@ -46,6 +56,7 @@ export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
 
 
 
+
     return (
         <div className={`${styles["table"]}`}>
             <h1 className="text text_type_main-large mt-10 mb-6">Лента заказов</h1>
@@ -58,6 +69,7 @@ export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
                                     key={order._id}
                                     order={order}
                                     onClick={openModal}
+                                    orderInfoPath={"/feed"}
                                     hide={true}
                                 />
                             )
