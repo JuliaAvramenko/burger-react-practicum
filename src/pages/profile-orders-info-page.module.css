@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 200px;
+
+}
+
+
+
+.table {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+}
+
+.wrapper {
+    display: flex;
+
+}
+
+.order {
+    display: flex;
+    justify-content: center;
+
+}
+
+
+
+.info {
+    display: flex;
+    align-items: center;
+}
+
+.ready {
+    color: rgb(90, 240, 215);
+}

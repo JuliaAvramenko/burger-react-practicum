@@ -1,0 +1,14 @@
+.table {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 900px;
+    column-gap: 16px;
+    row-gap: 10px;
+
+    width: 900px;
+
+
+
+
+}

@@ -1,0 +1,17 @@
+.login__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 480px;
+    margin-top: 180px;
+}
+
+.login__wrapper {
+    display: flex;
+}
+
+.link {
+    color: rgb(103, 82, 245);
+    text-decoration: none;
+}

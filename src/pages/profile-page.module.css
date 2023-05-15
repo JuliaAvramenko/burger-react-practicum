@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    width: 1240px;
+    margin-top: 60px;
+    column-gap: 40px;
+    align-items: start;
+
+
+}
+
+.wrapper {
+    width: 320px;
+    padding-top: 60px;
+}
+
+.wrapper__item {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+
+}
+
+.profile__button {
+    color: white;
+}

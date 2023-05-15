@@ -1,0 +1,31 @@
+.card {
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgba(68, 64, 64, 0.4);
+    border-radius: 30px 30px 30px 30px;
+
+}
+
+
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.order {
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.ready {
+    color: rgb(90, 240, 215);
+}

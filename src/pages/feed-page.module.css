@@ -1,0 +1,88 @@
+.table {
+    width: 1240px;
+
+}
+
+.big-table {
+    display: flex;
+    column-gap: 32px;
+    align-items: start;
+
+
+}
+
+.left-table {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 900px;
+    column-gap: 16px;
+    row-gap: 10px;
+
+    width: 604px;
+
+
+}
+
+.right-table {
+    display: flex;
+    flex-direction: column;
+    width: 604px;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.order {
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.ready {
+    color: rgb(90, 240, 215);
+}
+
+.orders-table {
+    display: flex;
+    column-gap: 80px;
+
+    width: 600px;
+}
+
+.done {
+    width: 80px;
+}
+
+.pending {
+    width: 80px;
+}
+
+.pending_black {
+    color: #131316;
+}
+
+.done_black {
+    color: #131316;
+}
+
+.number {
+    color: rgb(90, 240, 215);
+}
+
+.total {
+    text-shadow: 0 0 20px #654fbc;
+}
+
+.total_today {
+    text-shadow: 0 0 20px #654fbc;
+
+}
