@@ -4,7 +4,7 @@ import AppHeader from '../app-header/app-header';
 
 import { Modal } from '../modal/modal';
 
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, HashRouter } from 'react-router-dom';
 import { ForgotPasswordPage, HomePage, IngredientsPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage } from '../../pages';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -50,7 +50,7 @@ function App() {
   return (
     <div className={styles.App}>
 
-      <BrowserRouter>
+      <HashRouter>
         <AppHeader></AppHeader>
         <Routes >
           <Route path="/" element={<HomePage openModal={handleOpenModal} />} />
@@ -70,7 +70,7 @@ function App() {
           <Route path="/profile/orders/:idOrders" element={<ProtectedRoute><ProfileOrdersInfoPage /></ProtectedRoute>} />
         </Routes>
 
-      </BrowserRouter>
+      </HashRouter>
       {/*<DndProvider backend={HTML5Backend}>
         <main className={styles.tables}>
           <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>

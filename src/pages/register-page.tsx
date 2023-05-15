@@ -26,15 +26,33 @@ export function RegisterPage() {
         email: true,
         name: true
     })
-    const { session } = useSelector((store: TRootStore) => {
+
+
+    const { sessionValid } = useSelector((store: TRootStore) => {
         return {
-            session: store.auth.session
+            sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
         }
     })
+
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
+
+    useEffect(() => {
+        console.log("Register Page Open")
+    }, [])
+
+    useEffect(() => {
+
+        if (sessionValid) {
+
+            console.log(`Register Page: I want to redirect to ${location.state?.from || '/'}`)
+            navigate(location.state?.from || '/', { state: { from: location.pathname } })
+
+        }
+    }, [sessionValid])
 
     const validate = () => {
         return validStates.password && validStates.email && validStates.name
@@ -48,6 +66,7 @@ export function RegisterPage() {
         if (validate()) {
             dispatch(createUserThunk(e.target.email.value, e.target.password.value, e.target.name.value));
 
+            console.log(`Register Page: I want to redirect to /login but in location: ${location.state?.from || '/'}`)
             navigate("/login", { state: { from: location.pathname } })
         } else {
 
@@ -56,14 +75,6 @@ export function RegisterPage() {
         e.preventDefault();
     }
 
-
-    useEffect(() => {
-
-        if (session && session.accessToken && session.refreshToken) {
-
-            navigate(location.state?.from || '/', { state: { from: location.pathname } })
-        }
-    }, [session])
 
     return (
         <form className="login__container" onSubmit={formSubmit} >

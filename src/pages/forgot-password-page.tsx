@@ -16,10 +16,10 @@ export function ForgotPasswordPage() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const { resetStatus, session } = useSelector((store: TRootStore) => {
+    const { resetStatus, sessionValid } = useSelector((store: TRootStore) => {
         return {
             resetStatus: store.auth.forgotPasswordSuccess,
-            session: store.auth.session
+            sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
 
         }
     })
@@ -42,7 +42,7 @@ export function ForgotPasswordPage() {
     }, [])
 
     useEffect(() => {
-        if (session) {
+        if (sessionValid) {
             navigate(location.state?.from || '/', { state: { from: location.pathname } })
         }
 

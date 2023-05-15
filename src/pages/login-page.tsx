@@ -4,9 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logInThunk } from "../services/actions/login";
 
 import { useEffect, useState } from "react";
-import { setCookie } from "../utils/cookies";
 import { TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
 import { useDispatch, useSelector } from "../utils/hooks";
 
 export function LoginPage() {
@@ -18,31 +16,33 @@ export function LoginPage() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const { session } = useSelector((store: TRootStore) => {
+    const { sessionValid } = useSelector((store: TRootStore) => {
         return {
-            session: store.auth.session,
+            sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
 
         }
     })
 
 
+    useEffect(() => {
+        console.log("Login Page Open")
+    }, [])
+
+    useEffect(() => {
+        if (sessionValid) {
+            let redirect = location.state?.from || '/'
+            if (redirect === '/register') {
+                redirect = '/'
+            }
+            console.log(`Login Page: I want to redirect to ${redirect}`)
+            navigate(redirect, { state: { from: location.pathname } })
+        }
+    }, [sessionValid])
 
     const formSubmit = (e: any) => {
         dispatch(logInThunk(e.target.email.value, e.target.password.value));
-        //navigate("/")
         e.preventDefault();
     }
-
-    useEffect(() => {
-        if (session && session.accessToken && session.refreshToken) {
-            //setCookie('accessToken', session.accessToken);
-            //setCookie('refreshToken', session.refreshToken);
-            navigate(location.state?.from || '/', { state: { from: location.pathname } })
-            //console.log(` i am location from ${location.state?.from}`)
-        } else {
-            //console.log("your login or password is incorrect")
-        }
-    }, [session])
 
     return (
         <form className="login__container" onSubmit={formSubmit}>
