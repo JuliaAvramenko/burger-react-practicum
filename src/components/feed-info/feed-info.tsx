@@ -21,14 +21,14 @@ function getIngredientPrice(ingredientId: string, ingredients: TIngredient[]): n
 }
 
 const FeedInfo: FC<TFeedInfo> = ({ order }) => {
-    const { ingredients } = useSelector((store: TRootStore) => {
+    const { ingredients } = useSelector((store) => {
         return {
             ingredients: store.ingredients.ingredients
         }
     })
     let accumulator: { [key: string]: number } = {}
     //console.log(`I am order ${JSON.stringify(order)}`)
-    order.ingredients.reduce((previousValue: string, currentValue: string) => {
+    order.ingredients.reduce((previousValue, currentValue) => {
         if (currentValue) {
             if (!accumulator[currentValue]) {
                 accumulator[currentValue] = 0
@@ -47,12 +47,7 @@ const FeedInfo: FC<TFeedInfo> = ({ order }) => {
 
         }
     })
-    /*
-        console.log(`FeedInfo: I am order ${JSON.stringify(order)}`)
-        console.log(`FeedInfo: I am ingredients ${JSON.stringify(ingredients)}`)
-        console.log(`FeedInfo: I am accumulator ${JSON.stringify(accumulator)}`)
-        console.log(`FeedInfo: I am groupedIngredients ${JSON.stringify(groupedIngredients)}`)
-    */
+
 
     let sum = 0
     order.ingredients.forEach((ingredientId) => {

@@ -10,14 +10,15 @@ import { actionLoggerMiddleWare, socketMiddleware } from './services/middlewares
 import thunk, { ThunkAction } from 'redux-thunk';
 import { TBurgerActions, TRootStore as TCanonicalRootStore } from './utils/types';
 import { getCookie, setCookie } from './utils/cookies';
+import { COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, WS_ENDPOINT_ORDERS, WS_ENDPOINT_ORDERS_ALL } from './services/constants';
 
 // convert object to string and store in localStorage
 function saveToLocalStorage(state: TCanonicalRootStore) {
   try {
     const serialisedState = JSON.stringify(state);
 
-    setCookie('accessToken', state.auth.session.accessToken);
-    setCookie('refreshToken', state.auth.session.refreshToken);
+    setCookie(COOKIE_NAME_ACCESS_TOKEN, state.auth.session.accessToken);
+    setCookie(COOKIE_NAME_REFRESH_TOKEN, state.auth.session.refreshToken);
 
     localStorage.setItem("persistantState", serialisedState);
     //localStorage.setItem("persistantState", JSON.stringify(EmptyStore));
@@ -48,8 +49,8 @@ const enhancer = composeEnhancers(
   applyMiddleware(
     thunk,
     actionLoggerMiddleWare,
-    socketMiddleware(`wss://norma.nomoreparties.space/orders`, true),
-    socketMiddleware("wss://norma.nomoreparties.space/orders/all")
+    socketMiddleware(WS_ENDPOINT_ORDERS, true),
+    socketMiddleware(WS_ENDPOINT_ORDERS_ALL)
   )
 )
 const store = createStore(rootReducer, loadFromLocalStorage(), enhancer);

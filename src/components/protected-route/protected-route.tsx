@@ -18,7 +18,7 @@ const ProtectedRoute: FC<TProtectedRoute> = ({ children }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const location = useLocation()
-    const { session } = useSelector((store: TRootStore) => {
+    const { session } = useSelector((store) => {
         return {
             session: store.auth.session
         }

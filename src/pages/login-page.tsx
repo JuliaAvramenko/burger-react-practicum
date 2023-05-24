@@ -3,9 +3,18 @@ import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logInThunk } from "../services/actions/login";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { TRootStore } from "../utils/types";
 import { useDispatch, useSelector } from "../utils/hooks";
+
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+    password: HTMLInputElement
+}
+
+interface LoginFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function LoginPage() {
 
@@ -16,7 +25,7 @@ export function LoginPage() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const { sessionValid } = useSelector((store: TRootStore) => {
+    const { sessionValid } = useSelector((store) => {
         return {
             sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
 
@@ -25,7 +34,7 @@ export function LoginPage() {
 
 
     useEffect(() => {
-        console.log("Login Page Open")
+        //console.log("Login Page Open")
     }, [])
 
     useEffect(() => {
@@ -34,13 +43,13 @@ export function LoginPage() {
             if (redirect === '/register') {
                 redirect = '/'
             }
-            console.log(`Login Page: I want to redirect to ${redirect}`)
+            //console.log(`Login Page: I want to redirect to ${redirect}`)
             navigate(redirect, { state: { from: location.pathname } })
         }
     }, [sessionValid])
 
-    const formSubmit = (e: any) => {
-        dispatch(logInThunk(e.target.email.value, e.target.password.value));
+    const formSubmit = (e: FormEvent<LoginFormElement>) => {
+        dispatch(logInThunk(e.currentTarget.elements.email.value, e.currentTarget.elements.password.value));
         e.preventDefault();
     }
 

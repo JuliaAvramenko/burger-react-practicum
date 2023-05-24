@@ -1,32 +1,26 @@
 
 import FeedCard from "../components/feed-card/feed-card";
 import { TOrder } from "../services/reducers/ws-socket";
-import { TOnClick, TRootStore } from "../utils/types";
+import { TOnClick, TOpenModalClick, TRootStore } from "../utils/types";
 import styles from './profile-orders-page.module.css';
 import { AppDispatch, AppThunk } from "..";
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "../utils/hooks";
 import { wsConnectionStartAction } from "../services/actions/ws-connection-start";
-import { WS_CLOSE_SOCKET } from "../services/constants";
+import { WS_CLOSE_SOCKET, WS_ENDPOINT_ORDERS } from "../services/constants";
 
 type ProfileOrdersPage = {
 
-    openModal: TOnClick
+    openModal: TOpenModalClick
 }
 
 export const ProfileOrdersPage: React.FC<ProfileOrdersPage> = ({ openModal }) => {
-    const { message, allOrders } = useSelector((store: TRootStore) => {
+    const { message, allOrders } = useSelector((store) => {
         return {
-            message: store.wsReducer.message["wss://norma.nomoreparties.space/orders"],
-            allOrders: store.wsReducer.message["wss://norma.nomoreparties.space/orders"].orders
+            message: store.wsReducer.message[WS_ENDPOINT_ORDERS],
+            allOrders: store.wsReducer.message[WS_ENDPOINT_ORDERS].orders
         }
     })
-    //const dispatch = useDispatch();
-
-
-    useEffect(() => {
-        console.log(JSON.stringify(message))
-    }, [message])
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -43,7 +37,6 @@ export const ProfileOrdersPage: React.FC<ProfileOrdersPage> = ({ openModal }) =>
                     return <FeedCard
                         key={order._id}
                         order={order}
-                        onClick={openModal}
                         orderInfoPath={"/profile/orders"}
 
                     />

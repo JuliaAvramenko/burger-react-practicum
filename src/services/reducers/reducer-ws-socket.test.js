@@ -1,49 +1,17 @@
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "../constants"
+import { EmptyStore } from "./root-reducer"
 import { wsReducer } from "./ws-socket"
 
 describe('ws-socket reducer', () => {
     it('should return the initial state', () => {
-        expect(wsReducer(undefined, { type: "" })).toEqual(
-            {
-                wsConnected: false,
-                message: {
-                    "wss://norma.nomoreparties.space/orders": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                    "wss://norma.nomoreparties.space/orders/all": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                }
-            })
+        expect(wsReducer(undefined, { type: "" })).toEqual(EmptyStore.wsReducer)
 
     })
     // WS_CONNECTION_SUCCESS
     it('should handle ORDER REDUCERS', () => {
         expect(
             wsReducer(
-                {
-                    wsConnected: false,
-                    message: {
-                        "wss://norma.nomoreparties.space/orders": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                        "wss://norma.nomoreparties.space/orders/all": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                    }
-                },
+                EmptyStore.wsReducer,
                 {
                     type: WS_CONNECTION_SUCCESS,
                     wsConnected: true
@@ -51,21 +19,8 @@ describe('ws-socket reducer', () => {
             )
         ).toEqual(
             {
+                ...EmptyStore.wsReducer,
                 wsConnected: true,
-                message: {
-                    "wss://norma.nomoreparties.space/orders": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                    "wss://norma.nomoreparties.space/orders/all": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                }
             }
         )
 
@@ -74,23 +29,7 @@ describe('ws-socket reducer', () => {
 
         expect(
             wsReducer(
-                {
-                    wsConnected: false,
-                    message: {
-                        "wss://norma.nomoreparties.space/orders": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                        "wss://norma.nomoreparties.space/orders/all": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                    }
-                },
+                EmptyStore.wsReducer,
                 {
                     type: WS_CONNECTION_ERROR,
                     wsConnected: false,
@@ -98,23 +37,7 @@ describe('ws-socket reducer', () => {
                 }
             )
         ).toEqual(
-            {
-                wsConnected: false,
-                message: {
-                    "wss://norma.nomoreparties.space/orders": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                    "wss://norma.nomoreparties.space/orders/all": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                }
-            }
+            EmptyStore.wsReducer
         )
 
 
@@ -122,68 +45,20 @@ describe('ws-socket reducer', () => {
 
         expect(
             wsReducer(
-                {
-                    wsConnected: false,
-                    message: {
-                        "wss://norma.nomoreparties.space/orders": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                        "wss://norma.nomoreparties.space/orders/all": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                    }
-                },
+                EmptyStore.wsReducer,
                 {
                     type: WS_CONNECTION_CLOSED,
                     wsConnection: false
                 }
             )
         ).toEqual(
-            {
-                wsConnected: false,
-                message: {
-                    "wss://norma.nomoreparties.space/orders": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                    "wss://norma.nomoreparties.space/orders/all": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                }
-            }
+            EmptyStore.wsReducer
         )
 
         //WS_GET_MESSAGE
         expect(
             wsReducer(
-                {
-                    wsConnected: false,
-                    message: {
-                        "wss://norma.nomoreparties.space/orders": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                        "wss://norma.nomoreparties.space/orders/all": {
-                            success: true,
-                            orders: [],
-                            total: 0,
-                            totalToday: 0
-                        },
-                    }
-                },
+                EmptyStore.wsReducer,
                 {
                     type: WS_GET_MESSAGE,
                     message: {
@@ -198,23 +73,7 @@ describe('ws-socket reducer', () => {
                 }
             )
         ).toEqual(
-            {
-                wsConnected: false,
-                message: {
-                    "wss://norma.nomoreparties.space/orders": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                    "wss://norma.nomoreparties.space/orders/all": {
-                        success: true,
-                        orders: [],
-                        total: 0,
-                        totalToday: 0
-                    },
-                }
-            }
+            EmptyStore.wsReducer
         )
 
     })

@@ -1,8 +1,10 @@
+
+
 describe("drag ingredients to constructor works correctly", () => {
     before(() => {
         cy.intercept("GET", "api/ingredients",)
         cy.viewport(1300, 800)
-        cy.visit("http://localhost:3000");
+        cy.visit('/');
         setTimeout(() => {
             console.log("im ready")
         }, 10000);

@@ -3,6 +3,7 @@ import styles from "./pictures-feed.module.css"
 import { TRootStore } from "../.."
 import { TOrder } from "../../services/reducers/ws-socket"
 import { useSelector } from "../../utils/hooks"
+import React from "react"
 
 type TFeedCard = {
     order: TOrder
@@ -10,7 +11,7 @@ type TFeedCard = {
 }
 
 export const PicturesFeed: React.FC<TFeedCard> = ({ order }) => {
-    const { ingredients } = useSelector((store: TRootStore) => {
+    const { ingredients } = useSelector((store) => {
         return {
             ingredients: store.ingredients.ingredients
         }
@@ -32,8 +33,8 @@ export const PicturesFeed: React.FC<TFeedCard> = ({ order }) => {
 
                     let zIndex = orderIngredients.length - index + 1;
                     let right = 20 * index;
-                    let customStyle: any = { zIndex: zIndex, right: right, position: "relative" }
-                    let shadowStyle: any = undefined
+                    let customStyle: React.CSSProperties = { zIndex: zIndex, right: right, position: "relative" }
+                    let shadowStyle: string = ""
                     if (index === LAST_ELEM_INDEX - 1 && orderIngredients.length <= orderIngredientsFiltered.length) {
                         shadowStyle = styles.overlay;
                     }

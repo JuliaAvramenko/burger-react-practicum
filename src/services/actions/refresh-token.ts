@@ -1,12 +1,13 @@
-import { REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS } from "../constants";
-import { Api, TRefreshToken } from "../../utils/api";
+import { COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS } from "../constants";
+import { Api } from "../../utils/api";
 import { setCookie } from "../../utils/cookies";
 import { AppThunk } from "../..";
+import { TSession } from "../../utils/types";
 
 
 export type TRefreshTokenSuccessAction = {
     readonly type: typeof REFRESH_TOKEN_SUCCESS
-    readonly token: TRefreshToken
+    readonly token: TSession
 }
 
 export type TRefreshTokenFailedAction = {
@@ -14,7 +15,7 @@ export type TRefreshTokenFailedAction = {
     readonly error: string
 }
 
-export const refreshTokenThunk: AppThunk = (): any => {
+export const refreshTokenThunk: AppThunk = () => {
     return function (dispatch: AppThunk) {
         Api.refreshToken().then(responseJson => {
 
@@ -23,8 +24,8 @@ export const refreshTokenThunk: AppThunk = (): any => {
                 // для записи полученных данных в хранилище
                 // console.log(`I am  response JSON  ${JSON.stringify(responseJson)}`)
                 //const { accessToken, refreshToken } = responseJson
-                //setCookie('accessToken', accessToken)
-                //setCookie('refreshToken', refreshToken)
+                // setCookie(COOKIE_NAME_ACCESS_TOKEN, accessToken)
+                // setCookie(COOKIE_NAME_REFRESH_TOKEN, refreshToken)
 
                 dispatch({
                     type: REFRESH_TOKEN_SUCCESS,

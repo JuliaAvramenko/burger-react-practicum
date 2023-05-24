@@ -1,18 +1,15 @@
 import { AnyAction } from "redux";
 import { TConstructorStore, TBurgerActions } from "../../utils/types";
-import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE_ORDER } from "../constants";
+import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, RESET_CONSTRUCTOR } from "../constants";
+import { EmptyStore } from "./root-reducer";
 
 
-
-const initialState: TConstructorStore = {
-    bun: {},
-    fillings: []
-}
-
-
-
-export const constructor = (state: TConstructorStore = initialState, action: TBurgerActions) => {
+export const constructor = (state: TConstructorStore = EmptyStore.constructorBlock, action: TBurgerActions) => {
     switch (action.type) {
+        case RESET_CONSTRUCTOR:
+            return {
+                ...EmptyStore.constructorBlock
+            }
         case ADD_INGREDIENT:
             return {
                 ...state,
@@ -22,11 +19,11 @@ export const constructor = (state: TConstructorStore = initialState, action: TBu
         case REMOVE_INGREDIENT:
             return {
                 ...state,
-                fillings: state.fillings.filter((item: any, index: number) => index !== action.index)
+                fillings: state.fillings.filter((item, index) => index !== action.index)
             }
         case SHIFT_INGREDIENT:
 
-            const arrayMove = (arr: any, oldIndex: number, newIndex: number) => {
+            const arrayMove = (arr: any[], oldIndex: number, newIndex: number) => {
                 if (newIndex >= arr.length) {
                     let k = newIndex - arr.length + 1;
                     while (k--) {

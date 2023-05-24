@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "../../utils/hooks";
 function OrderDetails() {
     const dispatch = useDispatch();
 
-    const { allItems, orderDetails } = useSelector((store: TRootStore) => {
+    const { allItems, orderDetails } = useSelector((store) => {
         return {
             allItems: store.constructorBlock,
             orderDetails: store.order

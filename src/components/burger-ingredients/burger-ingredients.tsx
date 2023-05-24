@@ -6,15 +6,14 @@ import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-
 
 
 import { createSwitchTab } from "../../services/actions/tab";
-import { TOnClick, TRootStore } from "../../utils/types";
+import { TOnClick, TOpenModalClick, TRootStore } from "../../utils/types";
 import { FC } from 'react';
 import { useDispatch, useSelector } from "../../utils/hooks";
 
 type TBurgerIngredients = {
-    openModal: TOnClick
 }
-export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
-    const { ingredients, currentTab } = useSelector((store: TRootStore) => {
+export const BurgerIngredients: FC<TBurgerIngredients> = ({ }) => {
+    const { ingredients, currentTab } = useSelector((store) => {
         return {
             ingredients: store.ingredients.ingredients,
             currentTab: store.tabSwitch.currentTab
@@ -23,7 +22,7 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
     })
 
 
-    const refIngredientsTable: any = useRef<HTMLDivElement>();
+    const refIngredientsTable = useRef<HTMLDivElement>(null);
     //console.log(`I am refIngredientsTable ${typeof refIngredientsTable}`)
 
 
@@ -36,10 +35,10 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
     function getClosestElem() {
 
 
-        const hoverBoundingRect: any = (refIngredientsTable.current as any).getBoundingClientRect()
+        const hoverBoundingRect = (refIngredientsTable.current!).getBoundingClientRect()
         //console.log(`I am hoverBoundingRect ${hoverBoundingRect}`)
         const topSections = sections.map((section) => {
-            const topSection: number = (section.ref.current as any).getBoundingClientRect().top
+            const topSection = (section.ref.current!).getBoundingClientRect().top
             //console.log(`I am topSection ${topSection}`)
             let distance = hoverBoundingRect.top - topSection
             if (distance < 0) {
@@ -71,7 +70,7 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
 
 
     const dispatch = useDispatch();
-    function handleClickTab(type: any) {
+    function handleClickTab(type: string) {
         dispatch(createSwitchTab(type));
 
         const currentSection = sections.filter((section) => { return section.type === type })[0]
@@ -115,8 +114,7 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ openModal }) => {
                                 ref={section.ref}
                                 title={section.name}
                                 key={section.type}
-                                ingredients={ingredients.filter((item: any) => item.type === section.type)}
-                                onClick={openModal}
+                                ingredients={ingredients.filter((item) => item.type === section.type)}
                             />
                         )
                     })

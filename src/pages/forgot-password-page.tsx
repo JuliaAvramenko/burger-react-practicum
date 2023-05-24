@@ -8,6 +8,15 @@ import { TBurgerActions, TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
 import { useDispatch, useSelector } from "../utils/hooks";
 
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+
+}
+
+interface ForgotPasswordFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
+
 export function ForgotPasswordPage() {
 
 
@@ -16,7 +25,7 @@ export function ForgotPasswordPage() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const { resetStatus, sessionValid } = useSelector((store: TRootStore) => {
+    const { resetStatus, sessionValid } = useSelector((store) => {
         return {
             resetStatus: store.auth.forgotPasswordSuccess,
             sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
@@ -24,8 +33,8 @@ export function ForgotPasswordPage() {
         }
     })
 
-    const formSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-        dispatch(forgotPasswordThunk((e.target as EventTarget & { email: any }).email.value));
+    const formSubmit: React.FormEventHandler<ForgotPasswordFormElement> = (e) => {
+        dispatch(forgotPasswordThunk(e.currentTarget.elements.email.value));
 
         e.preventDefault();
     }

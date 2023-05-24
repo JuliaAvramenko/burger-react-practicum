@@ -3,7 +3,7 @@ import styles from './burger-constructor-element.module.css';
 
 
 import { useRef } from 'react'
-import { useDrag, useDrop } from 'react-dnd';
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { removeIngredient, shiftIngredient } from '../../services/actions/constructor';
 import { FC } from 'react';
 import { TDropItem, TIngredient } from '../../utils/types';
@@ -26,7 +26,7 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
         dispatch(removeIngredient(index!))
     }
 
-    let refFillings: any = useRef<HTMLDivElement>(null)
+    let refFillings: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     //console.log(`we re reffillings ${refFillings}`)
 
     const [{ isDragging }, dragFillingsRef] = useDrag({
@@ -45,7 +45,7 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
 
     const [, dropFillingsRef] = useDrop({
         accept: "fillings",
-        hover(item: TDropItem, monitor: any) {
+        hover(item: TDropItem, monitor: DropTargetMonitor<TDropItem, unknown>) {
             //console.log(`we re item ${JSON.stringify(item)}`)
             //console.log(`we re monitor ${JSON.stringify(monitor)}`)
 
@@ -57,7 +57,7 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
 
             if (index !== item.index) {
 
-                const hoverBoundingRect = (refFillings.current as any).getBoundingClientRect()
+                const hoverBoundingRect = (refFillings.current).getBoundingClientRect()
                 //console.log(`we re reffillingscurrent ${JSON.stringify(refFillings.current)}`)
                 // Get vertical middle
                 const hoverMiddleY =
@@ -65,7 +65,7 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
                 // Determine mouse position
                 const clientOffset = monitor.getClientOffset()
                 // Get pixels to the top
-                const hoverClientY = clientOffset.y - hoverBoundingRect.top
+                const hoverClientY = clientOffset!.y - hoverBoundingRect.top
                 // Only perform the move when the mouse has crossed half of the items height
                 // When dragging downwards, only move when the cursor is below 50%
                 // When dragging upwards, only move when the cursor is above 50%
@@ -95,7 +95,7 @@ export const BurgerConstructorElement: FC<TIngredient & TBurgerConstructorElemen
 
     if (type_filling) {
         icon = null
-        refFillings = undefined
+        refFillings = useRef<HTMLDivElement>(null)
 
         if (type_filling === "top") {
             tailtext = "(верх)"

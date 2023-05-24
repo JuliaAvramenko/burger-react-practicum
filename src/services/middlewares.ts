@@ -1,13 +1,13 @@
 import { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, AppThunk, TRootStore } from "..";
-import { WS_CLOSE_SOCKET, WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "./constants";
+import { COOKIE_NAME_ACCESS_TOKEN, WS_CLOSE_SOCKET, WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "./constants";
 import { TBurgerActions } from "../utils/types";
 import { getCookie } from "../utils/cookies";
 import { refreshTokenThunk } from "./actions/refresh-token";
 import { wsConnectionStartAction } from "./actions/ws-connection-start";
 
 
-export const actionLoggerMiddleWare: any = (store: any): any => (next: any): any => (action: AnyAction): any => {
+export const actionLoggerMiddleWare: Middleware = (store) => (next) => (action) => {
     // Выводим в консоль время события и его содержание
     //console.log(`${new Date().getTime()} | Action: ${action.type} / JSON.stringify(action)`);
     // Передаём событие «по конвейеру» дальше
@@ -20,13 +20,13 @@ export type TWsConnectionStartAction = {
 }
 export type TWsConnectionSuccessAction = {
     readonly type: typeof WS_CONNECTION_SUCCESS
-    readonly payload: any
+    readonly payload: Event
 
 }
 
 export type TWsConnectionErrorAction = {
     readonly type: typeof WS_CONNECTION_ERROR
-    readonly payload: any
+    readonly payload: Event
 
 }
 export type TWsGetMessageAction = {
@@ -37,7 +37,7 @@ export type TWsGetMessageAction = {
 }
 export type TWsConnectionClosedAction = {
     readonly type: typeof WS_CONNECTION_CLOSED
-    readonly payload: any
+    readonly payload: Event
 
 }
 
@@ -49,7 +49,6 @@ export type TWsSendMessageAction = {
 
 export type TWsCloseSocketAction = {
     readonly type: typeof WS_CLOSE_SOCKET
-    //  readonly payload: any
 
 }
 
@@ -64,7 +63,7 @@ export const socketMiddleware = (wsUrl: string, auth: boolean = false): Middlewa
 
             if (type === WS_CONNECTION_START) {
 
-                const token = getCookie("accessToken").replace("Bearer ", "")
+                const token = getCookie(COOKIE_NAME_ACCESS_TOKEN).replace("Bearer ", "")
                 //const token = state.auth.session.accessToken.replace("Bearer ", "");
                 const payload = auth ? `?token=${token}` : '';
                 socket = new WebSocket(`${wsUrl}${payload}`);

@@ -1,3 +1,4 @@
+import { COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN } from "../services/constants";
 import { getCookie, setCookie } from "./cookies";
 import { TIngredient, TSession, TUser } from "./types";
 
@@ -10,22 +11,19 @@ export const config = {
 
 export type TStatusResponse = {
     success: boolean
-}
-export type TMessageErrorResponse = {
     message?: string
 }
+
+
 export type TUserInfoResponse = {
     user: TUser
     accessToken: string
     refreshToken: string
 }
-type TGetIngredientsResponse = {
-    success: TStatusResponse
+export type TGetIngredientsResponse = {
     data: TIngredient[]
 }
-export type TForgotPasswordResponse = TStatusResponse & TMessageErrorResponse
 export type TCreateOrderResponse = {
-    success: TStatusResponse
     name: string
     order: {
         number: number
@@ -34,17 +32,19 @@ export type TCreateOrderResponse = {
 export type TUserResponse = {
     user: TUser
 }
-export type TResetPasswordResponse = TStatusResponse & TMessageErrorResponse
-export type TCreateUserResponse = TStatusResponse & TUserInfoResponse & TMessageErrorResponse
-export type TLogIn = TUserInfoResponse & TStatusResponse & TMessageErrorResponse
-export type TRefreshToken = TSession & TStatusResponse & TMessageErrorResponse
-export type TLogOut = TStatusResponse & TMessageErrorResponse & TMessageErrorResponse
-export type TGetUserData = TStatusResponse & TUserResponse & TMessageErrorResponse
-export type TChangeUserData = TStatusResponse & TUserResponse & TMessageErrorResponse
+export type TRefreshTokenResponse = TSession
+export type TResponse = TStatusResponse & (
+    TUserInfoResponse
+    | TUserResponse
+    | TGetIngredientsResponse
+    | TCreateOrderResponse
+    | TRefreshTokenResponse
+)
 
-export const Api = (function (config: any) {
 
-    function checkResponse(response: Response): Promise<any> {
+export const Api = (function (config) {
+
+    function checkResponse(response: Response): Promise<TResponse> {
 
         if (response.ok) {
             return response.json()
@@ -57,27 +57,30 @@ export const Api = (function (config: any) {
 
     async function getIngredients(): Promise<TGetIngredientsResponse> {
         const response = await fetch(`${config.baseUrl}/ingredients`, { headers: config.headers });
+        const data = checkResponse(response);
 
-        return checkResponse(response);
+        return data as Promise<TGetIngredientsResponse & TStatusResponse>
     }
 
-    async function createOrder(ids: string[]): Promise<TCreateOrderResponse> {
+    async function createOrder(ids: string[]): Promise<TCreateOrderResponse & TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/orders`, {
             method: "POST",
             headers: {
                 ...config.headers,
-                Authorization: getCookie('accessToken')
+                Authorization: getCookie(COOKIE_NAME_ACCESS_TOKEN)
             },
             body: JSON.stringify({
                 ingredients: [...ids]
             })
         });
 
-        return checkResponse(response);
+        const data = checkResponse(response);
+
+        return data as Promise<TCreateOrderResponse & TStatusResponse>
     }
 
 
-    async function forgotPassword(email: string): Promise<TForgotPasswordResponse> {
+    async function forgotPassword(email: string): Promise<TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/password-reset`, {
             method: "POST",
             headers: config.headers,
@@ -86,10 +89,13 @@ export const Api = (function (config: any) {
 
             })
         })
-        return checkResponse(response);
+
+        const data = checkResponse(response);
+
+        return data as Promise<TStatusResponse>
     }
 
-    async function resetPassword(password: string, token: string): Promise<TResetPasswordResponse> {
+    async function resetPassword(password: string, token: string): Promise<TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/password-reset/reset`, {
             method: "POST",
             headers: config.headers,
@@ -99,11 +105,14 @@ export const Api = (function (config: any) {
 
             })
         })
-        return checkResponse(response);
+
+        const data = checkResponse(response);
+
+        return data as Promise<TStatusResponse>
     }
 
 
-    async function createUser(email: string, password: string, name: string): Promise<TCreateUserResponse> {
+    async function createUser(email: string, password: string, name: string): Promise<TUserInfoResponse & TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/auth/register`, {
             method: "POST",
             headers: config.headers,
@@ -114,13 +123,16 @@ export const Api = (function (config: any) {
 
             })
         })
-        return checkResponse(response);
+
+        const data = checkResponse(response);
+
+        return data as Promise<TUserInfoResponse & TStatusResponse>
     }
 
 
 
 
-    async function logIn(email: string, password: string): Promise<TLogIn> {
+    async function logIn(email: string, password: string): Promise<TUserInfoResponse & TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/auth/login`, {
             method: "POST",
             headers: {
@@ -133,61 +145,68 @@ export const Api = (function (config: any) {
             })
         })
 
+        const data = checkResponse(response);
 
-        return checkResponse(response);
+        return data as Promise<TUserInfoResponse & TStatusResponse>
     }
 
 
-    async function refreshToken(): Promise<TRefreshToken> {
+    async function refreshToken(): Promise<TRefreshTokenResponse & TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/auth/token`, {
             method: "POST",
             headers: config.headers,
             body: JSON.stringify({
-                token: getCookie('refreshToken')
+                token: getCookie(COOKIE_NAME_REFRESH_TOKEN)
 
             })
         })
-        return checkResponse(response);
+
+        const data = checkResponse(response);
+
+        return data as Promise<TRefreshTokenResponse & TStatusResponse>
     }
 
 
 
-    async function logOut(): Promise<TLogOut> {
+    async function logOut(): Promise<TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/auth/logout`, {
             method: "POST",
             headers: config.headers,
             body: JSON.stringify({
-                token: getCookie("refreshToken")
+                token: getCookie(COOKIE_NAME_REFRESH_TOKEN)
 
             })
         })
-        setCookie('accessToken', "");
-        setCookie('refreshToken', "");
+        setCookie(COOKIE_NAME_ACCESS_TOKEN, "");
+        setCookie(COOKIE_NAME_REFRESH_TOKEN, "");
 
         return checkResponse(response);
     }
 
 
 
-    async function getUserData(): Promise<TGetUserData> {
+    async function getUserData(): Promise<TUserResponse & TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/auth/user`, {
             method: "GET",
             headers: {
                 ...config.headers,
-                Authorization: getCookie('accessToken')
+                Authorization: getCookie(COOKIE_NAME_ACCESS_TOKEN)
             }
         })
-        return checkResponse(response);
+
+        const data = checkResponse(response);
+
+        return data as Promise<TUserResponse & TStatusResponse>
     }
 
 
 
-    async function changeUserData(name: string, email: string, password: string): Promise<TChangeUserData> {
+    async function changeUserData(name: string, email: string, password: string): Promise<TUserResponse & TStatusResponse> {
         const response = await fetch(`${config.baseUrl}/auth/user`, {
             method: "PATCH",
             headers: {
                 ...config.headers,
-                Authorization: getCookie('accessToken')
+                Authorization: getCookie(COOKIE_NAME_ACCESS_TOKEN)
             },
             body: JSON.stringify({
                 name,
@@ -197,7 +216,10 @@ export const Api = (function (config: any) {
 
             })
         })
-        return checkResponse(response);
+
+        const data = checkResponse(response);
+
+        return data as Promise<TUserResponse & TStatusResponse>
     }
 
     return {

@@ -10,7 +10,7 @@ export function IngredientsPage() {
     // states
     const [ingredient, setIngredient] = useState<TIngredient>()
 
-    const { ingredients } = useSelector((store: TRootStore) => {
+    const { ingredients } = useSelector((store) => {
         return {
             ingredients: store.ingredients.ingredients
         }

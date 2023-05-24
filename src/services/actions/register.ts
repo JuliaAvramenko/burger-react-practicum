@@ -1,10 +1,10 @@
 import { CREATE_USER_FAILED, CREATE_USER_SUCCESS } from "../constants";
-import { Api, TCreateUserResponse } from "../../utils/api";
+import { Api, TUserInfoResponse } from "../../utils/api";
 import { AppDispatch, AppThunk } from "../..";
 
 export type TCreateUserSuccessAction = {
     readonly type: typeof CREATE_USER_SUCCESS
-    readonly userDetails: TCreateUserResponse
+    readonly userDetails: TUserInfoResponse
 }
 
 export type TCreateUserFailedAction = {
@@ -13,7 +13,7 @@ export type TCreateUserFailedAction = {
 }
 
 
-export const createUserThunk: AppThunk = (email: string, password: string, name: string): any => {
+export const createUserThunk: AppThunk = (email: string, password: string, name: string) => {
     return function (dispatch: AppDispatch) {
 
         Api.createUser(email, password, name).then(responseJson => {

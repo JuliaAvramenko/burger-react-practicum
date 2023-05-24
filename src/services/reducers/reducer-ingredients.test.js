@@ -1,25 +1,32 @@
 import { CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS, GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from "../constants"
 import { ingredients } from "./ingredients"
+import { EmptyStore } from "./root-reducer"
+
+const ingredient = {
+    _id: "111",
+    name: "соус",
+    type: "main",
+    proteins: 222,
+    fat: 333,
+    carbohydrates: 444,
+    calories: 555,
+    price: 666,
+    image: "picture",
+    image_mobile: "pic",
+    image_large: "big picture",
+    __v: 777
+}
 
 describe('ingredients reducer', () => {
     it('should return the initial state', () => {
-        expect(ingredients(undefined, { type: "" })).toEqual(
-            {
-                loadStarted: false,
-                loadFailed: false,
-                ingredients: []
-            })
+        expect(ingredients(undefined, { type: "" })).toEqual(EmptyStore.ingredients)
 
     })
     // GET_INGREDIENTS
     it('should handle INGREDIENTS REDUCERS', () => {
         expect(
             ingredients(
-                {
-                    loadStarted: false,
-                    loadFailed: false,
-                    ingredients: []
-                },
+                EmptyStore.ingredients,
                 {
                     type: GET_INGREDIENTS
                 }
@@ -37,28 +44,10 @@ describe('ingredients reducer', () => {
 
         expect(
             ingredients(
-                {
-                    loadStarted: false,
-                    loadFailed: false,
-                    ingredients: []
-                },
+                EmptyStore.ingredients,
                 {
                     type: GET_INGREDIENTS_SUCCESS,
-                    ingredients: [{
-                        _id: "111",
-                        name: "соус",
-                        type: "main",
-                        proteins: 222,
-                        fat: 333,
-                        carbohydrates: 444,
-                        calories: 555,
-                        price: 666,
-                        image: "picture",
-                        image_mobile: "pic",
-                        image_large: "big picture",
-                        __v: 777
-                    }
-                    ]
+                    ingredients: [ingredient]
 
 
                 }
@@ -67,20 +56,7 @@ describe('ingredients reducer', () => {
             {
                 loadStarted: false,
                 loadFailed: false,
-                ingredients: [{
-                    _id: "111",
-                    name: "соус",
-                    type: "main",
-                    proteins: 222,
-                    fat: 333,
-                    carbohydrates: 444,
-                    calories: 555,
-                    price: 666,
-                    image: "picture",
-                    image_mobile: "pic",
-                    image_large: "big picture",
-                    __v: 777
-                }],
+                ingredients: [ingredient],
             }
         )
 
@@ -89,11 +65,7 @@ describe('ingredients reducer', () => {
 
         expect(
             ingredients(
-                {
-                    loadStarted: false,
-                    loadFailed: false,
-                    ingredients: []
-                },
+                EmptyStore.ingredients,
                 {
                     type: GET_INGREDIENTS_FAILED,
                 }

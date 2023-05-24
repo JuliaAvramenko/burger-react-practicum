@@ -1,5 +1,5 @@
 import { CHANGE_USER_DATA_FAILED, CHANGE_USER_DATA_SUCCESS } from "../constants";
-import { Api, TChangeUserData } from "../../utils/api";
+import { Api, TUserResponse } from "../../utils/api";
 import { TAuthStore, TDispatch } from "../../utils/types";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -8,7 +8,7 @@ import { AppDispatch, AppThunk } from "../..";
 
 export type TChangeUserDataSuccessAction = {
     readonly type: typeof CHANGE_USER_DATA_SUCCESS
-    readonly userDetails: TChangeUserData
+    readonly userDetails: TUserResponse
 }
 
 export type TChangeUserDataFailedAction = {
@@ -16,7 +16,8 @@ export type TChangeUserDataFailedAction = {
     readonly error: string
 }
 
-export const changeUserDataThunk: AppThunk = (name: string, email: string, password: string): any => {
+
+export const changeUserDataThunk: AppThunk = (name: string, email: string, password: string) => {
     return function (dispatch: AppDispatch) {
         Api.changeUserData(name, email, password).then(responseJson => {
 

@@ -1,24 +1,26 @@
 import { CHANGE_USER_DATA_FAILED, CHANGE_USER_DATA_SUCCESS, CREATE_USER_FAILED, CREATE_USER_SUCCESS, FORGOT_PASSWORD_FAILED, FORGOT_PASSWORD_SUCCESS, GET_USER_DATA_FAILED, GET_USER_DATA_SUCCESS, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_SUCCESS, REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS, RESET_PASSWORD_FAILED, RESET_PASSWORD_SUCCESS, RESET_STATUS } from "../constants"
 import { auth } from "./auth"
+import { EmptyStore } from "./root-reducer"
+
+const user = {
+    email: "test@ex.ru",
+    name: "222"
+}
+
+const session = {
+    accessToken: "123",
+    refreshToken: "456",
+}
+
+const authenticated = {
+    ...EmptyStore.auth,
+    user: user,
+    session: session,
+}
 
 describe('auth reducer', () => {
     it('should return the initial state', () => {
-        expect(auth(undefined, { type: "" })).toEqual({
-            user: {
-                email: "",
-                name: ""
-            },
-            session: {
-                accessToken: "",
-                refreshToken: "",
-            },
-            authFailed: false,
-            error: "",
-            passwordResetSuccess: false,
-            forgotPasswordSuccess: false,
-            logout: false,
-            logInFailed: false
-        })
+        expect(auth(undefined, { type: "" })).toEqual(EmptyStore.auth)
 
     })
 
@@ -27,73 +29,24 @@ describe('auth reducer', () => {
         // CREATE_USER_SUCCESS
         expect(
             auth(
-                {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                EmptyStore.auth,
                 {
                     type: CREATE_USER_SUCCESS,
                     userDetails: {
                         success: true,
-                        user: {
-                            email: "test@ex.ru",
-                            name: "222"
-                        },
-                        accessToken: "123",
-                        refreshToken: "456",
+                        user: user,
+                        ...session
                     }
                 }
             )
         ).toEqual(
-            {
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
-            }
+            authenticated
         )
 
         // CREATE_USER_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                EmptyStore.auth,
                 {
                     type: CREATE_USER_FAILED,
                     error: "Ошибка"
@@ -102,91 +55,31 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
+                ...EmptyStore.auth,
                 authFailed: true,
                 error: "Ошибка",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
             }
         )
         // LOGIN_SUCCESS
         expect(
             auth(
-                {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                EmptyStore.auth,
                 {
                     type: LOGIN_SUCCESS,
                     userDetails: {
                         success: true,
-                        user: {
-                            email: "test@ex.ru",
-                            name: "222"
-                        },
-                        accessToken: "123",
-                        refreshToken: "456",
+                        user: user,
+                        ...session
                     }
                 }
             )
         ).toEqual(
-            {
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
-            }
+            authenticated
         )
         // LOGIN_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                EmptyStore.auth,
                 {
                     type: CREATE_USER_FAILED,
                     error: "Ошибка"
@@ -194,41 +87,15 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
+                ...EmptyStore.auth,
                 authFailed: true,
                 error: "Ошибка",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
             }
         )
         // FORGOT_PASSWORD_SUCCESS
         expect(
             auth(
-                {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                EmptyStore.auth,
                 {
                     type: FORGOT_PASSWORD_SUCCESS,
                     passwordResetStatus: {
@@ -238,41 +105,14 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
+                ...EmptyStore.auth,
                 forgotPasswordSuccess: true,
-                logout: false,
-                logInFailed: false
             }
         )
         // FORGOT_PASSWORD_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                EmptyStore.auth,
                 {
                     type: FORGOT_PASSWORD_FAILED,
                     passwordResetStatus: {
@@ -281,44 +121,14 @@ describe('auth reducer', () => {
                 }
             )
         ).toEqual(
-            {
-
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
-
-            }
+            EmptyStore.auth
         )
         // RESET_PASSWORD_SUCCESS
         expect(
             auth(
                 {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    // проверить 
+                    ...EmptyStore.auth,
                     forgotPasswordSuccess: true,
-                    logout: false,
-                    logInFailed: false
                 },
                 {
                     type: RESET_PASSWORD_SUCCESS,
@@ -329,20 +139,9 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
-                authFailed: false,
-                error: "",
+                ...EmptyStore.auth,
                 passwordResetSuccess: true,
                 forgotPasswordSuccess: true,
-                logout: false,
-                logInFailed: false
             }
 
         )
@@ -350,21 +149,8 @@ describe('auth reducer', () => {
         expect(
             auth(
                 {
-                    user: {
-                        email: "",
-                        name: ""
-                    },
-                    session: {
-                        accessToken: "",
-                        refreshToken: "",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    // проверить 
+                    ...EmptyStore.auth,
                     forgotPasswordSuccess: true,
-                    logout: false,
-                    logInFailed: false
                 },
                 {
                     type: RESET_PASSWORD_FAILED,
@@ -375,127 +161,43 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                // проверить 
+                ...EmptyStore.auth,
                 forgotPasswordSuccess: true,
-                logout: false,
-                logInFailed: false
             }
 
         )
         // RESET_STATUS
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: RESET_STATUS
                 }
             )
         ).toEqual(
-            {
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
-            },
+            authenticated
 
         )
         // LOGOUT_SUCCESS
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: LOGOUT_SUCCESS
                 }
             )
         ).toEqual(
             {
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
+                ...authenticated,
+                session: EmptyStore.auth.session,
                 logout: true,
-                logInFailed: false
             }
 
         )
         // LOGOUT_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: LOGOUT_FAILED,
                     error: "Ошибка"
@@ -503,141 +205,48 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "",
-                    refreshToken: "",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
+                ...authenticated,
+                session: EmptyStore.auth.session,
             }
 
         )
         // GET_USER_DATA_SUCCESS
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: GET_USER_DATA_SUCCESS,
                     userDetails: {
                         success: true,
-                        user: {
-                            // проверить
-                            email: "test@ex.ru",
-                            name: "222"
-                        }
+                        user: user
                     }
                 }
             )
         ).toEqual(
-            {
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
-            }
+            authenticated
 
         )
         // GET_USER_DATA_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: GET_USER_DATA_FAILED,
                     success: false,
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    }
+                    user: user
                 }
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
+                ...authenticated,
+                user: EmptyStore.auth.user,
             }
 
         )
         // CHANGE_USER_DATA_SUCCESS
         expect(
             auth(
-                {
-
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-
-                },
+                authenticated,
                 {
                     type: CHANGE_USER_DATA_SUCCESS,
                     userDetails:
@@ -652,21 +261,11 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-
+                ...authenticated,
                 user: {
                     email: "test1@ex.ru",
                     name: "2223"
                 },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
 
             }
 
@@ -674,22 +273,7 @@ describe('auth reducer', () => {
         // CHANGE_USER_DATA_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: CHANGE_USER_DATA_FAILED,
                     success: false,
@@ -701,44 +285,15 @@ describe('auth reducer', () => {
             )
         ).toEqual(
             {
-                user: {
-                    email: "",
-                    name: ""
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
+                ...authenticated,
+                user: EmptyStore.auth.user,
             }
 
         )
         // REFRESH_TOKEN_SUCCESS
         expect(
             auth(
-                {
-
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-
-                },
+                authenticated,
                 {
                     type: REFRESH_TOKEN_SUCCESS,
                     success: true,
@@ -751,20 +306,11 @@ describe('auth reducer', () => {
         ).toEqual(
             {
 
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
+                ...authenticated,
                 session: {
                     accessToken: "12345",
                     refreshToken: "45678",
                 },
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
 
             }
 
@@ -772,22 +318,7 @@ describe('auth reducer', () => {
         // REFRESH_TOKEN_FAILED
         expect(
             auth(
-                {
-                    user: {
-                        email: "test@ex.ru",
-                        name: "222"
-                    },
-                    session: {
-                        accessToken: "123",
-                        refreshToken: "456",
-                    },
-                    authFailed: false,
-                    error: "",
-                    passwordResetSuccess: false,
-                    forgotPasswordSuccess: false,
-                    logout: false,
-                    logInFailed: false
-                },
+                authenticated,
                 {
                     type: REFRESH_TOKEN_FAILED,
                     success: false,
@@ -798,26 +329,7 @@ describe('auth reducer', () => {
                 }
             )
         ).toEqual(
-            {
-
-                user: {
-                    email: "test@ex.ru",
-                    name: "222"
-                },
-                session: {
-                    accessToken: "123",
-                    refreshToken: "456",
-                },
-                // проверить
-                authFailed: false,
-                error: "",
-                passwordResetSuccess: false,
-                forgotPasswordSuccess: false,
-                logout: false,
-                logInFailed: false
-
-            }
-
+            authenticated
         )
 
 

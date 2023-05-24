@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from '../utils/hooks'
 import { TRootStore } from '../utils/types'
 import { useEffect } from 'react'
 import { wsConnectionStartAction } from '../services/actions/ws-connection-start'
-import { WS_CLOSE_SOCKET } from '../services/constants'
+import { WS_CLOSE_SOCKET, WS_ENDPOINT_ORDERS } from '../services/constants'
 
 
-export const ProfileOrdersInfoPage: React.FC<any> = () => {
-    const { orders } = useSelector((store: TRootStore) => {
+export const ProfileOrdersInfoPage = () => {
+    const { orders } = useSelector((store) => {
         return {
-            orders: store.wsReducer.message["wss://norma.nomoreparties.space/orders"].orders,
+            orders: store.wsReducer.message[WS_ENDPOINT_ORDERS].orders,
         }
     })
 

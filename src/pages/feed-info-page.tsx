@@ -6,15 +6,15 @@ import { useLocation, useParams } from 'react-router-dom'
 import { TRootStore } from '..'
 
 import { wsConnectionStartAction } from '../services/actions/ws-connection-start'
-import { WS_CLOSE_SOCKET } from '../services/constants'
+import { WS_CLOSE_SOCKET, WS_ENDPOINT_ORDERS_ALL } from '../services/constants'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from '../utils/hooks'
 
 
 export function FeedInfoPage() {
-    const { orders } = useSelector((store: TRootStore) => {
+    const { orders } = useSelector((store) => {
         return {
-            orders: store.wsReducer.message["wss://norma.nomoreparties.space/orders/all"].orders,
+            orders: store.wsReducer.message[WS_ENDPOINT_ORDERS_ALL].orders,
         }
     })
 

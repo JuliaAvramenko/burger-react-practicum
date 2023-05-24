@@ -16,14 +16,14 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import { addIngredient, changeBun } from '../services/actions/constructor';
 
 
-import { TDropItem, TOnClick, TRootStore } from '../utils/types';
+import { TDropItem, TOnClick, TOpenModalClick, TRootStore } from '../utils/types';
 import { FC } from 'react';
 import { AppDispatch, AppThunk } from '..';
 import { useDispatch, useSelector } from '../utils/hooks';
 
 
 type THomePage = {
-    openModal: TOnClick
+    openModal: TOpenModalClick
 }
 
 
@@ -35,7 +35,7 @@ export const HomePage: FC<THomePage> = ({ openModal }) => {
 
 
 
-    const { allIngredients } = useSelector((store: TRootStore) => {
+    const { allIngredients } = useSelector((store) => {
         return {
             allIngredients: store.ingredients.ingredients
         }
@@ -61,7 +61,7 @@ export const HomePage: FC<THomePage> = ({ openModal }) => {
     return (
         <DndProvider backend={HTML5Backend}>
             <main className={styles.tables}>
-                <BurgerIngredients openModal={openModal} />
+                <BurgerIngredients />
                 <BurgerConstructor onDropHandler={handleDrop} openModal={openModal} />
             </main>
         </DndProvider>

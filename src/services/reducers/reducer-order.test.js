@@ -1,33 +1,24 @@
-import { CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS } from "../constants"
+import { CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS, RESET_ORDER_STATUS } from "../constants"
 import { order } from "./order"
+import { EmptyStore } from "./root-reducer"
 
 describe('order reducer', () => {
     it('should return the initial state', () => {
-        expect(order(undefined, { type: "" })).toEqual(
-            {
-                loadStarted: false,
-                loadFailed: false,
-                orderName: " ",
-                orderNumber: undefined,
-            })
+        expect(order(undefined, { type: "" })).toEqual(EmptyStore.order)
 
     })
     // CREATE_ORDER
     it('should handle ORDER REDUCERS', () => {
         expect(
             order(
-                {
-                    loadStarted: false,
-                    loadFailed: false,
-                    orderName: " ",
-                    orderNumber: undefined,
-                },
+                EmptyStore.order,
                 {
                     type: CREATE_ORDER
                 }
             )
         ).toEqual(
             {
+                loadFinished: false,
                 loadStarted: true,
                 loadFailed: false,
                 orderName: " ",
@@ -40,12 +31,7 @@ describe('order reducer', () => {
 
         expect(
             order(
-                {
-                    loadStarted: false,
-                    loadFailed: false,
-                    orderName: " ",
-                    orderNumber: undefined,
-                },
+                EmptyStore.order,
                 {
                     type: CREATE_ORDER_SUCCESS,
                     orderDetails:
@@ -61,6 +47,7 @@ describe('order reducer', () => {
             )
         ).toEqual(
             {
+                loadFinished: true,
                 loadStarted: false,
                 loadFailed: false,
                 orderName: "Булка",
@@ -73,18 +60,14 @@ describe('order reducer', () => {
 
         expect(
             order(
-                {
-                    loadStarted: false,
-                    loadFailed: false,
-                    orderName: " ",
-                    orderNumber: undefined,
-                },
+                EmptyStore.order,
                 {
                     type: CREATE_ORDER_FAILED,
                 }
             )
         ).toEqual(
             {
+                loadFinished: false,
                 loadStarted: false,
                 loadFailed: true,
                 orderName: " ",
@@ -92,7 +75,11 @@ describe('order reducer', () => {
             }
         )
 
-
+        expect(
+            order({ ...EmptyStore.order, loadFinished: true }, { type: RESET_ORDER_STATUS })
+        ).toEqual(
+            EmptyStore.order
+        )
 
     })
 })

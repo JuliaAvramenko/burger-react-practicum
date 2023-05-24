@@ -1,6 +1,8 @@
+
+
 describe("modals open correctly", () => {
   before(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit("/");
     setTimeout(() => {
       console.log("im ready")
     }, 5000);

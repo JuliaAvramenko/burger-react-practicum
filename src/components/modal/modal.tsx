@@ -3,7 +3,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './modal.module.css';
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, SyntheticEvent, useEffect } from "react";
 import { TOnClick } from "../../utils/types";
 import { FC } from 'react';
 
@@ -22,7 +22,7 @@ export const Modal: FC<TModal> = ({ children, onClose }) => {
     type TEvent = {
         "isTrusted": boolean
     }
-    const onKeyDown: EventListener = (evt: any) => {
+    const onKeyDown = (evt: KeyboardEvent) => {
         //console.log(`onKeydown ${JSON.stringify(evt)}`)
         if (evt.key === "Escape") {
             onClose()

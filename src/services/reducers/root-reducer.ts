@@ -19,6 +19,7 @@ export const EmptyStore: TRootStore = {
         fillings: []
     },
     order: {
+        loadFinished: false,
         loadStarted: false,
         loadFailed: false,
         orderName: " ",

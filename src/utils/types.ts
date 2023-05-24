@@ -1,6 +1,6 @@
 import { type } from "os"
 import { AnyAction } from "redux"
-import { TAddIngredient, TChangeBun, TCreateOrder, TRemoveIngredient, TShiftIngredient } from "../services/actions/constructor"
+import { TAddIngredient, TChangeBun, TCreateOrder, TRemoveIngredient, TResetConstructor, TShiftIngredient } from "../services/actions/constructor"
 import { TGetIngredients, TGetIngredientsDataFailedAction, TGetIngredientsDataSuccessAction } from "../services/actions/ingredients"
 import { TCreateSwitchTab } from "../services/actions/tab"
 import { TForgotPasswordFailedAction, TForgotPasswordSuccessAction, TResetStatusFieldAction } from "../services/actions/forgot-password"
@@ -8,14 +8,16 @@ import { TChangeUserDataFailedAction, TChangeUserDataSuccessAction } from "../se
 import { TGetUserDataFailedAction, TGetUserDataSuccessAction } from "../services/actions/get-user-data"
 import { TLogInFailedAction, TLogInSuccessAction } from "../services/actions/login"
 import { TLogOutFailedAction, TLogOutSuccessAction } from "../services/actions/logout"
-import { TCreateOrderAction, TCreateOrderFailedAction, TCreateOrderSuccessAction } from "../services/actions/order"
+import { TCreateOrderAction, TCreateOrderFailedAction, TCreateOrderSuccessAction, TResetOrderStatusAction } from "../services/actions/order"
 import { TRefreshTokenFailedAction, TRefreshTokenSuccessAction } from "../services/actions/refresh-token"
 import { TCreateUserFailedAction, TCreateUserSuccessAction } from "../services/actions/register"
 import { TResetPasswordFailedAction, TResetPasswordSuccessAction } from "../services/actions/reset-password"
 import { TWsCloseSocketAction, TWsConnectionClosedAction, TWsConnectionErrorAction, TWsConnectionStartAction, TWsConnectionSuccessAction, TWsGetMessageAction, TWsSendMessageAction } from "../services/middlewares"
 import { TWSState } from "../services/reducers/ws-socket"
+import { SyntheticEvent } from "react"
 
-export type TOnClick = (event?: any) => void
+export type TOnClick = (event?: SyntheticEvent | KeyboardEvent) => void
+export type TOpenModalClick = (contentModal: JSX.Element) => void
 
 // Models
 
@@ -42,12 +44,6 @@ export type TSession = {
     refreshToken: string
 }
 
-// API responses
-
-export type TGetIngredientsResponse = {
-
-}
-
 // Redux types
 
 export type TIngredientsStore = {
@@ -70,6 +66,7 @@ export type TConstructorStore = {
     fillings: Array<TIngredient & { uuid: string }>
 }
 export type TOrderStore = {
+    loadFinished: boolean
     loadFailed: boolean
     orderName: string
     loadStarted: boolean
@@ -91,6 +88,7 @@ export type TRootStore = {
 
 export type TBurgerActions =
     | TAddIngredient
+    | TResetConstructor
     | TRemoveIngredient
     | TShiftIngredient
     | TChangeBun
@@ -113,6 +111,7 @@ export type TBurgerActions =
     | TCreateOrderSuccessAction
     | TCreateOrderFailedAction
     | TCreateOrderAction
+    | TResetOrderStatusAction
     | TRefreshTokenSuccessAction
     | TRefreshTokenFailedAction
     | TCreateUserSuccessAction

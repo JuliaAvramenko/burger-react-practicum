@@ -1,5 +1,5 @@
 import { RESET_PASSWORD_FAILED, RESET_PASSWORD_SUCCESS, RESET_STATUS } from "../constants";
-import { Api, TResetPasswordResponse } from "../../utils/api";
+import { Api } from "../../utils/api";
 import { AppDispatch, AppThunk } from "../..";
 
 export type TResetStatusFieldAction = {
@@ -14,7 +14,6 @@ export const resetStatusField = (): TResetStatusFieldAction => {
 
 export type TResetPasswordSuccessAction = {
     readonly type: typeof RESET_PASSWORD_SUCCESS
-    readonly resetPasswordDetails: TResetPasswordResponse
 }
 
 export type TResetPasswordFailedAction = {
@@ -30,8 +29,7 @@ export const resetPasswordThunk: AppThunk = (password: string, token: string) =>
                 // для записи полученных данных в хранилище
                 // console.log(`I am  response JSON  ${JSON.stringify(responseJson)}`)
                 dispatch({
-                    type: RESET_PASSWORD_SUCCESS,
-                    resetPasswordDetails: responseJson
+                    type: RESET_PASSWORD_SUCCESS
                 })
 
             } else {

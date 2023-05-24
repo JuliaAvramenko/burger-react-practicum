@@ -39,7 +39,6 @@ function AppHeader() {
     }, [pathname])
 
     useEffect(() => {
-        console.log("I am App Page")
         dispatch(getIngredientsThunk())
     }, [])
 
@@ -64,8 +63,9 @@ function AppHeader() {
                     </div>
                 </div>
 
-                <Logo />
-
+                <Link to="/">
+                    <Logo />
+                </Link>
 
 
                 <div className={`${styles.header__column} ${styles.header__column_right} pr-5 pl-5 pt-4 pb-4`}>

@@ -3,11 +3,20 @@ import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { createUserThunk } from "../services/actions/register";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
 import { useDispatch, useSelector } from "../utils/hooks";
 
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+    name: HTMLInputElement
+    password: HTMLInputElement
+}
+
+interface RegisterFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function RegisterPage() {
     const [passwordInput, setPasswordInput] = useState<string>('')
@@ -28,7 +37,7 @@ export function RegisterPage() {
     })
 
 
-    const { sessionValid } = useSelector((store: TRootStore) => {
+    const { sessionValid } = useSelector((store) => {
         return {
             sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
         }
@@ -41,14 +50,14 @@ export function RegisterPage() {
     const location = useLocation()
 
     useEffect(() => {
-        console.log("Register Page Open")
+        //console.log("Register Page Open")
     }, [])
 
     useEffect(() => {
 
         if (sessionValid) {
 
-            console.log(`Register Page: I want to redirect to ${location.state?.from || '/'}`)
+            //console.log(`Register Page: I want to redirect to ${location.state?.from || '/'}`)
             navigate(location.state?.from || '/', { state: { from: location.pathname } })
 
         }
@@ -58,15 +67,21 @@ export function RegisterPage() {
         return validStates.password && validStates.email && validStates.name
     }
 
-    const formSubmit = (e: any) => {
+    const formSubmit = (e: FormEvent<RegisterFormElement>) => {
         //console.log(`Check validity: ${e.target.email.validity.valid}`)
         //console.log(`Check validity: ${e.target.password.validity.valid}`)
         //console.log(`Check validity: ${e.target.name.validity.valid}`)
 
         if (validate()) {
-            dispatch(createUserThunk(e.target.email.value, e.target.password.value, e.target.name.value));
+            dispatch(
+                createUserThunk(
+                    e.currentTarget.elements.email.value,
+                    e.currentTarget.elements.password.value,
+                    e.currentTarget.elements.name.value
+                )
+            );
 
-            console.log(`Register Page: I want to redirect to /login but in location: ${location.state?.from || '/'}`)
+            // console.log(`Register Page: I want to redirect to /login but in location: ${location.state?.from || '/'}`)
             navigate("/login", { state: { from: location.pathname } })
         } else {
 

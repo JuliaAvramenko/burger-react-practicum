@@ -1,13 +1,23 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./pages.css"
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { resetStatusField } from "../services/actions/forgot-password";
 import { resetPasswordThunk } from "../services/actions/reset-password";
 import { TRootStore } from "../utils/types";
 import { AppDispatch, AppThunk } from "..";
 import { useDispatch, useSelector } from "../utils/hooks";
+
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+    code: HTMLInputElement
+
+}
+
+interface ResetFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function ResetPasswordPage() {
     const [passwordInput, setPasswordInput] = useState<string>('')
@@ -17,7 +27,7 @@ export function ResetPasswordPage() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const { passwordResetStatus, forgotPasswordStatus, session } = useSelector((store: TRootStore) => {
+    const { passwordResetStatus, forgotPasswordStatus, session } = useSelector((store) => {
         return {
             passwordResetStatus: store.auth.passwordResetSuccess,
             forgotPasswordStatus: store.auth.forgotPasswordSuccess,
@@ -27,8 +37,13 @@ export function ResetPasswordPage() {
         }
     })
 
-    const formSubmit = (e: any) => {
-        dispatch(resetPasswordThunk(e.target.email.value, e.target.code.value));
+    const formSubmit = (e: FormEvent<ResetFormElement>) => {
+        dispatch(
+            resetPasswordThunk(
+                e.currentTarget.elements.email.value,
+                e.currentTarget.elements.code.value
+            )
+        );
 
         e.preventDefault();
     }
