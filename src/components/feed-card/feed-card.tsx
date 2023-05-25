@@ -5,8 +5,7 @@ import DateTime from "../date-time/date-time"
 import { TIngredient } from "../../utils/types"
 
 import { TOrder } from "../../services/reducers/ws-socket"
-import { Link, useLocation, useParams } from "react-router-dom"
-import FeedInfo from "../feed-info/feed-info"
+import { Link, useLocation } from "react-router-dom"
 import { useSelector } from "../../utils/hooks"
 
 
@@ -32,7 +31,6 @@ const FeedCard: React.FC<TFeedCard> = ({ order, orderInfoPath = "/feed", hide = 
             ingredients: store.ingredients.ingredients
         }
     })
-    const contentModal = <FeedInfo order={order} />
     const location = useLocation()
 
     let sum = 0
@@ -55,14 +53,7 @@ const FeedCard: React.FC<TFeedCard> = ({ order, orderInfoPath = "/feed", hide = 
         }
     }
 
-    const cardClichHandler = () => {
-        return
-        //window.history.replaceState({ prevState: pathname }, order.name!, `${orderInfoPath}/${order._id}`);
-
-        //onClick(contentModal)
-    }
-
-    const card = <article className={`${styles.card} pt-6 pb-6 pr-4 pl-4`} onClick={cardClichHandler}>
+    const card = <article className={`${styles.card} pt-6 pb-6 pr-4 pl-4`}>
         <div className={styles.order}>
             <p className="text text_type_digits-default">{`#${order.number} `}</p>
             <DateTime order={order}></DateTime>

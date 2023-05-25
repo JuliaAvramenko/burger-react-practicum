@@ -26,17 +26,26 @@ const FeedInfo: FC<TFeedInfo> = ({ order }) => {
         }
     })
     let accumulator: { [key: string]: number } = {}
-    //console.log(`I am order ${JSON.stringify(order)}`)
-    order.ingredients.reduce((previousValue, currentValue) => {
-        if (currentValue) {
-            if (!accumulator[currentValue]) {
-                accumulator[currentValue] = 0
+    console.log(`I am order ${JSON.stringify(order)}`)
+    function accumulate(ingredientId: string) {
+        if (ingredientId) {
+            if (!accumulator[ingredientId]) {
+                accumulator[ingredientId] = 0
             }
 
-            accumulator[currentValue] += 1
+            accumulator[ingredientId] += 1
         }
+    }
+    if (order.ingredients.length > 0) {
+        accumulate(order.ingredients[0])
+    }
+    order.ingredients.reduce((previousValue, currentValue) => {
+        accumulate(currentValue)
+
         return currentValue
     })
+
+    console.log(`I am accumulator ${JSON.stringify(accumulator)}`)
 
     let groupedIngredients = Object.getOwnPropertyNames(accumulator).map((ingredient) => {
         const counter: number = accumulator[ingredient]
