@@ -1,14 +1,9 @@
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './profile-orders-info-page.module.css'
 import FeedInfo from '../components/feed-info/feed-info'
-import DateTime from '../components/date-time/date-time'
-import { TOrder } from '../services/reducers/ws-socket'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from '../utils/hooks'
-import { TRootStore } from '../utils/types'
 import { useEffect } from 'react'
-import { wsConnectionStartAction } from '../services/actions/ws-connection-start'
-import { WS_CLOSE_SOCKET, WS_ENDPOINT_ORDERS } from '../services/constants'
+import { WS_ENDPOINT_ORDERS } from '../services/constants'
+import { wsConnectionCloseAction, wsConnectionStartAction } from '../services/actions/websocket'
 
 
 export const ProfileOrdersInfoPage = () => {
@@ -20,9 +15,9 @@ export const ProfileOrdersInfoPage = () => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(wsConnectionStartAction())
+        dispatch(wsConnectionStartAction(WS_ENDPOINT_ORDERS))
         return () => {
-            dispatch({ type: WS_CLOSE_SOCKET })
+            dispatch(wsConnectionCloseAction(WS_ENDPOINT_ORDERS))
         }
     }, [])
 

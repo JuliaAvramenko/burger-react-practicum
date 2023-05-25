@@ -1,6 +1,5 @@
 
 import styles from "./pictures-feed.module.css"
-import { TRootStore } from "../.."
 import { TOrder } from "../../services/reducers/ws-socket"
 import { useSelector } from "../../utils/hooks"
 import React from "react"

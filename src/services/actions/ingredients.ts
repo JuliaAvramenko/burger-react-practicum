@@ -1,6 +1,5 @@
 import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from "../constants";
 import { Api } from "../../utils/api";
-import { changeBun } from "./constructor";
 import { TIngredient } from "../../utils/types";
 import { AppDispatch, AppThunk } from "../..";
 

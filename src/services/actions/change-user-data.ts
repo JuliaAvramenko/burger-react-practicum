@@ -1,8 +1,5 @@
 import { CHANGE_USER_DATA_FAILED, CHANGE_USER_DATA_SUCCESS } from "../constants";
 import { Api, TUserResponse } from "../../utils/api";
-import { TAuthStore, TDispatch } from "../../utils/types";
-import { AnyAction } from "redux";
-import { ThunkAction } from "redux-thunk";
 import { AppDispatch, AppThunk } from "../..";
 
 

@@ -1,13 +1,12 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-page.module.css"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { logOutThunk } from "../services/actions/logout";
 import { FormEvent, useEffect, useState } from "react";
 import { getUserDataThunk } from "../services/actions/get-user-data";
 import { changeUserDataThunk } from "../services/actions/change-user-data";
-import { TOnClick, TOpenModalClick, TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
+import { TOpenModalClick } from "../utils/types";
 import { useDispatch, useSelector } from "../utils/hooks";
 import { ProfileOrdersPage } from "./profile-orders-page";
 

@@ -2,7 +2,6 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 import styles from "./order-details.module.css";
 import { createOrderThunk } from "../../services/actions/order";
 import { useEffect } from "react";
-import { TRootStore } from "../../utils/types";
 import { useDispatch, useSelector } from "../../utils/hooks";
 
 function OrderDetails() {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/app/app';
@@ -11,6 +11,7 @@ import thunk, { ThunkAction } from 'redux-thunk';
 import { TBurgerActions, TRootStore as TCanonicalRootStore } from './utils/types';
 import { getCookie, setCookie } from './utils/cookies';
 import { COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, WS_ENDPOINT_ORDERS, WS_ENDPOINT_ORDERS_ALL } from './services/constants';
+import { createWsSettings } from './services/actions/websocket';
 
 // convert object to string and store in localStorage
 function saveToLocalStorage(state: TCanonicalRootStore) {
@@ -40,7 +41,14 @@ function loadFromLocalStorage(): TCanonicalRootStore {
   }
 }
 
+
+const allOrdersWebSocketSettings = createWsSettings(WS_ENDPOINT_ORDERS_ALL, false)
+const myOrdersWebSocketSettings = createWsSettings(WS_ENDPOINT_ORDERS, true)
+
+
+
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -49,8 +57,8 @@ const enhancer = composeEnhancers(
   applyMiddleware(
     thunk,
     actionLoggerMiddleWare,
-    socketMiddleware(WS_ENDPOINT_ORDERS, true),
-    socketMiddleware(WS_ENDPOINT_ORDERS_ALL)
+    socketMiddleware<TBurgerActions>(allOrdersWebSocketSettings),
+    socketMiddleware<TBurgerActions>(myOrdersWebSocketSettings)
   )
 )
 const store = createStore(rootReducer, loadFromLocalStorage(), enhancer);

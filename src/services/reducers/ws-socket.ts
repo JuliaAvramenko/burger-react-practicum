@@ -23,8 +23,6 @@ export type TMessage = {
 export type TWSState = {
     wsConnected: boolean;
     message: { [key: string]: TMessage };
-
-    error?: Event;
 }
 
 // Создадим редьюсер для WebSocket
@@ -35,7 +33,6 @@ export const wsReducer = (state: TWSState = EmptyStore.wsReducer, action: TBurge
         case WS_CONNECTION_SUCCESS:
             return {
                 ...state,
-                error: undefined,
                 wsConnected: true
             };
 
@@ -44,7 +41,6 @@ export const wsReducer = (state: TWSState = EmptyStore.wsReducer, action: TBurge
         case WS_CONNECTION_ERROR:
             return {
                 ...state,
-                error: action.payload,
                 wsConnected: false
             };
 
@@ -53,7 +49,6 @@ export const wsReducer = (state: TWSState = EmptyStore.wsReducer, action: TBurge
         case WS_CONNECTION_CLOSED:
             return {
                 ...state,
-                error: undefined,
                 wsConnected: false
             };
 
@@ -62,11 +57,11 @@ export const wsReducer = (state: TWSState = EmptyStore.wsReducer, action: TBurge
         // В messages передадим данные, которые пришли с сервера
         case WS_GET_MESSAGE:
             const message = { ...state.message }
+
             message[action.source] = action.payload
             //console.log(JSON.stringify(message))
             return {
                 ...state,
-                error: undefined,
                 message: message
             };
         default:

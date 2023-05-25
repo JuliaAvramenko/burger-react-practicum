@@ -1,4 +1,4 @@
-import { AnyAction } from "redux";
+
 import { TTabSwitchStore, TBurgerActions } from "../../utils/types";
 import { TAB_SWITCH } from "../constants";
 

@@ -1,18 +1,9 @@
-import { AnyAction } from "redux"
-import { TIngredient, TIngredientsStore, TBurgerActions } from "../../utils/types"
+import { TIngredientsStore, TBurgerActions } from "../../utils/types"
 import { GET_INGREDIENTS, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from "../constants"
+import { EmptyStore } from "./root-reducer"
 
 
-
-const initialState = {
-    loadStarted: false,
-    loadFailed: false,
-    ingredients: []
-}
-
-
-
-export const ingredients = (state: TIngredientsStore = initialState, action: TBurgerActions) => {
+export const ingredients = (state: TIngredientsStore = EmptyStore.ingredients, action: TBurgerActions) => {
     switch (action.type) {
         case GET_INGREDIENTS:
             return {

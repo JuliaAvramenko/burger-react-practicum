@@ -3,7 +3,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './modal.module.css';
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 
-import { ReactNode, SyntheticEvent, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { TOnClick } from "../../utils/types";
 import { FC } from 'react';
 

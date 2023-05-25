@@ -4,7 +4,7 @@ import OrderTotal from "../order-total/order-total";
 
 
 import { useDrop } from "react-dnd";
-import { TDropItem, TOnClick, TOpenModalClick, TRootStore } from '../../utils/types';
+import { TDropItem, TOpenModalClick } from '../../utils/types';
 import { FC } from 'react';
 import { useSelector } from '../../utils/hooks';
 

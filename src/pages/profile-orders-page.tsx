@@ -1,13 +1,11 @@
 
 import FeedCard from "../components/feed-card/feed-card";
-import { TOrder } from "../services/reducers/ws-socket";
-import { TOnClick, TOpenModalClick, TRootStore } from "../utils/types";
+import { TOpenModalClick } from "../utils/types";
 import styles from './profile-orders-page.module.css';
-import { AppDispatch, AppThunk } from "..";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from "../utils/hooks";
-import { wsConnectionStartAction } from "../services/actions/ws-connection-start";
-import { WS_CLOSE_SOCKET, WS_ENDPOINT_ORDERS } from "../services/constants";
+import { WS_ENDPOINT_ORDERS } from "../services/constants";
+import { wsConnectionCloseAction, wsConnectionStartAction } from "../services/actions/websocket";
 
 type ProfileOrdersPage = {
 
@@ -24,9 +22,9 @@ export const ProfileOrdersPage: React.FC<ProfileOrdersPage> = ({ openModal }) =>
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(wsConnectionStartAction())
+        dispatch(wsConnectionStartAction(WS_ENDPOINT_ORDERS))
         return () => {
-            dispatch({ type: WS_CLOSE_SOCKET })
+            dispatch(wsConnectionCloseAction(WS_ENDPOINT_ORDERS))
         }
     }, [])
 

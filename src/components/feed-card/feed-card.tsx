@@ -2,9 +2,8 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./feed-card.module.css"
 import PicturesFeed from "../pictures-feed/pictures-feed"
 import DateTime from "../date-time/date-time"
-import { TIngredient, TOnClick, TOpenModalClick } from "../../utils/types"
+import { TIngredient } from "../../utils/types"
 
-import { TRootStore } from "../.."
 import { TOrder } from "../../services/reducers/ws-socket"
 import { Link, useLocation, useParams } from "react-router-dom"
 import FeedInfo from "../feed-info/feed-info"

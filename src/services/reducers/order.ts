@@ -1,4 +1,4 @@
-import { AnyAction } from "redux";
+
 import { TOrderStore, TBurgerActions } from "../../utils/types";
 import { CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS, RESET_ORDER_STATUS } from "../constants";
 import { EmptyStore } from "./root-reducer";

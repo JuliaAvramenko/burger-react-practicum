@@ -3,10 +3,10 @@ import styles from './order-total.module.css';
 import OrderDetails from "../order-details/order-details";
 import { FC, useEffect } from 'react';
 
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { TOpenModalClick, TRootStore } from '../../utils/types';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { TOpenModalClick } from '../../utils/types';
 import { useDispatch, useSelector } from '../../utils/hooks';
-import { RESET_CONSTRUCTOR, RESET_ORDER_STATUS } from '../../services/constants';
+import { RESET_CONSTRUCTOR } from '../../services/constants';
 
 
 type TOrderTotal = {
@@ -31,7 +31,6 @@ const OrderTotal: FC<TOrderTotal> = ({ onClick, sum }) => {
     useEffect(() => {
         if (orderStarted === true) {
             dispatch({ type: RESET_CONSTRUCTOR })
-            //dispatch({ type: RESET_ORDER_STATUS })
         }
 
     }, [orderStarted])

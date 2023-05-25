@@ -1,13 +1,10 @@
-import { ReactNode, useRef } from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
 import BurgerIngredientBlock from "../burger-ingredient-block/burger-ingredient-block";
 
 
-
 import { createSwitchTab } from "../../services/actions/tab";
-import { TOnClick, TOpenModalClick, TRootStore } from "../../utils/types";
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { useDispatch, useSelector } from "../../utils/hooks";
 
 type TBurgerIngredients = {
@@ -18,12 +15,10 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({ }) => {
             ingredients: store.ingredients.ingredients,
             currentTab: store.tabSwitch.currentTab
         }
-
     })
 
 
-    const refIngredientsTable = useRef<HTMLDivElement>(null);
-    //console.log(`I am refIngredientsTable ${typeof refIngredientsTable}`)
+    const refIngredientsTable = useRef<HTMLDivElement>(null)
 
 
     const sections = [

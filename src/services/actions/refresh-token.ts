@@ -1,6 +1,5 @@
-import { COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS } from "../constants";
+import { REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS } from "../constants";
 import { Api } from "../../utils/api";
-import { setCookie } from "../../utils/cookies";
 import { AppThunk } from "../..";
 import { TSession } from "../../utils/types";
 

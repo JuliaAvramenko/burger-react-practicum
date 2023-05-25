@@ -4,7 +4,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDrag } from "react-dnd";
 
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient, TOnClick, TOpenModalClick, TRootStore } from '../../utils/types';
+import { TIngredient } from '../../utils/types';
 import { FC } from 'react';
 import { useSelector } from '../../utils/hooks';
 

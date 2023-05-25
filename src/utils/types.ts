@@ -1,4 +1,4 @@
-import { type } from "os"
+
 import { AnyAction } from "redux"
 import { TAddIngredient, TChangeBun, TCreateOrder, TRemoveIngredient, TResetConstructor, TShiftIngredient } from "../services/actions/constructor"
 import { TGetIngredients, TGetIngredientsDataFailedAction, TGetIngredientsDataSuccessAction } from "../services/actions/ingredients"
@@ -12,9 +12,9 @@ import { TCreateOrderAction, TCreateOrderFailedAction, TCreateOrderSuccessAction
 import { TRefreshTokenFailedAction, TRefreshTokenSuccessAction } from "../services/actions/refresh-token"
 import { TCreateUserFailedAction, TCreateUserSuccessAction } from "../services/actions/register"
 import { TResetPasswordFailedAction, TResetPasswordSuccessAction } from "../services/actions/reset-password"
-import { TWsCloseSocketAction, TWsConnectionClosedAction, TWsConnectionErrorAction, TWsConnectionStartAction, TWsConnectionSuccessAction, TWsGetMessageAction, TWsSendMessageAction } from "../services/middlewares"
 import { TWSState } from "../services/reducers/ws-socket"
 import { SyntheticEvent } from "react"
+import { TWsConnectionCloseAction, TWsConnectionClosedAction, TWsConnectionErrorAction, TWsConnectionStartAction, TWsConnectionSuccessAction, TWsGetMessageAction, TWsSendMessageAction } from "../services/actions/websocket"
 
 export type TOnClick = (event?: SyntheticEvent | KeyboardEvent) => void
 export type TOpenModalClick = (contentModal: JSX.Element) => void
@@ -119,14 +119,13 @@ export type TBurgerActions =
     | TResetPasswordSuccessAction
     | TResetPasswordFailedAction
     | TResetStatusFieldAction
+    | TWsConnectionStartAction
     | TWsConnectionSuccessAction
     | TWsConnectionErrorAction
+    | TWsSendMessageAction
     | TWsGetMessageAction
     | TWsConnectionClosedAction
-    | TWsConnectionStartAction
-    | TWsCloseSocketAction
-    | TWsSendMessageAction
-
+    | TWsConnectionCloseAction
 
 
 

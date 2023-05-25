@@ -1,13 +1,11 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 
 import jwt_decode from "jwt-decode"
 
 import { refreshTokenThunk } from "../../services/actions/refresh-token";
 
 import { FC } from 'react';
-import { TRootStore } from "../../utils/types";
-import { AppDispatch, AppThunk } from "../..";
 import { useDispatch, useSelector } from "../../utils/hooks";
 
 type TProtectedRoute = {

@@ -1,4 +1,4 @@
-import { AnyAction } from "redux";
+
 import { TConstructorStore, TBurgerActions } from "../../utils/types";
 import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, RESET_CONSTRUCTOR } from "../constants";
 import { EmptyStore } from "./root-reducer";

@@ -1,16 +1,12 @@
 
 import styles from './feed-page.module.css';
 import FeedCard from "../components/feed-card/feed-card";
-import { AppDispatch, AppThunk, TRootStore } from '..';
-import { useEffect, useState } from 'react';
-import { createDeflate } from 'zlib';
+import { useEffect } from 'react';
 import { TOrder } from '../services/reducers/ws-socket';
-import { useLocation, useParams } from 'react-router-dom';
-import { ingredients } from '../services/reducers/ingredients';
-import { TIngredient, TOnClick, TOpenModalClick } from '../utils/types';
+import { TOpenModalClick } from '../utils/types';
 import { useDispatch, useSelector } from '../utils/hooks';
-import { wsConnectionStartAction } from '../services/actions/ws-connection-start';
-import { WS_CLOSE_SOCKET, WS_ENDPOINT_ORDERS_ALL } from '../services/constants';
+import { WS_ENDPOINT_ORDERS_ALL } from '../services/constants';
+import { wsConnectionCloseAction, wsConnectionStartAction } from '../services/actions/websocket';
 
 type TFeedPage = {
     openModal: TOpenModalClick
@@ -28,17 +24,11 @@ export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(wsConnectionStartAction())
+        dispatch(wsConnectionStartAction(WS_ENDPOINT_ORDERS_ALL))
         return () => {
-            dispatch({ type: WS_CLOSE_SOCKET })
+            dispatch(wsConnectionCloseAction(WS_ENDPOINT_ORDERS_ALL))
         }
     }, [])
-
-    useEffect(() => {
-        //console.log(message)
-        //console.log(`приходят новые сообщения`)
-    }, [message])
-
 
 
     const orders: Array<TOrder> = message.orders
@@ -52,10 +42,6 @@ export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
 
     const orderPendingNumbers = pendingOrders.slice(0, 9).map((order) => order.number)
     const secondPartOrderPendingNumbers = pendingOrders.slice(10, 19).map((order) => order.number)
-
-
-
-
 
     return (
         <div className={`${styles["table"]}`}>

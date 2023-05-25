@@ -1,12 +1,9 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./pages.css"
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 
-import { resetStatusField } from "../services/actions/forgot-password";
 import { resetPasswordThunk } from "../services/actions/reset-password";
-import { TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
 import { useDispatch, useSelector } from "../utils/hooks";
 
 interface FormElements extends HTMLFormControlsCollection {

@@ -4,7 +4,6 @@ import { TOrder } from "../../services/reducers/ws-socket"
 import { FC } from "react"
 import { TIngredient } from "../../utils/types"
 
-import { TRootStore } from "../.."
 import DateTime from "../date-time/date-time"
 import { useSelector } from "../../utils/hooks"
 

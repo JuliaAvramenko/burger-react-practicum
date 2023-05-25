@@ -4,8 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { createUserThunk } from "../services/actions/register";
 import { FormEvent, useEffect, useState } from "react";
-import { TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
 import { useDispatch, useSelector } from "../utils/hooks";
 
 interface FormElements extends HTMLFormControlsCollection {

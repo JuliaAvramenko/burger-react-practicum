@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logInThunk } from "../services/actions/login";
 
 import { FormEvent, useEffect, useState } from "react";
-import { TRootStore } from "../utils/types";
 import { useDispatch, useSelector } from "../utils/hooks";
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -32,10 +31,6 @@ export function LoginPage() {
         }
     })
 
-
-    useEffect(() => {
-        //console.log("Login Page Open")
-    }, [])
 
     useEffect(() => {
         if (sessionValid) {

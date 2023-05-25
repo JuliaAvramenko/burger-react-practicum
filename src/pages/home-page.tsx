@@ -1,6 +1,4 @@
 
-import { useEffect } from 'react'
-
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -16,9 +14,8 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import { addIngredient, changeBun } from '../services/actions/constructor';
 
 
-import { TDropItem, TOnClick, TOpenModalClick, TRootStore } from '../utils/types';
+import { TDropItem, TOpenModalClick } from '../utils/types';
 import { FC } from 'react';
-import { AppDispatch, AppThunk } from '..';
 import { useDispatch, useSelector } from '../utils/hooks';
 
 
@@ -28,12 +25,7 @@ type THomePage = {
 
 
 export const HomePage: FC<THomePage> = ({ openModal }) => {
-
-
-
     const dispatch = useDispatch();
-
-
 
     const { allIngredients } = useSelector((store) => {
         return {

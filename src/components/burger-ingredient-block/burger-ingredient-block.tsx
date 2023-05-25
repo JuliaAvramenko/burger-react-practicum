@@ -4,7 +4,7 @@ import IngredientCard from "../ingredient-card/ingredient-card";
 
 
 import { forwardRef } from 'react';
-import { TIngredient, TOnClick, TOpenModalClick } from '../../utils/types';
+import { TIngredient } from '../../utils/types';
 
 
 type TBurgerIngredientBlock = {

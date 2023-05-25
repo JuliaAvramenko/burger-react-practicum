@@ -5,7 +5,6 @@ import { TestPage } from '../../pages/test-page';
 import { FeedPage } from '../../pages/feed-page';
 import { FeedInfoPage } from '../../pages/feed-info-page';
 import { ProfileOrdersInfoPage } from '../../pages/profile-orders-info-page';
-import { ProfileOrdersPage } from '../../pages/profile-orders-page';
 import { TIngredient, TOnClick, TOpenModalClick } from '../../utils/types';
 import { FC } from 'react';
 import { Modal } from '../modal/modal';
