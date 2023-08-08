@@ -33,8 +33,6 @@ function App() {
 
   return (
     <div className={styles.App}>
-
-
       {
         false && <BrowserRouter>
           <AppHeader></AppHeader>
