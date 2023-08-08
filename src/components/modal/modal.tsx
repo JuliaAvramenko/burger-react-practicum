@@ -22,7 +22,7 @@ export const Modal: FC<TModal> = ({ children, onClose }) => {
     type TEvent = {
         "isTrusted": boolean
     }
-    const onKeyDown: EventListener = (evt: any) => {
+    const onKeyDown = (evt: KeyboardEvent) => {
         //console.log(`onKeydown ${JSON.stringify(evt)}`)
         if (evt.key === "Escape") {
             onClose()

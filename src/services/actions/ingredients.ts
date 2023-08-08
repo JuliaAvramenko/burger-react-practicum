@@ -1,7 +1,6 @@
 import { GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS } from "../constants";
 import { Api } from "../../utils/api";
-import { changeBun } from "./constructor";
-import { TGetIngredientsResponse, TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types";
 import { AppDispatch, AppThunk } from "../..";
 
 export type TGetIngredients = {
@@ -35,7 +34,7 @@ export const getIngredientsThunk: AppThunk = () => {
                     type: GET_INGREDIENTS_SUCCESS,
                     ingredients: responseJson.data
                 })
-                const allBuns = responseJson.data.filter((ingredient: TIngredient) => ingredient.type === "bun")
+                const allBuns = responseJson.data.filter((ingredient) => ingredient.type === "bun")
                 const defaultBun = allBuns.length > 0 && allBuns[0]
 
                 // dispatch(changeBun(defaultBun))  // убрала добавление булочки по умолчанию 

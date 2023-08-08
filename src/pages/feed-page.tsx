@@ -1,50 +1,47 @@
 
 import styles from './feed-page.module.css';
 import FeedCard from "../components/feed-card/feed-card";
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, AppThunk, TRootStore } from '..';
-import { useEffect, useState } from 'react';
-import { createDeflate } from 'zlib';
+import { useEffect } from 'react';
 import { TOrder } from '../services/reducers/ws-socket';
-import { useLocation, useParams } from 'react-router-dom';
-import { ingredients } from '../services/reducers/ingredients';
-import { TIngredient, TOnClick } from '../utils/types';
+import { TOpenModalClick } from '../utils/types';
+import { useDispatch, useSelector } from '../utils/hooks';
+import { WS_ENDPOINT_ORDERS_ALL } from '../services/constants';
+import { wsConnectionCloseAction, wsConnectionStartAction } from '../services/actions/websocket';
 
 type TFeedPage = {
-    openModal: TOnClick
+    openModal: TOpenModalClick
 }
 
 
 export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
-    const { message, allOrders } = useSelector((store: TRootStore) => {
+    const { message, allOrders } = useSelector((store) => {
         return {
-            message: store.wsReducer.message["wss://norma.nomoreparties.space/orders/all"],
-            allOrders: store.wsReducer.message["wss://norma.nomoreparties.space/orders/all"].orders
+            message: store.wsReducer.message[WS_ENDPOINT_ORDERS_ALL],
+            allOrders: store.wsReducer.message[WS_ENDPOINT_ORDERS_ALL].orders
         }
     })
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        //console.log(message)
-        //console.log(`приходят новые сообщения`)
-    }, [message])
+        dispatch(wsConnectionStartAction(WS_ENDPOINT_ORDERS_ALL))
+        return () => {
+            dispatch(wsConnectionCloseAction(WS_ENDPOINT_ORDERS_ALL))
+        }
+    }, [])
 
 
+    const orders: Array<TOrder> = message.orders
+    const doneOrders = orders.filter((order) => order.status === "done")
 
-    const orders: Array<any> = message.orders
-    const doneOrders = orders.filter((order: any) => order.status === "done")
-
-    const orderNumbers = doneOrders.slice(0, 9).map((order: any) => order.number)
-    const secondPartOrderNumbers = doneOrders.slice(10, 19).map((order: any) => order.number)
-
-
-    const pendingOrders = orders.filter((order: any) => order.status === "pending")
-
-    const orderPendingNumbers = pendingOrders.slice(0, 9).map((order: any) => order.number)
-    const secondPartOrderPendingNumbers = pendingOrders.slice(10, 19).map((order: any) => order.number)
+    const orderNumbers = doneOrders.slice(0, 9).map((order) => order.number)
+    const secondPartOrderNumbers = doneOrders.slice(10, 19).map((order) => order.number)
 
 
+    const pendingOrders = orders.filter((order) => order.status === "pending")
 
+    const orderPendingNumbers = pendingOrders.slice(0, 9).map((order) => order.number)
+    const secondPartOrderPendingNumbers = pendingOrders.slice(10, 19).map((order) => order.number)
 
     return (
         <div className={`${styles["table"]}`}>
@@ -52,12 +49,12 @@ export const FeedPage: React.FC<TFeedPage> = ({ openModal }) => {
             <div className={`${styles["big-table"]}`}>
                 <div className={`${styles['left-table']} custom-scroll mt-4 mb-4`}>
                     {
-                        message.orders.map((order: TOrder) => {
+                        message.orders.map((order) => {
                             return (
                                 <FeedCard
                                     key={order._id}
                                     order={order}
-                                    onClick={openModal}
+                                    orderInfoPath={"/feed"}
                                     hide={true}
                                 />
                             )

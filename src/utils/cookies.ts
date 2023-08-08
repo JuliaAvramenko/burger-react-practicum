@@ -1,4 +1,6 @@
 export function setCookie(name: string, value: string, props?: any) {
+    // console.log(`Set cookie: ${name}=${value}`)
+
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -22,6 +24,7 @@ export function setCookie(name: string, value: string, props?: any) {
 }
 
 export function getCookie(name: string) {
+    // console.log(`Get cookie: ${name}`)
     const cookies = document.cookie.split(';').filter(c => {
         return c.trim().startsWith(name + '=');
     });

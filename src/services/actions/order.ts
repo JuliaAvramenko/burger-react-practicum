@@ -1,4 +1,4 @@
-import { CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS } from "../constants";
+import { CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS, RESET_ORDER_STATUS } from "../constants";
 import { Api, TCreateOrderResponse } from "../../utils/api";
 import { AppDispatch, AppThunk } from "../..";
 
@@ -12,13 +12,17 @@ export type TCreateOrderSuccessAction = {
     readonly orderDetails: TCreateOrderResponse
 }
 
+export type TResetOrderStatusAction = {
+    readonly type: typeof RESET_ORDER_STATUS
+}
+
 export type TCreateOrderFailedAction = {
     readonly type: typeof CREATE_ORDER_FAILED
 
 }
 
 
-export const createOrderThunk: AppThunk = (ids: string[]): any => {
+export const createOrderThunk: AppThunk = (ids: string[]) => {
     return function (dispatch: AppDispatch) {
         dispatch({
             type: CREATE_ORDER

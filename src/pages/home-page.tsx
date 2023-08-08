@@ -1,5 +1,3 @@
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react'
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -16,26 +14,20 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import { addIngredient, changeBun } from '../services/actions/constructor';
 
 
-import { TDropItem, TOnClick, TRootStore } from '../utils/types';
+import { TDropItem, TOpenModalClick } from '../utils/types';
 import { FC } from 'react';
-import { AppDispatch, AppThunk } from '..';
-import { useSelector } from '../utils/hooks';
+import { useDispatch, useSelector } from '../utils/hooks';
 
 
 type THomePage = {
-    openModal: TOnClick
+    openModal: TOpenModalClick
 }
 
 
 export const HomePage: FC<THomePage> = ({ openModal }) => {
+    const dispatch = useDispatch();
 
-
-
-    const dispatch: AppDispatch | AppThunk = useDispatch();
-
-
-
-    const { allIngredients } = useSelector((store: TRootStore) => {
+    const { allIngredients } = useSelector((store) => {
         return {
             allIngredients: store.ingredients.ingredients
         }
@@ -61,7 +53,7 @@ export const HomePage: FC<THomePage> = ({ openModal }) => {
     return (
         <DndProvider backend={HTML5Backend}>
             <main className={styles.tables}>
-                <BurgerIngredients openModal={openModal} />
+                <BurgerIngredients />
                 <BurgerConstructor onDropHandler={handleDrop} openModal={openModal} />
             </main>
         </DndProvider>

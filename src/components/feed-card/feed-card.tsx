@@ -2,17 +2,16 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./feed-card.module.css"
 import PicturesFeed from "../pictures-feed/pictures-feed"
 import DateTime from "../date-time/date-time"
-import { TBurgerActions, TIngredient, TOnClick } from "../../utils/types"
-import { useSelector } from "react-redux"
-import { TRootStore } from "../.."
+import { TIngredient } from "../../utils/types"
+
 import { TOrder } from "../../services/reducers/ws-socket"
-import { useLocation, useParams } from "react-router-dom"
-import FeedInfo from "../feed-info/feed-info"
+import { Link, useLocation } from "react-router-dom"
+import { useSelector } from "../../utils/hooks"
 
 
 type TFeedCard = {
     order: TOrder
-    onClick: TOnClick
+    orderInfoPath?: string
     hide?: boolean
 
 }
@@ -25,36 +24,20 @@ function getIngredientPrice(ingredientId: string, ingredients: TIngredient[]): n
     return price;
 }
 
-const FeedCard: React.FC<TFeedCard> = ({ order, onClick, hide = false }) => {
+const FeedCard: React.FC<TFeedCard> = ({ order, orderInfoPath = "/feed", hide = false }) => {
 
-    const { ingredients } = useSelector((store: TRootStore) => {
+    const { ingredients } = useSelector((store) => {
         return {
             ingredients: store.ingredients.ingredients
         }
     })
-    const contentModal = <FeedInfo order={order} />
-    const { pathname } = useLocation()
-    //console.log(order.status)
-    //const location = useLocation()
-    // console.log(location.pathname)
-
-
-
-    //const { idFeed } = useParams<string>()
-    //console.log(`I am params ${JSON.stringify(params)}`)
-
-
-
-    //console.log(order.ingredients)
+    const location = useLocation()
 
     let sum = 0
     order.ingredients.forEach((ingredientId) => {
         const price = getIngredientPrice(ingredientId, ingredients)
         sum = sum + price
     })
-
-    //console.log(sum)
-
 
     const toTranslateStatus = (status: string) => {
         if (status === "done") {
@@ -70,31 +53,36 @@ const FeedCard: React.FC<TFeedCard> = ({ order, onClick, hide = false }) => {
         }
     }
 
+    const card = <article className={`${styles.card} pt-6 pb-6 pr-4 pl-4`}>
+        <div className={styles.order}>
+            <p className="text text_type_digits-default">{`#${order.number} `}</p>
+            <DateTime order={order}></DateTime>
+        </div>
+        <h3 className="text text_type_main-medium mt-4 mb-4">{order.name}</h3>
+        <p className={`${styles.ready} text text_type_main-small mb-6`}>{hide === false && toTranslateStatus(order.status)}</p>
+        <div className={styles.wrapper}>
+            <div>
+                <PicturesFeed order={order}></PicturesFeed>
+            </div>
+            <div className={styles.price}>
+                <p className="text text_type_digits-default mr-2">{sum}</p>
+                <CurrencyIcon type="primary" />
+            </div>
+        </div>
 
+    </article>
 
     return (
-        <article className={`${styles.card} pt-6 pb-6 pr-4 pl-4`} onClick={() => {
-            window.history.replaceState({ prevState: pathname }, order.name!, `/feed/${order._id}`);
+        <Link
+            to={`${orderInfoPath}/${order._id}`}
+            state={{ background: location, content: "FeedInfo", data: order }}
+            className={styles.link}
 
-            onClick(contentModal)
-        }}>
-            <div className={styles.order}>
-                <p className="text text_type_digits-default">{`#${order.number} `}</p>
-                <DateTime order={order}></DateTime>
+        >
+            <div>
+                {card}
             </div>
-            <h3 className="text text_type_main-medium mt-4 mb-4">{order.name}</h3>
-            <p className={`${styles.ready} text text_type_main-small mb-6`}>{hide === false && toTranslateStatus(order.status)}</p>
-            <div className={styles.wrapper}>
-                <div>
-                    <PicturesFeed order={order}></PicturesFeed>
-                </div>
-                <div className={styles.price}>
-                    <p className="text text_type_digits-default mr-2">{sum}</p>
-                    <CurrencyIcon type="primary" />
-                </div>
-            </div>
-
-        </article>
+        </Link>
     )
 }
 export default FeedCard;

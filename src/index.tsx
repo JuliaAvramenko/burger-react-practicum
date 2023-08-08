@@ -1,4 +1,4 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/app/app';
@@ -10,14 +10,16 @@ import { actionLoggerMiddleWare, socketMiddleware } from './services/middlewares
 import thunk, { ThunkAction } from 'redux-thunk';
 import { TBurgerActions, TRootStore as TCanonicalRootStore } from './utils/types';
 import { getCookie, setCookie } from './utils/cookies';
+import { COOKIE_NAME_ACCESS_TOKEN, COOKIE_NAME_REFRESH_TOKEN, WS_ENDPOINT_ORDERS, WS_ENDPOINT_ORDERS_ALL } from './services/constants';
+import { createWsSettings } from './services/actions/websocket';
 
 // convert object to string and store in localStorage
 function saveToLocalStorage(state: TCanonicalRootStore) {
   try {
     const serialisedState = JSON.stringify(state);
 
-    setCookie('accessToken', state.auth.session.accessToken);
-    setCookie('refreshToken', state.auth.session.refreshToken);
+    setCookie(COOKIE_NAME_ACCESS_TOKEN, state.auth.session.accessToken);
+    setCookie(COOKIE_NAME_REFRESH_TOKEN, state.auth.session.refreshToken);
 
     localStorage.setItem("persistantState", serialisedState);
     //localStorage.setItem("persistantState", JSON.stringify(EmptyStore));
@@ -39,7 +41,14 @@ function loadFromLocalStorage(): TCanonicalRootStore {
   }
 }
 
+
+const allOrdersWebSocketSettings = createWsSettings(WS_ENDPOINT_ORDERS_ALL, false)
+const myOrdersWebSocketSettings = createWsSettings(WS_ENDPOINT_ORDERS, true)
+
+
+
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -48,8 +57,8 @@ const enhancer = composeEnhancers(
   applyMiddleware(
     thunk,
     actionLoggerMiddleWare,
-    socketMiddleware(`wss://norma.nomoreparties.space/orders`, true),
-    socketMiddleware("wss://norma.nomoreparties.space/orders/all")
+    socketMiddleware<TBurgerActions>(allOrdersWebSocketSettings),
+    socketMiddleware<TBurgerActions>(myOrdersWebSocketSettings)
   )
 )
 const store = createStore(rootReducer, loadFromLocalStorage(), enhancer);
@@ -61,7 +70,7 @@ export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, TRootStore, TBurgerActions>
 >;
 //export type AppDispatch = typeof store.dispatch;
-export type AppDispatch = Dispatch<TBurgerActions>
+export type AppDispatch = Dispatch<TBurgerActions> | AppThunk
 
 root.render(
   //<React.StrictMode>

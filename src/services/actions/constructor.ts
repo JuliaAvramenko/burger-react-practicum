@@ -1,5 +1,9 @@
 import { TIngredient } from "../../utils/types";
-import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE_ORDER, CREATE_ORDER_FAILED, CREATE_ORDER_SUCCESS } from "../constants";
+import { ADD_INGREDIENT, REMOVE_INGREDIENT, SHIFT_INGREDIENT, CHANGE_BUN, CREATE_ORDER, RESET_CONSTRUCTOR } from "../constants";
+
+export type TResetConstructor = {
+    readonly type: typeof RESET_CONSTRUCTOR
+}
 
 export type TAddIngredient = {
     readonly type: typeof ADD_INGREDIENT

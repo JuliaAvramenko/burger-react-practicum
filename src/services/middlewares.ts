@@ -1,112 +1,67 @@
-import { AnyAction, Middleware, MiddlewareAPI } from "redux";
-import { AppDispatch, AppThunk, TRootStore } from "..";
-import { WS_CLOSE_SOCKET, WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "./constants";
-import { TBurgerActions } from "../utils/types";
+import { AnyAction, Middleware } from "redux";
+import { AppDispatch, AppThunk } from "..";
+import { COOKIE_NAME_ACCESS_TOKEN } from "./constants";
 import { getCookie } from "../utils/cookies";
-import { refreshTokenThunk } from "./actions/refresh-token";
-import { wsConnectionStartAction } from "./actions/ws-connection-start";
+import { TWsSettings } from "./actions/websocket";
 
 
-export const actionLoggerMiddleWare: any = (store: any): any => (next: any): any => (action: AnyAction): any => {
+export const actionLoggerMiddleWare: Middleware = (store) => (next) => (action) => {
     // Выводим в консоль время события и его содержание
     //console.log(`${new Date().getTime()} | Action: ${action.type} / JSON.stringify(action)`);
     // Передаём событие «по конвейеру» дальше
     return next(action);
 };
 
-export type TWsConnectionStartAction = {
-    readonly type: typeof WS_CONNECTION_START
 
-}
-export type TWsConnectionSuccessAction = {
-    readonly type: typeof WS_CONNECTION_SUCCESS
-    readonly payload: any
-
-}
-
-export type TWsConnectionErrorAction = {
-    readonly type: typeof WS_CONNECTION_ERROR
-    readonly payload: any
-
-}
-export type TWsGetMessageAction = {
-    readonly type: typeof WS_GET_MESSAGE
-    readonly payload: any
-    readonly source: string
-
-}
-export type TWsConnectionClosedAction = {
-    readonly type: typeof WS_CONNECTION_CLOSED
-    readonly payload: any
-
-}
-
-export type TWsSendMessageAction = {
-    readonly type: typeof WS_SEND_MESSAGE
-    readonly payload: any
-
-}
-
-export type TWsCloseSocketAction = {
-    readonly type: typeof WS_CLOSE_SOCKET
-    readonly payload: any
-
-}
-
-export const socketMiddleware = (wsUrl: string, auth: boolean = false): Middleware => {
-    return ((store: MiddlewareAPI<AppDispatch, TRootStore>) => {
+export function socketMiddleware<T extends AnyAction>(settings: TWsSettings): Middleware {
+    return ((store) => {
         let socket: WebSocket | null = null;
 
-        return next => (action: TBurgerActions) => {
+        return next => (action: T) => {
             const dispatch: AppDispatch | AppThunk = store.dispatch
-            const state = store.getState()
-            const { type } = action;
 
-            if (type === WS_CONNECTION_START) {
+            switch (action.type) {
+                case (settings.wsOpen.type):
+                    if (action.wsUrl === settings.wsOpen.wsUrl) {
+                        const token = getCookie(COOKIE_NAME_ACCESS_TOKEN).replace("Bearer ", "")
+                        const payload = settings.auth ? `?token=${token}` : ''
+                        socket = new WebSocket(`${action.wsUrl}${payload}`)
+                    }
+                    break;
 
-                const token = getCookie("accessToken").replace("Bearer ", "")
-                //const token = state.auth.session.accessToken.replace("Bearer ", "");
-                const payload = auth ? `?token=${token}` : '';
-                socket = new WebSocket(`${wsUrl}${payload}`);
+                case (settings.wsSend.type):
+                    if (action.wsUrl === settings.wsSend.wsUrl && socket) {
+                        const message = action.payload;
+                        socket.send(JSON.stringify(message));
+                    }
+                    break;
 
+                case (settings.wsClose.type):
+                    if (action.wsUrl === settings.wsClose.wsUrl && socket) {
+                        socket.close()
+                    }
+                    break;
+
+                default:
+                    break;
             }
+
             if (socket) {
+
                 socket.onopen = event => {
-                    dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });
+                    dispatch(settings.openActionCreator());
                 }
 
                 socket.onerror = event => {
-                    dispatch({ type: WS_CONNECTION_ERROR, payload: event });
+                    dispatch(settings.errorActionCreator());
                 }
 
                 socket.onmessage = event => {
-                    let { data } = event;
-                    data = JSON.parse(data)
-                    const { message, success } = data
-
-                    if (success) {
-                        dispatch({ type: WS_GET_MESSAGE, payload: data, source: wsUrl })
-                    }
-                    else {
-                        //console.log(JSON.stringify(data))
-                        if (message === "Invalid or missing token") {
-                            socket?.close()
-                            dispatch(wsConnectionStartAction())
-                            //dispatch(refreshTokenThunk())
-                            //socket = new WebSocket(`${wsUrl}?token=${}`)
-                        }
-                    }
+                    dispatch(settings.getMessageActionCreator(event))
                 }
                 socket.onclose = event => {
-                    dispatch({ type: WS_CONNECTION_CLOSED, payload: event })
+                    dispatch(settings.closeActionCreator())
                 };
-                if (type === WS_SEND_MESSAGE) {
-                    const message = action.payload;
-                    socket.send(JSON.stringify(message));
-                }
-                if (type === WS_CLOSE_SOCKET) {
-                    socket.close()
-                }
             }
 
             next(action);

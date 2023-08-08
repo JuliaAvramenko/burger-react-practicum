@@ -1,10 +1,10 @@
 import { GET_USER_DATA_FAILED, GET_USER_DATA_SUCCESS } from "../constants";
-import { Api, TGetUserData } from "../../utils/api";
+import { Api, TUserResponse } from "../../utils/api";
 import { AppDispatch, AppThunk } from "../..";
 
 export type TGetUserDataSuccessAction = {
     readonly type: typeof GET_USER_DATA_SUCCESS
-    readonly userDetails: TGetUserData
+    readonly userDetails: TUserResponse
 }
 
 export type TGetUserDataFailedAction = {
@@ -12,7 +12,7 @@ export type TGetUserDataFailedAction = {
     readonly error: string
 }
 
-export const getUserDataThunk: AppThunk = (): any => {
+export const getUserDataThunk: AppThunk = () => {
     return function (dispatch: AppDispatch) {
         Api.getUserData().then(responseJson => {
 

@@ -1,19 +1,28 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-page.module.css"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import { logOutThunk } from "../services/actions/logout";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { getUserDataThunk } from "../services/actions/get-user-data";
 import { changeUserDataThunk } from "../services/actions/change-user-data";
-import { TOnClick, TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
+import { TOpenModalClick } from "../utils/types";
+import { useDispatch, useSelector } from "../utils/hooks";
 import { ProfileOrdersPage } from "./profile-orders-page";
 
 type ProfilePage = {
 
-    openModal: TOnClick
+    openModal: TOpenModalClick
+}
+
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+    name: HTMLInputElement
+    password: HTMLInputElement
+}
+
+interface ProfileEditFormElement extends HTMLFormElement {
+    readonly elements: FormElements
 }
 
 export const ProfilePage: React.FC<ProfilePage> = ({ openModal }) => {
@@ -23,7 +32,7 @@ export const ProfilePage: React.FC<ProfilePage> = ({ openModal }) => {
     section = section ? section : "profile"
 
     // States
-    const { user } = useSelector((store: TRootStore) => {
+    const { user } = useSelector((store) => {
         return {
             user: store.auth.user
         }
@@ -36,7 +45,7 @@ export const ProfilePage: React.FC<ProfilePage> = ({ openModal }) => {
     const [passwordState, setPasswordState] = useState<string>("")
 
     // Handlers
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
 
@@ -54,13 +63,13 @@ export const ProfilePage: React.FC<ProfilePage> = ({ openModal }) => {
     }
 
 
-    const formSubmit = (e: any) => {
+    const formSubmit = (e: FormEvent<ProfileEditFormElement>) => {
 
         dispatch(
             changeUserDataThunk(
-                e.target.name.value,
-                e.target.email.value,
-                e.target.password.value
+                e.currentTarget.elements.name.value,
+                e.currentTarget.elements.email.value,
+                e.currentTarget.elements.password.value
             )
         )
         //console.log(e);

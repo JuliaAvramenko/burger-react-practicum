@@ -1,4 +1,3 @@
-import { AnyAction } from "redux";
 import { TAuthStore, TBurgerActions } from "../../utils/types";
 import {
     CREATE_USER_FAILED, CREATE_USER_SUCCESS,
@@ -10,7 +9,6 @@ import {
 import { LOGIN_FAILED, LOGIN_SUCCESS } from "../constants";
 import { FORGOT_PASSWORD_FAILED, FORGOT_PASSWORD_SUCCESS } from "../constants";
 import { EmptyStore } from "./root-reducer";
-import { setCookie } from "../../utils/cookies";
 
 
 export const auth = (state: TAuthStore = EmptyStore.auth, action: TBurgerActions) => {

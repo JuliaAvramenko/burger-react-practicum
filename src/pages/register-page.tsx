@@ -1,13 +1,20 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { createUserThunk } from "../services/actions/register";
-import { useEffect, useState } from "react";
-import { TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
 
+import { createUserThunk } from "../services/actions/register";
+import { FormEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "../utils/hooks";
+
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+    name: HTMLInputElement
+    password: HTMLInputElement
+}
+
+interface RegisterFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function RegisterPage() {
     const [passwordInput, setPasswordInput] = useState<string>('')
@@ -26,28 +33,53 @@ export function RegisterPage() {
         email: true,
         name: true
     })
-    const { session } = useSelector((store: TRootStore) => {
+
+
+    const { sessionValid } = useSelector((store) => {
         return {
-            session: store.auth.session
+            sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
         }
     })
 
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
+
+    useEffect(() => {
+        //console.log("Register Page Open")
+    }, [])
+
+    useEffect(() => {
+
+        if (sessionValid) {
+
+            //console.log(`Register Page: I want to redirect to ${location.state?.from || '/'}`)
+            navigate(location.state?.from || '/', { state: { from: location.pathname } })
+
+        }
+    }, [sessionValid])
 
     const validate = () => {
         return validStates.password && validStates.email && validStates.name
     }
 
-    const formSubmit = (e: any) => {
+    const formSubmit = (e: FormEvent<RegisterFormElement>) => {
         //console.log(`Check validity: ${e.target.email.validity.valid}`)
         //console.log(`Check validity: ${e.target.password.validity.valid}`)
         //console.log(`Check validity: ${e.target.name.validity.valid}`)
 
         if (validate()) {
-            dispatch(createUserThunk(e.target.email.value, e.target.password.value, e.target.name.value));
+            dispatch(
+                createUserThunk(
+                    e.currentTarget.elements.email.value,
+                    e.currentTarget.elements.password.value,
+                    e.currentTarget.elements.name.value
+                )
+            );
 
+            // console.log(`Register Page: I want to redirect to /login but in location: ${location.state?.from || '/'}`)
             navigate("/login", { state: { from: location.pathname } })
         } else {
 
@@ -56,14 +88,6 @@ export function RegisterPage() {
         e.preventDefault();
     }
 
-
-    useEffect(() => {
-
-        if (session && session.accessToken && session.refreshToken) {
-
-            navigate(location.state?.from || '/', { state: { from: location.pathname } })
-        }
-    }, [session])
 
     return (
         <form className="login__container" onSubmit={formSubmit} >

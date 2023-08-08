@@ -1,31 +1,38 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./pages.css"
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { InputHTMLAttributes, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+
 import { forgotPasswordThunk, resetStatusField } from "../services/actions/forgot-password";
-import { TBurgerActions, TRootStore } from "../utils/types";
-import { AppDispatch, AppThunk } from "..";
-import { useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/hooks";
+
+interface FormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+
+}
+
+interface ForgotPasswordFormElement extends HTMLFormElement {
+    readonly elements: FormElements
+}
 
 export function ForgotPasswordPage() {
 
 
     const [emailInput, setEmailInput] = useState<string>('')
-    const dispatch: AppDispatch | AppThunk = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     const location = useLocation()
 
-    const { resetStatus, session } = useSelector((store: TRootStore) => {
+    const { resetStatus, sessionValid } = useSelector((store) => {
         return {
             resetStatus: store.auth.forgotPasswordSuccess,
-            session: store.auth.session
+            sessionValid: store.auth.session && store.auth.session.accessToken && store.auth.session.refreshToken
 
         }
     })
 
-    const formSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-        dispatch(forgotPasswordThunk((e.target as EventTarget & { email: any }).email.value));
+    const formSubmit: React.FormEventHandler<ForgotPasswordFormElement> = (e) => {
+        dispatch(forgotPasswordThunk(e.currentTarget.elements.email.value));
 
         e.preventDefault();
     }
@@ -42,7 +49,7 @@ export function ForgotPasswordPage() {
     }, [])
 
     useEffect(() => {
-        if (session) {
+        if (sessionValid) {
             navigate(location.state?.from || '/', { state: { from: location.pathname } })
         }
 

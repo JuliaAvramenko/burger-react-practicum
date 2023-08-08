@@ -1,31 +1,44 @@
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './order-total.module.css';
 import OrderDetails from "../order-details/order-details";
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { TRootStore } from '../../utils/types';
-import { useSelector } from '../../utils/hooks';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { TOpenModalClick } from '../../utils/types';
+import { useDispatch, useSelector } from '../../utils/hooks';
+import { RESET_CONSTRUCTOR } from '../../services/constants';
 
 
 type TOrderTotal = {
     readonly sum: number
-    onClick: (content: any) => void
+    onClick: TOpenModalClick
 }
 
 const OrderTotal: FC<TOrderTotal> = ({ onClick, sum }) => {
     const location = useLocation()
     const navigate = useNavigate()
-    const { session } = useSelector((store: TRootStore) => {
+    const dispatch = useDispatch()
+    const { session, orderFinished, orderStarted, bun } = useSelector((store) => {
         return {
-            session: store.auth.session
+            session: store.auth.session,
+            orderFinished: store.order.loadFinished,
+            orderStarted: store.order.loadStarted,
+            bun: store.constructorBlock.bun
         }
 
     })
 
+    useEffect(() => {
+        if (orderStarted === true) {
+            dispatch({ type: RESET_CONSTRUCTOR })
+        }
+
+    }, [orderStarted])
 
 
     const contentModal = <OrderDetails />
+
+    const isButtonDisabled = bun._id ? false : true
 
     return (
         <div className={styles["order-container"]}>
@@ -33,7 +46,21 @@ const OrderTotal: FC<TOrderTotal> = ({ onClick, sum }) => {
                 <div className="order__price  text text_type_digits-medium mr-2">{sum || 0}</div>
                 <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large" onClick={() => { if (session) { onClick(contentModal) } else { navigate("/login", { state: { from: location.pathname } }) } }}>
+            <Button htmlType="button" type="primary" size="large" disabled={isButtonDisabled} onClick={() => {
+                //console.log(JSON.stringify(session))
+                if (session && session.accessToken && session.refreshToken !== "") {
+
+                    onClick(contentModal)
+                }
+
+                else {
+                    navigate("/login",
+                        {
+                            state: { from: location.pathname }
+                        })
+                }
+
+            }}>
                 Оформить заказ
             </Button>
 

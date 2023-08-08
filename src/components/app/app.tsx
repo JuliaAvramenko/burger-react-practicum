@@ -1,33 +1,18 @@
-import { useEffect, useState, FC } from 'react';
+import { useState } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 
-import { useDispatch, useSelector } from 'react-redux';
-
 import { Modal } from '../modal/modal';
 
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { ForgotPasswordPage, HomePage, IngredientsPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage } from '../../pages';
-import ProtectedRoute from '../protected-route/protected-route';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { TestPage } from '../../pages/test-page';
-import { FeedPage } from '../../pages/feed-page';
-import { FeedInfoPage } from '../../pages/feed-info-page';
-import { ProfileOrdersInfoPage } from '../../pages/profile-orders-info-page';
-import { ProfileOrdersPage } from '../../pages/profile-orders-page';
-import { AppDispatch, AppThunk, TRootStore } from '../..';
-import { wsConnectionStartAction } from '../../services/actions/ws-connection-start';
+import { HashRouter, BrowserRouter } from 'react-router-dom';
+import { MyRoutes } from '../my-routes/my-routes';
 
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false);
-  const [currentModal, setCurrentModal] = useState<any>(null);
+  const [currentModal, setCurrentModal] = useState<JSX.Element | null>(null);
 
-  //const location = useLocation();
-  //const background = location.state?.background;
-
-
-  const handleOpenModal = (content: any) => {
+  const handleOpenModal = (content: JSX.Element) => {
     const modal = <Modal onClose={handleCloseModal} >
       {content}
     </Modal>
@@ -46,43 +31,20 @@ function App() {
 
   }
 
-
-  const dispatch: AppDispatch | AppThunk = useDispatch();
-
-  useEffect(() => {
-    dispatch(wsConnectionStartAction())
-  }, [])
-
   return (
     <div className={styles.App}>
-
-      <BrowserRouter>
-        <AppHeader></AppHeader>
-        <Routes >
-          <Route path="/" element={<HomePage openModal={handleOpenModal} />} />
-          <Route path="/ingredients/:idIngredient" element={<IngredientsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/profile" element={<ProtectedRoute> <ProfilePage openModal={handleOpenModal} /></ProtectedRoute>} />
-          <Route path="/profile/:section" element={<ProtectedRoute><ProfilePage openModal={handleOpenModal} /></ProtectedRoute>} />
-          <Route path="/test" element={<TestPage />} />
-          <Route path="/test/:giraffe" element={<TestPage />} />
-          <Route path="/test/:podruga/:persik" element={<TestPage />} />
-          <Route path="/feed" element={<FeedPage openModal={handleOpenModal} />} />
-          <Route path="/feed/:idFeed" element={<FeedInfoPage />} />
-          {false && <Route path="/profile/orders" element={<ProtectedRoute><ProfileOrdersPage openModal={handleOpenModal} /></ProtectedRoute>} />}
-          <Route path="/profile/orders/:idOrders" element={<ProtectedRoute><ProfileOrdersInfoPage /></ProtectedRoute>} />
-        </Routes>
-
-      </BrowserRouter>
-      {/*<DndProvider backend={HTML5Backend}>
-        <main className={styles.tables}>
-          <BurgerIngredients openModal={handleOpenModal}></BurgerIngredients>
-          <BurgerConstructor onDropHandler={handleDrop} openModal={handleOpenModal} />
-        </main>
-  </DndProvider>*/}
+      {
+        false && <BrowserRouter>
+          <AppHeader></AppHeader>
+          <MyRoutes handleOpenModal={handleOpenModal} />
+        </BrowserRouter>
+      }
+      {
+        true && <HashRouter>
+          <AppHeader></AppHeader>
+          <MyRoutes handleOpenModal={handleOpenModal} />
+        </HashRouter>
+      }
       {visibleModal && currentModal}
 
     </div>

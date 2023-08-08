@@ -1,11 +1,11 @@
 import { LOGIN_FAILED, LOGIN_SUCCESS } from "../constants";
-import { Api, TLogIn } from "../../utils/api";
+import { Api, TUserInfoResponse } from "../../utils/api";
 import { AppDispatch, AppThunk } from "../..";
 
 
 export type TLogInSuccessAction = {
     readonly type: typeof LOGIN_SUCCESS
-    readonly userDetails: TLogIn
+    readonly userDetails: TUserInfoResponse
 }
 
 export type TLogInFailedAction = {
@@ -21,7 +21,7 @@ export const logInThunk: AppThunk = (email: string, password: string) => {
             if (responseJson && responseJson.success) {
                 // В случае успешного получения данных вызываем экшен
                 // для записи полученных данных в хранилище
-                console.log(`I am  response JSON  ${JSON.stringify(responseJson)}`)
+                //console.log(`I am  response JSON  ${JSON.stringify(responseJson)}`)
                 dispatch({
                     type: LOGIN_SUCCESS,
                     userDetails: responseJson

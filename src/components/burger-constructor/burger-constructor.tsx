@@ -4,13 +4,13 @@ import OrderTotal from "../order-total/order-total";
 
 
 import { useDrop } from "react-dnd";
-import { TDropItem, TOnClick, TRootStore } from '../../utils/types';
+import { TDropItem, TOpenModalClick } from '../../utils/types';
 import { FC } from 'react';
 import { useSelector } from '../../utils/hooks';
 
 
 type TBurgerConstructor = {
-    openModal: TOnClick
+    openModal: TOpenModalClick
     onDropHandler: (item: TDropItem) => void
 }
 
@@ -24,9 +24,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ openModal, onDropHandler })
 
     })
 
-    const { bun, fillings } = useSelector((store: TRootStore) => {
-
-
+    const { bun, fillings } = useSelector((store) => {
 
         return {
             bun: store.constructorBlock.bun,
@@ -34,7 +32,7 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ openModal, onDropHandler })
         }
     })
 
-    const { allItems } = useSelector((store: TRootStore) => {
+    const { allItems } = useSelector((store) => {
         //console.log(`we re allitems ${JSON.stringify(store)}`)
         return {
             allItems: store.constructorBlock
@@ -98,8 +96,6 @@ const BurgerConstructor: FC<TBurgerConstructor> = ({ openModal, onDropHandler })
         <div ref={dropTarget} className="constructor-table pt-25 pl-4">
             {bun._id && constructorBlock || giveMeMoreBuns}
             <OrderTotal onClick={openModal} sum={countTotalValue()} />
-
-
         </div>
     )
 

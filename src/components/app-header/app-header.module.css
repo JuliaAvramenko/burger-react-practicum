@@ -1,5 +1,5 @@
 .header {
-    width: 1980px;
+
     width: 100%;
     margin: 0 auto;
     background-color: #1C1C21;
@@ -7,7 +7,7 @@
 }
 
 .header__nav {
-    max-width: 1280px;
+    width: 1280px;
     margin: 0 auto;
     display: flex;
     align-items: center;
